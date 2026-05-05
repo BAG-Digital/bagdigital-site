@@ -13,20 +13,8 @@ function setStatus(msg){
   el.textContent = msg || "";
 }
 
-function mailtoHref(formData){
-  const subject = encodeURIComponent(`Quote request: ${formData.get("need") || "Project"}`);
-  const lines = [
-    `Name: ${formData.get("name") || ""}`,
-    `Business: ${formData.get("business") || ""}`,
-    `Email: ${formData.get("email") || ""}`,
-    `Phone: ${formData.get("phone") || ""}`,
-    `Need: ${formData.get("need") || ""}`,
-    "",
-    "Details:",
-    `${formData.get("details") || ""}`
-  ];
-  const body = encodeURIComponent(lines.join("\n"));
-  return `mailto:${encodeURIComponent(buildEmail())}?subject=${subject}&body=${body}`;
+function directEmailHref(){
+  return `mailto:${encodeURIComponent(buildEmail())}`;
 }
 
 function closeMobileNavIfOpen(){
@@ -69,10 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const emailLink = $("emailLink");
   if (emailLink){
     emailLink.textContent = email;
-    emailLink.setAttribute("href", `mailto:${email}`);
+    emailLink.setAttribute("href", directEmailHref());
   }
   const emailBtn = $("emailDirectBtn");
-  if (emailBtn) emailBtn.setAttribute("href", `mailto:${email}`);
+  if (emailBtn) emailBtn.setAttribute("href", directEmailHref());
 
   // close mobile nav on link click
   document.querySelectorAll("[data-close-nav]").forEach(a => {
@@ -82,11 +70,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // remote image swap (optional)
   wireRemoteImages();
 
-  // form submit => mailto (no endpoint yet)
+  // form submit => static-site endpoint with direct email fallback
   const form = $("quoteForm");
   if (!form) return;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const ajaxAction = form.getAttribute("data-ajax-action") || "";
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     setStatus("");
 
@@ -105,7 +95,35 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    setStatus("Opening an email draft…");
-    window.location.href = mailtoHref(data);
+    if (!ajaxAction){
+      setStatus("Form is unavailable right now. Please use the direct email link.");
+      return;
+    }
+
+    if (submitBtn) submitBtn.disabled = true;
+    setStatus("Sending your request…");
+
+    try {
+      const response = await fetch(ajaxAction, {
+        method: "POST",
+        headers: {
+          Accept: "application/json"
+        },
+        body: data
+      });
+
+      if (!response.ok){
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      form.reset();
+      form.classList.remove("was-validated");
+      setStatus("Thanks. Your request was sent. Jaime will follow up soon.");
+    } catch (err) {
+      console.error(err);
+      setStatus("The form could not be submitted right now. Please use the direct email button below.");
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 });
