@@ -17,12 +17,12 @@
     base-uri 'self';
     object-src 'none';
     frame-ancestors 'none';
-    form-action 'self' mailto:;
+    form-action 'self' mailto: https://formsubmit.co;
     script-src 'self' https://cdn.jsdelivr.net;
     style-src 'self' https://cdn.jsdelivr.net;
     img-src 'self' data: https://images.pexels.com;
     font-src 'self' data:;
-    connect-src 'self';
+    connect-src 'self' https://formsubmit.co;
     upgrade-insecure-requests;
     block-all-mixed-content;
   " />
@@ -404,7 +404,19 @@
           <div class="col-lg-7">
             <div class="tile">
               <div class="tile-body">
-                <form id="quoteForm" class="row g-3" autocomplete="on" novalidate>
+                <form
+                  id="quoteForm"
+                  class="row g-3"
+                  action="https://formsubmit.co/jaime@bagdigital.tech"
+                  data-ajax-action="https://formsubmit.co/ajax/jaime@bagdigital.tech"
+                  method="post"
+                  autocomplete="on"
+                  novalidate
+                >
+                  <input type="hidden" name="_subject" value="New BAGDigital Lead" />
+                  <input type="hidden" name="_template" value="table" />
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_next" value="https://bagdigital.tech/#contact" />
                   <div class="visually-hidden" aria-hidden="true">
                     <label>Leave this field empty <input name="company_site" tabindex="-1" autocomplete="off" /></label>
                   </div>
@@ -470,7 +482,7 @@
             </div>
 
             <noscript>
-              <div class="alert alert-warning mt-3">JavaScript is disabled. Use the email link to reach out.</div>
+              <div class="alert alert-warning mt-3">JavaScript is disabled. The form will still submit, or you can use the direct email link.</div>
             </noscript>
           </div>
         </div>
