@@ -1,6 +1,6 @@
 # BAGDigital Website
 
-Public website source for [bagdigital.tech](https://bagdigital.tech/).
+Public website source for [bagdigital.tech](https://bagdigital.tech/). Hosted with GitHub Pages.
 
 ## About this repository
 
