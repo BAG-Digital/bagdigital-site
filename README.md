@@ -43,3 +43,14 @@ Before merging changes:
 - verify mobile layout;
 - avoid committing secrets or private customer data;
 - keep public claims aligned with current company evidence.
+
+
+## Current website position
+
+The public site now reflects BAGDigital's current Core-first strategy:
+
+- BAGDigital is presented as a secure operating and automation layer above software businesses already use.
+- Product claims are labeled as **Available**, **Development**, or **Roadmap**.
+- Francisco's Roofing LLC is identified as Design Partner #001, not as the definition of Core.
+- Pricing hypotheses are not published as commitments.
+- The site keeps a practical inquiry path while Core remains in active development.
