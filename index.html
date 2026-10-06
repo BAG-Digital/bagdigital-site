@@ -9,26 +9,21 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://bagdigital.tech/" />
 
-  <title>BAGDigital | Secure operating layer for business software</title>
+  <title>BAGDigital | Connect Business Software & Automate Repetitive Work</title>
   <meta
     name="description"
-    content="BAGDigital is building a secure operating layer between businesses, the software they already use, and AI-assisted execution—without forcing another replacement CRM."
+    content="BAGDigital helps businesses connect the software they already use—accounting, email, CRM, calendars, documents and more—so information moves automatically and repetitive admin work takes less time."
   />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="BAGDigital" />
-  <meta property="og:title" content="BAGDigital | Make the software you already use work together" />
+  <meta property="og:title" content="Make the software you already use work together | BAGDigital" />
   <meta
     property="og:description"
-    content="A secure operating layer for connected business software, controlled AI-assisted workflows, and evidence-backed automation."
+    content="Connect the tools your business already uses, reduce repetitive admin work, and keep people in control."
   />
   <meta property="og:url" content="https://bagdigital.tech/" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="BAGDigital | Secure operating layer for business software" />
-  <meta
-    name="twitter:description"
-    content="Keep the software your business already depends on. BAGDigital is building the secure layer that helps it work together."
-  />
 
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
@@ -36,7 +31,7 @@
     object-src 'none';
     frame-ancestors 'none';
     form-action 'self' mailto: https://formsubmit.co;
-    script-src 'self';
+    script-src 'self' 'sha256-pQDtQ1iVQdiSan8Yb+Wu419ZQXUI7CxOhR96jOYdKJY=';
     style-src 'self';
     img-src 'self' data:;
     font-src 'self';
@@ -53,6 +48,8 @@
     usb=()
   " />
 
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://bagdigital.tech/#organization","name":"BAGDigital","url":"https://bagdigital.tech/","description":"BAGDigital helps businesses connect the software they already use and reduce repetitive operational work through secure integrations and controlled automation."},{"@type":"WebSite","@id":"https://bagdigital.tech/#website","url":"https://bagdigital.tech/","name":"BAGDigital","publisher":{"@id":"https://bagdigital.tech/#organization"}}]}</script>
+
   <link rel="stylesheet" href="/styles.css" />
 </head>
 
@@ -65,408 +62,292 @@
         <span class="brand-mark" aria-hidden="true">BAG</span>
         <span class="brand-lockup">
           <strong>BAGDigital</strong>
-          <span>Business systems, connected.</span>
+          <span>Make your software work together.</span>
         </span>
       </a>
 
-      <button
-        class="nav-toggle"
-        id="navToggle"
-        type="button"
-        aria-controls="primaryNav"
-        aria-expanded="false"
-      >
-        <span class="nav-toggle-label">Menu</span>
-        <span class="nav-toggle-icon" aria-hidden="true"></span>
+      <button class="nav-toggle" id="navToggle" type="button" aria-controls="primaryNav" aria-expanded="false">
+        <span>Menu</span>
       </button>
 
       <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
-        <a href="#platform" data-close-nav>Platform</a>
-        <a href="#status" data-close-nav>Build status</a>
-        <a href="#partner" data-close-nav>Design partner</a>
-        <a href="#security" data-close-nav>Security</a>
-        <a class="nav-cta" href="#contact" data-close-nav>Talk to BAGDigital</a>
+        <a href="#how" data-close-nav>How it works</a>
+        <a href="#examples" data-close-nav>Examples</a>
+        <a href="#software" data-close-nav>Software</a>
+        <a href="#questions" data-close-nav>Questions</a>
+        <a class="nav-cta" href="#contact" data-close-nav>Talk to us</a>
       </nav>
     </div>
   </header>
 
   <main id="main">
     <section class="hero" id="top">
-      <div class="hero-noise" aria-hidden="true"></div>
       <div class="shell hero-grid">
         <div class="hero-copy">
-          <div class="eyebrow">
-            <span class="status-pulse" aria-hidden="true"></span>
-            Core-first · building with evidence
-          </div>
+          <div class="eyebrow">Business software integration + automation</div>
 
-          <h1>
-            Your business already has the software.
-            <span>We make it work together.</span>
-          </h1>
+          <h1>Make the software you already use work together.</h1>
 
           <p class="hero-lead">
-            BAGDigital is building a secure operating layer between your business,
-            the software you already depend on, and AI-assisted execution.
-            Keep your CRM, inbox, calendars, files, and provider tools.
-            Connect them through one controlled layer instead of replacing them.
+            BAGDigital helps businesses connect tools like accounting software, email, CRM,
+            calendars, documents, and industry-specific apps—so information does not have to be
+            copied, searched for, or entered by hand over and over.
+          </p>
+
+          <p class="hero-simple">
+            <strong>You keep your software.</strong> BAGDigital connects the pieces and helps
+            repetitive work happen more automatically, with you still in control.
           </p>
 
           <div class="hero-actions">
-            <a class="button button-primary" href="#platform">See how it works</a>
-            <a class="button button-secondary" href="#contact">Talk to BAGDigital</a>
-          </div>
-
-          <ul class="proof-row" aria-label="BAGDigital principles">
-            <li>Keep your current systems</li>
-            <li>Tenant isolation first</li>
-            <li>Read before write</li>
-          </ul>
-        </div>
-
-        <div class="system-board" aria-label="BAGDigital operating model">
-          <div class="board-sticker sticker-one" aria-hidden="true">CONTROLLED</div>
-          <div class="board-sticker sticker-two" aria-hidden="true">CORE</div>
-
-          <div class="system-layer">
-            <span class="system-label">Communication layer</span>
-            <div class="system-node node-interface">
-              <span class="node-kicker">Interface</span>
-              <strong>ChatGPT + approved apps</strong>
-              <small>Ask · review · approve</small>
-            </div>
-          </div>
-
-          <div class="connector" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-
-          <div class="system-layer">
-            <span class="system-label">Controlled operating layer</span>
-            <div class="system-node node-core">
-              <span class="node-kicker">BAGDigital Core</span>
-              <strong>Tenancy · policy · connections</strong>
-              <small>Credentials · evidence · audit boundaries</small>
-            </div>
-          </div>
-
-          <div class="connector" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-
-          <div class="provider-grid" aria-label="Provider direction">
-            <div>
-              <span>First provider target</span>
-              <strong>Housecall Pro</strong>
-            </div>
-            <div>
-              <span>Planned source</span>
-              <strong>Google Workspace</strong>
-            </div>
-            <div>
-              <span>Roadmap</span>
-              <strong>More business systems</strong>
-            </div>
+            <a class="button button-primary" href="#examples">Show me examples</a>
+            <a class="button button-secondary" href="#contact">Tell us what you use</a>
           </div>
         </div>
-      </div>
 
-      <div class="shell milestone-strip" aria-label="Current build milestones">
-        <div>
-          <span>Foundation complete</span>
-          <strong>M2 · Durable persistence</strong>
-        </div>
-        <div class="active-milestone">
-          <span>Building now</span>
-          <strong>M3 · Tenant credential vault</strong>
-        </div>
-        <div>
-          <span>Next</span>
-          <strong>M4 · HCP capability discovery</strong>
+        <div class="simple-diagram" aria-label="BAGDigital connects business software">
+          <div class="diagram-apps">
+            <span>Accounting</span>
+            <span>Email</span>
+            <span>CRM</span>
+            <span>Calendar</span>
+            <span>Documents</span>
+            <span>Industry tools</span>
+          </div>
+
+          <div class="diagram-arrow" aria-hidden="true">↓</div>
+
+          <div class="diagram-core">
+            <small>BAGDigital</small>
+            <strong>Connects the information</strong>
+            <span>and controls what can happen next</span>
+          </div>
+
+          <div class="diagram-arrow" aria-hidden="true">↓</div>
+
+          <div class="diagram-outcomes">
+            <span>Less copying</span>
+            <span>Fewer missed tasks</span>
+            <span>Better answers</span>
+            <span>Safer automation</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section problem-section" id="platform">
-      <div class="shell">
-        <div class="section-heading split-heading">
-          <div>
-            <span class="section-index">01 / THE PROBLEM</span>
-            <h2>Software isn’t the problem. Coordination is.</h2>
-          </div>
-          <p>
-            Businesses often own enough software already. The expensive part is the human
-            effort required to keep every system, inbox, calendar, document, and job state aligned.
-          </p>
-        </div>
-
-        <div class="problem-grid">
-          <article class="problem-card">
-            <span class="card-number">01</span>
-            <h3>Facts are scattered.</h3>
-            <p>
-              Customer status lives in one place. Email context lives somewhere else.
-              Scheduling, files, estimates, and supplier details drift apart.
-            </p>
-          </article>
-
-          <article class="problem-card">
-            <span class="card-number">02</span>
-            <h3>People become the API.</h3>
-            <p>
-              Owners and operations teams copy, search, re-enter, remember, and reconcile
-              information that their software should already be helping them understand.
-            </p>
-          </article>
-
-          <article class="problem-card problem-card-accent">
-            <span class="card-number">03</span>
-            <h3>Work stalls invisibly.</h3>
-            <p>
-              A job is “open,” but the real question is: what is blocked, why is it blocked,
-              what evidence proves it, and what should safely happen next?
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section model-section">
+    <section class="section" id="how">
       <div class="shell">
         <div class="section-heading">
-          <span class="section-index">02 / THE MODEL</span>
-          <h2>One controlled layer between intent and execution.</h2>
-          <p>
-            BAGDigital Core is being built so products and AI interfaces do not need unrestricted,
-            direct access to every provider. They ask for approved capabilities through a tenant-bound,
-            auditable boundary.
-          </p>
+          <span class="section-index">HOW IT WORKS</span>
+          <h2>Three simple ideas.</h2>
         </div>
 
-        <div class="model-grid">
-          <article class="model-card">
-            <span class="status-tag status-available">Available · foundation</span>
-            <h3>Connect without rip-and-replace.</h3>
+        <div class="three-grid">
+          <article class="plain-card">
+            <span class="step-number">1</span>
+            <h3>Keep the software you already have.</h3>
             <p>
-              Keep the systems your business already depends on. Core provides reusable tenant,
-              workspace, connection, and persistence foundations around them.
+              You do not need another replacement CRM just because you want better automation.
+              Keep the tools your team already knows.
             </p>
           </article>
 
-          <article class="model-card">
-            <span class="status-tag status-development">Development</span>
-            <h3>Keep credentials controlled.</h3>
+          <article class="plain-card">
+            <span class="step-number">2</span>
+            <h3>BAGDigital connects the right information.</h3>
             <p>
-              The active M3 milestone is the tenant credential vault: server-side secret lifecycle,
-              tenant-bound resolution, rotation, revocation, and auditable access without putting keys
-              into business records.
+              With permission, BAGDigital can connect supported systems so important information
+              can move between them instead of living in separate silos.
             </p>
           </article>
 
-          <article class="model-card">
-            <span class="status-tag status-roadmap">Roadmap</span>
-            <h3>Turn state into safe action.</h3>
+          <article class="plain-card">
+            <span class="step-number">3</span>
+            <h3>Your business gets easier to operate.</h3>
             <p>
-              Capability discovery, events, webhooks, a provider-neutral business graph, authorized
-              read APIs, and repeatable onboarding build toward controlled automation.
+              You can spend less time checking five places, entering the same information twice,
+              or trying to remember what still needs attention.
             </p>
           </article>
-        </div>
-
-        <div class="principle-banner">
-          <span>Operating principle</span>
-          <strong>Read before write. Draft before execute. Approve before automate.</strong>
         </div>
       </div>
     </section>
 
-    <section class="section status-section" id="status">
+    <section class="section examples-section" id="examples">
       <div class="shell">
-        <div class="section-heading split-heading">
+        <div class="section-heading wide-heading">
           <div>
-            <span class="section-index">03 / BUILD STATUS</span>
-            <h2>What is real today—and what is not.</h2>
+            <span class="section-index">REAL-LIFE EXAMPLES</span>
+            <h2>What could that look like?</h2>
           </div>
           <p>
-            BAGDigital uses evidence labels on purpose. “Available” below means implemented and
-            verified in the platform foundation; it does not mean self-service customer onboarding
-            is open yet.
+            These examples show the kind of cross-system work BAGDigital is being built to support.
+            Exact capabilities depend on the software, permissions, and integrations available.
           </p>
         </div>
 
-        <div class="status-board">
-          <article class="status-column status-column-available">
-            <div class="status-column-head">
-              <span>Available</span>
-              <strong>Verified foundation</strong>
+        <div class="example-grid">
+          <article class="example-card">
+            <div class="example-type">Bookkeeping</div>
+            <h3>“Which clients still owe me documents this month?”</h3>
+            <p>
+              Instead of checking email, folders, client notes, and accounting records separately,
+              BAGDigital could bring those signals together and show the bookkeeper who still needs attention.
+            </p>
+            <div class="example-flow">
+              <span>Email</span><i>+</i><span>Drive</span><i>+</i><span>Accounting</span><i>→</i><strong>One answer</strong>
             </div>
-            <ul>
-              <li>Multi-tenant organization and workspace primitives</li>
-              <li>Durable PostgreSQL persistence</li>
-              <li>Database-enforced tenant isolation / RLS</li>
-              <li>Provider connection metadata and capability evidence</li>
-              <li>Restricted production database runtime boundary</li>
-            </ul>
           </article>
 
-          <article class="status-column status-column-development">
-            <div class="status-column-head">
-              <span>Development</span>
-              <strong>Current milestone</strong>
+          <article class="example-card">
+            <div class="example-type">Service business</div>
+            <h3>“What jobs next week are not actually ready?”</h3>
+            <p>
+              BAGDigital could compare job status, schedule, customer information, documents,
+              and other connected systems so an operations manager sees the exceptions first.
+            </p>
+            <div class="example-flow">
+              <span>CRM</span><i>+</i><span>Calendar</span><i>+</i><span>Files</span><i>→</i><strong>Readiness</strong>
             </div>
-            <ul>
-              <li>Tenant credential vault</li>
-              <li>Opaque credential references</li>
-              <li>Tenant-bound secret resolution</li>
-              <li>Create / rotate / revoke lifecycle</li>
-              <li>Secret-safe audit behavior</li>
-            </ul>
           </article>
 
-          <article class="status-column status-column-roadmap">
-            <div class="status-column-head">
-              <span>Roadmap</span>
-              <strong>Evidence-gated next steps</strong>
+          <article class="example-card">
+            <div class="example-type">Office operations</div>
+            <h3>“Did anyone follow up with this customer?”</h3>
+            <p>
+              Instead of searching inboxes and customer systems manually, BAGDigital could use
+              connected records to help answer the question and prepare the next step.
+            </p>
+            <div class="example-flow">
+              <span>CRM</span><i>+</i><span>Email</span><i>→</i><strong>Next step</strong>
             </div>
-            <ul>
-              <li>Housecall Pro capability discovery</li>
-              <li>Event / audit ledger and webhooks</li>
-              <li>Provider-neutral business graph</li>
-              <li>Authorized Core read API</li>
-              <li>Production identity + repeatable onboarding</li>
-            </ul>
           </article>
-        </div>
-
-        <div class="not-yet">
-          <strong>Not claiming yet:</strong>
-          <span>self-service onboarding</span>
-          <span>broad provider writes</span>
-          <span>autonomous “agent swarm” execution</span>
-          <span>guaranteed business outcomes</span>
         </div>
       </div>
     </section>
 
-    <section class="section partner-section" id="partner">
-      <div class="shell partner-grid">
+    <section class="section software-section" id="software">
+      <div class="shell">
+        <div class="section-heading wide-heading">
+          <div>
+            <span class="section-index">SOFTWARE</span>
+            <h2>What could BAGDigital connect to?</h2>
+          </div>
+          <p>
+            If a business system provides a secure API, webhook, or supported integration path,
+            it may be a candidate for BAGDigital. Not every product below is connected today.
+          </p>
+        </div>
+
+        <div class="software-grid">
+          <article>
+            <h3>Accounting & payments</h3>
+            <p>QuickBooks Online, Xero, Stripe, Square and similar systems.</p>
+          </article>
+
+          <article>
+            <h3>Email, files & calendars</h3>
+            <p>Google Workspace, Gmail, Drive, Calendar, Microsoft 365, Outlook, OneDrive and SharePoint.</p>
+          </article>
+
+          <article>
+            <h3>CRM & field service</h3>
+            <p>Housecall Pro, Jobber, ServiceTitan, HubSpot, Salesforce and other customer systems.</p>
+          </article>
+
+          <article>
+            <h3>Team communication</h3>
+            <p>Slack, Microsoft Teams, Google Chat and other collaboration tools.</p>
+          </article>
+        </div>
+
+        <div class="current-status">
+          <div>
+            <span>Current provider focus</span>
+            <strong>Housecall Pro</strong>
+          </div>
+          <div>
+            <span>Planned next source</span>
+            <strong>Google Workspace</strong>
+          </div>
+          <div>
+            <span>Other integrations</span>
+            <strong>Added from real customer need</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section safe-section">
+      <div class="shell safe-grid">
         <div>
-          <span class="section-index">04 / DESIGN PARTNER #001</span>
-          <h2>Built against a real operating problem, not a slide deck.</h2>
-          <p class="partner-lead">
-            Francisco’s Roofing LLC in Beaufort, South Carolina is BAGDigital’s first design partner.
-            The goal is not to turn Core into a roofing CRM. The goal is to discover which secure,
-            reusable primitives actually make business operations better.
-          </p>
-
-          <div class="partner-tags" aria-label="Design partner focus">
-            <span>Housecall Pro</span>
-            <span>Operational coordination</span>
-            <span>Before / after evidence</span>
-            <span>Reusable patterns</span>
-          </div>
+          <span class="section-index">SAFE BY DESIGN</span>
+          <h2>Connecting software should not mean giving AI unlimited access.</h2>
         </div>
 
-        <div class="field-notes">
-          <div class="field-notes-header">
-            <span>FIELD NOTES</span>
-            <strong>How design-partner work becomes product</strong>
-          </div>
-          <ol>
-            <li>
-              <span>Observe</span>
-              Document the real workflow, handoffs, failure modes, and time cost.
-            </li>
-            <li>
-              <span>Measure</span>
-              Establish trustworthy baseline metrics before claiming improvement.
-            </li>
-            <li>
-              <span>Build</span>
-              Add the smallest reusable Core primitive instead of a one-off shortcut.
-            </li>
-            <li>
-              <span>Repeat</span>
-              Customer #2 is the test of whether the pattern is actually a product.
-            </li>
-          </ol>
+        <div class="safe-points">
+          <article>
+            <strong>You choose what is connected.</strong>
+            <p>BAGDigital is designed around explicit business connections and permissions.</p>
+          </article>
+          <article>
+            <strong>Read first. Automate carefully.</strong>
+            <p>We start by understanding and presenting information before expanding into approved actions.</p>
+          </article>
+          <article>
+            <strong>Your credentials stay server-side.</strong>
+            <p>The platform is being built so passwords and API keys are not placed in normal customer records or AI conversations.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="section security-section" id="security">
+    <section class="section questions-section" id="questions">
       <div class="shell">
         <div class="section-heading">
-          <span class="section-index">05 / SECURITY</span>
-          <h2>AI does not get a skeleton key.</h2>
-          <p>
-            Security is part of the product architecture, not a cleanup pass after the demo works.
-            Core is designed to keep tenant scope, credentials, capabilities, and approval boundaries explicit.
-          </p>
+          <span class="section-index">COMMON QUESTIONS</span>
+          <h2>Plain-English answers.</h2>
         </div>
 
-        <div class="security-grid">
-          <article>
-            <span class="security-mark">T</span>
-            <h3>Tenant isolation</h3>
+        <div class="question-list">
+          <details open>
+            <summary>What does BAGDigital actually do?</summary>
             <p>
-              Durable state is scoped by organization and workspace, with database-level row security
-              as an enforcement boundary rather than application filters alone.
+              It connects business software so information can move between systems and repetitive operational
+              work can be reduced. The goal is fewer manual handoffs and better answers without replacing everything you use.
             </p>
-          </article>
+          </details>
 
-          <article>
-            <span class="security-mark">K</span>
-            <h3>Credentials stay controlled</h3>
+          <details>
+            <summary>Do I have to replace QuickBooks, my CRM, or my email?</summary>
             <p>
-              Provider secrets belong in a server-side tenant vault, not in customer tables, browser code,
-              URLs, logs, or AI context. That vault is the active M3 milestone.
+              No. The main idea is the opposite: keep the systems that already work for your business and connect them where useful.
             </p>
-          </article>
+          </details>
 
-          <article>
-            <span class="security-mark">P</span>
-            <h3>Least privilege</h3>
+          <details>
+            <summary>Can BAGDigital connect to any software?</summary>
             <p>
-              A connection should expose only the capabilities the tenant and provider permit.
-              Missing or mismatched scope should fail closed.
+              Not automatically. A product normally needs a safe integration path such as an API, webhook, or supported connector.
+              BAGDigital also needs the right permissions and a real customer reason to add the integration.
             </p>
-          </article>
+          </details>
 
-          <article>
-            <span class="security-mark">A</span>
-            <h3>Approval is real</h3>
+          <details>
+            <summary>Is BAGDigital finished and available to everyone?</summary>
             <p>
-              BAGDigital’s current phase is read-first. Future provider writes must be explicitly authorized,
-              validated, auditable, and separately gated.
+              Not yet. The secure Core platform is in active development. Francisco's Roofing is Design Partner #001,
+              Housecall Pro is the first provider focus, and early customer conversations are helping determine what should be built next.
             </p>
-          </article>
-        </div>
-      </div>
-    </section>
+          </details>
 
-    <section class="section audience-section">
-      <div class="shell audience-grid">
-        <div>
-          <span class="section-index">06 / WHO IT IS FOR</span>
-          <h2>For businesses where an operator is still the integration layer.</h2>
-        </div>
-
-        <div class="audience-copy">
-          <p>
-            The initial beachhead is service businesses that already use meaningful software but still
-            lose time coordinating work across CRM, email, calendars, documents, estimates, suppliers,
-            accounting, and human memory.
-          </p>
-          <p>
-            The first buyer is often the owner, operations manager, production manager, or office lead
-            who is tired of asking five systems and three people to answer one operational question.
-          </p>
-          <a class="text-link" href="#contact">Tell us where work gets stuck <span aria-hidden="true">→</span></a>
+          <details>
+            <summary>Where does AI fit in?</summary>
+            <p>
+              AI can be the easy way to ask questions or prepare work. BAGDigital is the controlled layer underneath that decides
+              which business information can be accessed and which actions are allowed.
+            </p>
+          </details>
         </div>
       </div>
     </section>
@@ -474,24 +355,16 @@
     <section class="section contact-section" id="contact">
       <div class="shell contact-grid">
         <div class="contact-copy">
-          <span class="section-index">07 / CONTACT</span>
-          <h2>Have software. Still doing the integration work by hand?</h2>
+          <span class="section-index">TALK TO BAGDIGITAL</span>
+          <h2>What software does your business use every day?</h2>
           <p>
-            Tell us which systems you use and where the work breaks down.
-            Early conversations are focused on real operational friction, not selling a giant feature list.
+            Tell us where you copy information, check multiple systems, chase documents,
+            or repeat the same administrative work. That is the best place to start.
           </p>
 
           <div class="contact-direct">
             <span>Email</span>
             <a id="emailLink" href="#" rel="nofollow">jaime@bagdigital.tech</a>
-          </div>
-
-          <div class="contact-note">
-            <strong>Current stage</strong>
-            <p>
-              Core is in active development. Design-partner and early-customer conversations are welcome;
-              availability depends on fit and the current security/onboarding milestone.
-            </p>
           </div>
         </div>
 
@@ -519,44 +392,38 @@
                 <input id="name" name="name" type="text" required autocomplete="name" />
                 <span class="field-error">Please enter your name.</span>
               </div>
-
               <div class="field">
                 <label for="business">Business</label>
                 <input id="business" name="business" type="text" autocomplete="organization" />
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="field">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" />
-                <span class="field-error">Please enter a valid email.</span>
-              </div>
-
-              <div class="field">
-                <label for="role">Your role <span>(optional)</span></label>
-                <input id="role" name="role" type="text" autocomplete="organization-title" />
-              </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" />
+              <span class="field-error">Please enter a valid email.</span>
             </div>
 
             <div class="field">
-              <label for="need">What are you reaching out about?</label>
+              <label for="need">What best describes the problem?</label>
               <select id="need" name="need">
-                <option>Design partner / early customer conversation</option>
-                <option>Cross-system operations problem</option>
-                <option>Provider / technology partnership</option>
-                <option>General BAGDigital question</option>
+                <option>I enter the same information in multiple places</option>
+                <option>I have to check several systems to answer simple questions</option>
+                <option>Follow-up or tasks are getting missed</option>
+                <option>I want to automate repetitive office work</option>
+                <option>I want to discuss an integration or partnership</option>
+                <option>Something else</option>
               </select>
             </div>
 
             <div class="field">
-              <label for="details">Where does work get stuck?</label>
+              <label for="details">Which software do you use, and what takes too much manual work?</label>
               <textarea
                 id="details"
                 name="details"
                 rows="6"
                 required
-                placeholder="Which systems do you use? What requires copying, searching, re-entering, waiting, or checking by hand?"
+                placeholder="Example: We use QuickBooks, Gmail and Google Drive. I spend every Friday checking who still owes us documents."
               ></textarea>
               <span class="field-error">Please add a short description.</span>
             </div>
@@ -567,16 +434,8 @@
             </div>
 
             <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
-            <p class="form-privacy">
-              By submitting, you agree BAGDigital can contact you about this request. No mailing-list signup.
-            </p>
+            <p class="form-privacy">By submitting, you agree BAGDigital can contact you about this request. No mailing-list signup.</p>
           </form>
-
-          <noscript>
-            <p class="noscript-note">
-              JavaScript is disabled. The form can still submit normally, or you can use the direct email link.
-            </p>
-          </noscript>
         </div>
       </div>
     </section>
@@ -586,11 +445,11 @@
     <div class="shell footer-inner">
       <div>
         <strong>BAGDigital</strong>
-        <span>Built in Beaufort, South Carolina.</span>
+        <span>Beaufort, South Carolina</span>
       </div>
       <div>
         <span>© <span id="year"></span> BAGDigital</span>
-        <span>Core-first · evidence-gated · security-led</span>
+        <span>Keep your software. Connect the work.</span>
       </div>
     </div>
   </footer>
