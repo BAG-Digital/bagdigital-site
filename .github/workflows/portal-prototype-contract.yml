@@ -4,17 +4,17 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "prototypes/customer-home.html"
-      - "prototypes/customer-home.css"
-      - "prototypes/README.md"
+      - ".github/design-concepts/customer-home.html"
+      - ".github/design-concepts/customer-home.css"
+      - ".github/design-concepts/README.md"
       - "tests/customer-home-contract.test.mjs"
       - ".github/workflows/portal-prototype-contract.yml"
   push:
     branches: [main]
     paths:
-      - "prototypes/customer-home.html"
-      - "prototypes/customer-home.css"
-      - "prototypes/README.md"
+      - ".github/design-concepts/customer-home.html"
+      - ".github/design-concepts/customer-home.css"
+      - ".github/design-concepts/README.md"
       - "tests/customer-home-contract.test.mjs"
       - ".github/workflows/portal-prototype-contract.yml"
 
