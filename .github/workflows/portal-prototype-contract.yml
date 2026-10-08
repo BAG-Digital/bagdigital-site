@@ -1,0 +1,39 @@
+name: Portal prototype source contract
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/design-concepts/customer-home.html"
+      - ".github/design-concepts/customer-home.css"
+      - ".github/design-concepts/README.md"
+      - "tests/customer-home-contract.test.mjs"
+      - ".github/workflows/portal-prototype-contract.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".github/design-concepts/customer-home.html"
+      - ".github/design-concepts/customer-home.css"
+      - ".github/design-concepts/README.md"
+      - "tests/customer-home-contract.test.mjs"
+      - ".github/workflows/portal-prototype-contract.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  static-demo-safety:
+    name: Demo-only scope and source checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout without persistent credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use supported Node.js
+        uses: actions/setup-node@e51e5fe84fc33b4c73ebe40526b2694712b5b858 # patched post-v7.0.0
+        with:
+          node-version: 24.21.0
+      - name: Verify demo-only contract
+        run: node --test tests/customer-home-contract.test.mjs
