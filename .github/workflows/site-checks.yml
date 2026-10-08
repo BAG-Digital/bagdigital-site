@@ -1,0 +1,29 @@
+name: Public site source checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# The website has no production secrets or dependency-install step in CI.
+# Fork pull requests run only static tests with a read-only token.
+permissions:
+  contents: read
+
+jobs:
+  public-form-contract:
+    name: Validate inquiry security contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout untrusted PR source without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check public inquiry contract
+        run: node --test tests/contact-form-contract.test.mjs

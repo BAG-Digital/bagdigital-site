@@ -234,8 +234,9 @@
             <h2>What could BAGDigital connect to?</h2>
           </div>
           <p>
-            BAGDigital can work with software that allows trusted tools to connect.
-            Availability varies by product, account type, and business need.
+            BAGDigital evaluates software that supports trusted connections. The names below are examples
+            of systems in categories BAGDigital may work with; listing a product does not mean that integration
+            is currently available. Availability depends on the product, account type, permissions, and business need.
           </p>
         </div>
 
@@ -358,35 +359,32 @@
           <form
             id="quoteForm"
             action="https://formsubmit.co/f28d9379c3ea08498a2e16e20d2ed1a7"
-            data-ajax-action="https://formsubmit.co/ajax/f28d9379c3ea08498a2e16e20d2ed1a7"
             method="post"
             autocomplete="on"
-            novalidate
           >
             <input type="hidden" name="_subject" value="New BAGDigital inquiry" />
             <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_captcha" value="false" />
             <input type="hidden" name="_next" value="https://bagdigital.tech/#contact" />
 
             <div class="honeypot" aria-hidden="true">
-              <label>Leave this field empty <input name="company_site" tabindex="-1" autocomplete="off" /></label>
+              <label>Leave this field empty <input name="_honey" tabindex="-1" autocomplete="off" /></label>
             </div>
 
             <div class="form-row">
               <div class="field">
                 <label for="name">Name</label>
-                <input id="name" name="name" type="text" required autocomplete="name" />
+                <input id="name" name="name" type="text" required maxlength="100" autocomplete="name" />
                 <span class="field-error">Please enter your name.</span>
               </div>
               <div class="field">
                 <label for="business">Business</label>
-                <input id="business" name="business" type="text" autocomplete="organization" />
+                <input id="business" name="business" type="text" maxlength="150" autocomplete="organization" />
               </div>
             </div>
 
             <div class="field">
               <label for="email">Email</label>
-              <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" />
+              <input id="email" name="email" type="email" required maxlength="254" autocomplete="email" inputmode="email" />
               <span class="field-error">Please enter a valid email.</span>
             </div>
 
@@ -409,9 +407,12 @@
                 name="details"
                 rows="6"
                 required
+                maxlength="3000"
+                aria-describedby="detailsHelp"
                 placeholder="Example: We use QuickBooks, Gmail and Google Drive. I spend every Friday checking who still owes us documents."
               ></textarea>
               <span class="field-error">Please add a short description.</span>
+              <span id="detailsHelp" class="field-help">Please describe the workflow only. Do not include passwords, API keys, customer records, financial details, health information, or other sensitive data.</span>
             </div>
 
             <div class="form-actions">
@@ -419,8 +420,12 @@
               <a id="emailDirectBtn" class="button button-secondary" href="#" rel="nofollow">Email directly</a>
             </div>
 
-            <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
-            <p class="form-privacy">By submitting, you agree BAGDigital can contact you about this request. No mailing-list signup.</p>
+            <p class="form-privacy">
+              By submitting, you agree BAGDigital can contact you about this request. No mailing-list signup.
+              This form is processed by FormSubmit and delivered to BAGDigital by email. You may be asked to complete FormSubmit’s anti-spam verification on its website.
+              Do not submit credentials or sensitive customer/business records.
+              <a href="/privacy.html">Read the Privacy Notice.</a>
+            </p>
           </form>
         </div>
       </div>
@@ -436,6 +441,7 @@
       <div>
         <span>© <span id="year"></span> BAGDigital</span>
         <span>Keep your software. Connect the work.</span>
+        <a href="/privacy.html">Privacy</a>
       </div>
     </div>
   </footer>
