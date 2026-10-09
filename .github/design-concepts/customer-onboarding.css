@@ -87,7 +87,7 @@ h1 em{color:var(--accent);font-weight:560;font-style:normal}
 .bottom-message p{font-size:.88rem;color:var(--muted);margin:0}.bottom-message p strong{color:var(--text)}.bottom-message span{font-size:.65rem;color:var(--quiet);font-weight:900;letter-spacing:.1em;white-space:nowrap}
 .foot{border-top:1px solid var(--line);padding:22px 0;background:#090a08}.foot .shell{display:flex;justify-content:space-between;gap:20px;font-size:.72rem;color:var(--quiet)}.foot strong{color:var(--text)}
 @media(max-width:960px){.layout{grid-template-columns:1fr}.intro{padding:0}.intro h1{font-size:clamp(3.1rem,8vw,5.5rem)}.steps-box{max-width:none}.experience{min-height:unset}.screen{min-height:450px}}
-@media(max-width:600px){.shell{width:calc(100% - 28px)}.topbar-inner{min-height:67px}.context{padding:22px 0 17px}.context span:last-child{display:none}
+@media(max-width:600px){.shell{width:calc(100% - 28px)}.topbar-inner{min-height:67px}.header-caption{display:none}.context{padding:22px 0 17px}.context span:last-child{display:none}
 .intro h1{font-size:clamp(2.8rem,12vw,4.4rem)}.intro-lead{font-size:.95rem}
 .experience{padding:18px;box-shadow:none}.experience-top{font-size:.57rem}.progress{margin-bottom:30px}
 .screen{min-height:480px}.screen h2{font-size:clamp(2rem,9vw,3rem)}
