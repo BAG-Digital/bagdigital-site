@@ -1,0 +1,44 @@
+name: Synthetic product demo checks
+
+on:
+  pull_request:
+    paths:
+      - "prototypes/product-demo/**"
+      - "tests/product-demo-*.mjs"
+      - ".github/workflows/product-demo.yml"
+  push:
+    branches: [main]
+    paths:
+      - "prototypes/product-demo/**"
+      - "tests/product-demo-*.mjs"
+      - ".github/workflows/product-demo.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  demonstration-contract:
+    name: Validate synthetic demo and interactive browser behavior
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@e51e5fe84fc33b4c73ebe40526b2694712b5b858 # pinned
+        with:
+          node-version: 24.21.0
+      - name: Static safety and page contract
+        run: node --test tests/product-demo-contract.test.mjs
+      - name: Actual Chromium workflow and responsive test
+        run: node tests/product-demo-browser.mjs
+      - name: Attach example-only screenshots for review
+        if: ${{ github.event_name == 'pull_request' && success() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: synthetic-product-demo-visual-review
+          path: demo-qa-screenshots/*.png
+          if-no-files-found: error
+          retention-days: 7
