@@ -75,3 +75,57 @@ test("public BAGDigital homepage does not expose the unpublished concept", () =>
   assert.doesNotMatch(publicHome, /hcp-connection-journey\.html/);
   assert.doesNotMatch(publicHome, /design-concepts\//);
 });
+
+
+function relativeLuminance(hexColor) {
+  const hex = hexColor.replace("#", "");
+  const channels = [0, 2, 4].map((offset) => {
+    const value = Number.parseInt(hex.slice(offset, offset + 2), 16) / 255;
+    return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  });
+
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+}
+
+function contrastRatio(foreground, background) {
+  const [lighter, darker] = [relativeLuminance(foreground), relativeLuminance(background)]
+    .sort((first, second) => second - first);
+
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function paletteColor(variableName) {
+  const escapedName = variableName.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
+  const cssVariable = css.match(new RegExp("--" + escapedName + ":\\s*(#[0-9a-fA-F]{6})"));
+
+  assert.ok(cssVariable, "missing palette variable " + variableName);
+  return cssVariable[1];
+}
+
+test("primary and muted text contrast ratios remain WCAG AA in the defined dark palette", () => {
+  const combinations = [
+    ["text on page", paletteColor("text"), paletteColor("bg")],
+    ["muted text on a panel", paletteColor("muted"), paletteColor("surface")],
+    ["subtle text on a panel", paletteColor("subtle"), paletteColor("surface")],
+    ["accent text on a panel", paletteColor("acid"), paletteColor("surface")],
+  ];
+
+  for (const [description, foreground, background] of combinations) {
+    assert.ok(
+      contrastRatio(foreground, background) >= 4.5,
+      description + " must have at least 4.5:1 contrast",
+    );
+  }
+});
+
+test("document outline, IDs, and section labels are internally consistent", () => {
+  const allIds = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(new Set(allIds).size, allIds.length, "duplicate element ID");
+  assert.equal([...html.matchAll(/<h1\b/g)].length, 1, "exactly one primary heading expected");
+
+  for (const [, reference] of html.matchAll(/\baria-labelledby="([^"]+)"/g)) {
+    for (const id of reference.split(/\s+/)) {
+      assert.ok(allIds.includes(id), "aria-labelledby target missing: " + id);
+    }
+  }
+});
