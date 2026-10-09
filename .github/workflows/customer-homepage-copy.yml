@@ -36,3 +36,11 @@ jobs:
         run: node --test tests/customer-homepage-copy.test.mjs tests/contact-form-contract.test.mjs
       - name: Verify actual Chromium desktop and mobile layout
         run: node tests/homepage-browser-smoke.mjs
+      - name: Save visual QA screenshots for independent reviewer
+        if: ${{ github.event_name == 'pull_request' && success() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: homepage-visual-review
+          path: site-qa-screenshots/*.png
+          if-no-files-found: error
+          retention-days: 7
