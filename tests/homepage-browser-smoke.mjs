@@ -237,10 +237,15 @@ async function run() {
         assert.equal(opened, "true", "mobile menu toggle did not open");
 
         const closed = await evaluate(cdp, session, String.raw`(() => {
+          document.querySelector('#primaryNav a').focus();
           document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-          return document.querySelector('#navToggle').getAttribute('aria-expanded');
+          return {
+            expanded: document.querySelector('#navToggle').getAttribute('aria-expanded'),
+            focusReturned: document.activeElement === document.querySelector('#navToggle')
+          };
         })()`);
-        assert.equal(closed, "false", "Escape failed to close mobile menu");
+        assert.equal(closed.expanded, "false", "Escape failed to close mobile menu");
+        assert.equal(closed.focusReturned, true, "Escape should return keyboard focus to Menu");
       }
 
       results.push({ viewport: width, pageWidth: layout.scrollWidth, h1: layout.headingCount, ctaWidth: Math.round(layout.mainCta.width), status: "PASS" });
