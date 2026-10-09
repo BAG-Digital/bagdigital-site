@@ -203,6 +203,7 @@ async function run() {
     const session = attached.sessionId;
     await cdp.call("Page.enable", {}, session);
     await cdp.call("Runtime.enable", {}, session);
+    await cdp.call("Accessibility.enable", {}, session);
 
     const results = [];
 
@@ -225,6 +226,23 @@ async function run() {
       assert.ok(layout.emailField && layout.emailField.left >= -2 && layout.emailField.right <= width + 2, "contact email clips at " + width);
       assert.ok(layout.contactSection, "contact section missing");
       assert.ok(layout.title.includes("BAGDigital"), "page title missing");
+
+      if (width === 375 || width === 1440) {
+        const accessibility = await cdp.call("Accessibility.getFullAXTree", {}, session);
+        const accessibleNodes = (accessibility.nodes || [])
+          .filter((node) => !node.ignored)
+          .map((node) => ({ role: node.role?.value, name: node.name?.value || "" }));
+
+        const has = (role, name) => accessibleNodes.some((node) =>
+          node.role === role && (name ? node.name.includes(name) : true)
+        );
+
+        assert.ok(has("main"), "main landmark missing from accessibility tree");
+        assert.ok(has("navigation", "Primary navigation"), "navigation landmark not named");
+        assert.ok(has("heading", "Keep your software"), "homepage heading not exposed");
+        assert.ok(has("button", "Send inquiry"), "send-inquiry action has no accessible name");
+        assert.ok(has("textbox", "Email"), "contact email field has no accessible name");
+      }
 
       if (width === 375) {
         const before = await evaluate(cdp, session, "document.querySelector('#navToggle').getAttribute('aria-expanded')");
