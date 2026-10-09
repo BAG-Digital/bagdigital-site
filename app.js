@@ -48,7 +48,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.querySelectorAll("[data-close-nav]").forEach((link) => {
-    link.addEventListener("click", () => setNavState(false));
+    link.addEventListener("click", () => {
+      const nav = byId("primaryNav");
+      const wasOpenOnMobile =
+        nav?.dataset.open === "true" &&
+        window.matchMedia("(max-width: 940px)").matches;
+
+      setNavState(false);
+
+      if (!wasOpenOnMobile) return;
+
+      // Move keyboard focus to the destination rather than leaving it in
+      // a navigation link that becomes hidden when the mobile menu closes.
+      const destination = link.getAttribute("href");
+      if (!destination?.startsWith("#")) return;
+
+      const section = byId(destination.slice(1));
+      if (!section) return;
+
+      section.setAttribute("tabindex", "-1");
+      section.focus({ preventScroll: true });
+    });
   });
 
   document.addEventListener("keydown", (event) => {
