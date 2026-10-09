@@ -1,0 +1,34 @@
+name: Customer-first homepage copy contract
+
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "tests/customer-homepage-copy.test.mjs"
+      - ".github/workflows/customer-homepage-copy.yml"
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "tests/customer-homepage-copy.test.mjs"
+      - ".github/workflows/customer-homepage-copy.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  customer-copy-and-contact-integrity:
+    name: Verify customer copy and safe contact form
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use supported Node.js
+        uses: actions/setup-node@e51e5fe84fc33b4c73ebe40526b2694712b5b858 # pinned patched post-v7.0.0
+        with:
+          node-version: 24.21.0
+      - name: Verify homepage and public intake contracts
+        run: node --test tests/customer-homepage-copy.test.mjs tests/contact-form-contract.test.mjs
