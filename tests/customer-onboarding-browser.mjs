@@ -120,6 +120,14 @@ const stateExpr = String.raw`(() => {
 
 async function testJourney(cdp, session) {
   const initial = await evaluate(cdp, session, stateExpr);
+  const initDiagnostics = await evaluate(cdp, session, String.raw`(() => ({
+    scripts: Array.from(document.scripts).map((s) => s.src),
+    stepTwoText: document.querySelector('[data-nav-step="1"] .step-state').textContent,
+    onStepTwoHidden: document.querySelector('#screenBusiness').hasAttribute('hidden'),
+    buttonDisabled: document.querySelector('#continueBtn').disabled,
+    appError: window.__onboardingErrors || []
+  }))()`);
+  console.log("ONBOARDING_INIT_DIAGNOSTICS", JSON.stringify(initDiagnostics));
   assert.equal(initial.activeId, "screenAccount");
 
   const business = await evaluate(cdp, session, String.raw`(() => {
@@ -211,6 +219,9 @@ async function main() {
     await cdp.call("Page.enable", {}, session);
     await cdp.call("Runtime.enable", {}, session);
     await cdp.call("Accessibility.enable", {}, session);
+    await cdp.call("Page.addScriptToEvaluateOnNewDocument", {
+      source: "window.__onboardingErrors=[];window.addEventListener('error',e=>window.__onboardingErrors.push(e.message));"
+    }, session);
 
     const sizes = [];
     for (const width of [320, 375, 768, 1440]) {
