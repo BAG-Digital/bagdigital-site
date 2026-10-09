@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0b0c0a">
+<meta name="description" content="An entirely synthetic BAGDigital customer onboarding journey design. No real registration or business account.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; img-src 'none'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<title>BAGDigital | Customer Onboarding Concept</title>
+<link rel="stylesheet" href="./onboarding.css">
+<script src="./onboarding.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to onboarding preview</a>
+<div class="preview-bar" role="note"><strong>INTERACTIVE DESIGN PREVIEW — NOT LIVE SIGNUP</strong><span>No account is created. All business information shown here is fictional.</span></div>
+<header class="topbar">
+<div class="shell topbar-inner">
+<div class="brand"><span class="brand-mark" aria-hidden="true">BAG</span><span><strong>BAG<span class="brand-light">Digital</span></strong><small>GETTING STARTED</small></span></div>
+<span class="header-caption"><span class="circle" aria-hidden="true"></span> DEMONSTRATION ONLY</span>
+</div>
+</header>
+<main class="shell" id="main">
+<div class="context"><span>GET STARTED</span><span>YOUR BUSINESS, YOUR WAY</span></div>
+<div class="layout">
+<aside class="intro" aria-label="Getting started overview">
+<p class="eyebrow">LET'S GET YOU SET UP <span aria-hidden="true">↗</span></p>
+<h1>Make room for<br><em>better work.</em></h1>
+<p class="intro-lead">A simpler way to bring your business tools and everyday work together. Start with your business and one task you want to improve.</p>
+<div class="steps-box">
+<p class="steps-heading">YOUR SETUP</p>
+<ol class="steps" id="stepNavigation" aria-label="Onboarding preview steps">
+<li data-nav-step="0" class="active"><span class="step-marker">01</span><div><strong>Your account</strong><small>A secure place to start</small></div><span class="step-state">CURRENT</span></li>
+<li data-nav-step="1"><span class="step-marker">02</span><div><strong>Your business</strong><small>Create or join a team</small></div><span class="step-state">NEXT</span></li>
+<li data-nav-step="2"><span class="step-marker">03</span><div><strong>Your priorities</strong><small>Choose where to begin</small></div><span class="step-state">LATER</span></li>
+<li data-nav-step="3"><span class="step-marker">04</span><div><strong>Your workspace</strong><small>See what's ready</small></div><span class="step-state">LATER</span></li>
+</ol>
+</div>
+<div class="intro-footer"><span class="micro-icon" aria-hidden="true">✳</span><p>You choose what information to share. No software connection is made without your approval.</p></div>
+</aside>
+<section class="experience" aria-labelledby="panel-title">
+<div class="experience-top"><span>EXAMPLE SIGNUP JOURNEY</span><span id="stepCount">STEP 1 / 4</span></div>
+<div class="progress" aria-label="Preview completion progress"><span id="progressFill"></span></div>
+
+<div class="screen" id="screenAccount" data-screen="0">
+<div class="screen-tag">01 / YOUR ACCOUNT</div>
+<h2 id="panel-title">First, let's get to know you.</h2>
+<p class="screen-lead">Your BAGDigital account will let you return to your business workspace, see your setup, and choose what happens next.</p>
+<div class="identity-card">
+<div class="identity-icon" aria-hidden="true">◎</div>
+<div><strong>Secure account setup</strong><p>Your email and sign-in will be verified before you can enter a business workspace.</p></div>
+<span class="planned-mark">PLANNED</span>
+</div>
+<div class="not-live-panel"><strong>This is a preview.</strong><p>Account creation is not active in this design. You won't be asked for a password or personal details here.</p></div>
+<p class="field-caption">NEXT IN THE REAL SIGNUP EXPERIENCE</p>
+<div class="future-actions" aria-label="Future signup actions, not available in the preview">
+<span>Verify your identity</span><span>Create your account</span><span>Log in again later</span>
+</div>
+</div>
+
+<div class="screen hidden" id="screenBusiness" data-screen="1">
+<div class="screen-tag">02 / YOUR BUSINESS</div>
+<h2 id="panel-business-title">Where does your team work?</h2>
+<p class="screen-lead">Use BAGDigital with your own business or join a team that has already invited you.</p>
+<div class="choice-cards" role="group" aria-label="Example business setup choice">
+<button id="choiceCreate" type="button" data-business="create" class="choice selected" aria-pressed="true"><span class="choice-glyph" aria-hidden="true">＋</span><strong>Set up a business</strong><span>For the person bringing their team together</span></button>
+<button id="choiceJoin" type="button" data-business="join" class="choice" aria-pressed="false"><span class="choice-glyph" aria-hidden="true">↗</span><strong>Join your team</strong><span>For an invited team member</span></button>
+</div>
+<div class="preview-data" role="note"><span>FICTIONAL PREVIEW</span><strong id="businessPreviewTitle">Example Service Co.</strong><p id="businessPreviewText">A sample business workspace. No real organization will be created.</p></div>
+<p class="subtle-note">Business access will be confirmed before you can view a team's information.</p>
+</div>
+
+<div class="screen hidden" id="screenPriorities" data-screen="2">
+<div class="screen-tag">03 / YOUR PRIORITIES</div>
+<h2 id="panel-priorities-title">What would help most?</h2>
+<p class="screen-lead">Choose the work that's taking up too much time. We'll show which options can be explored, and what might be needed first.</p>
+<div class="priority-grid" role="group" aria-label="Choose one example priority">
+<button type="button" data-priority="followup" class="priority selected" aria-pressed="true"><span class="priority-icon" aria-hidden="true">↗</span><strong>Keep up with follow-ups</strong><small>Know who needs an answer and what to do next</small></button>
+<button type="button" data-priority="daily" class="priority" aria-pressed="false"><span class="priority-icon" aria-hidden="true">◷</span><strong>See the day's work</strong><small>Get a clearer view of tasks and schedules</small></button>
+<button type="button" data-priority="admin" class="priority" aria-pressed="false"><span class="priority-icon" aria-hidden="true">▤</span><strong>Reduce double entry</strong><small>Spend less time copying the same details</small></button>
+</div>
+<div class="hint"><span aria-hidden="true">✳</span><p>Choosing an interest does not connect software or turn on automations.</p></div>
+</div>
+
+<div class="screen hidden" id="screenWorkspace" data-screen="3">
+<div class="screen-tag">04 / YOUR WORKSPACE</div>
+<h2 id="panel-workspace-title">Here's where you'll begin.</h2>
+<p class="screen-lead">A future workspace will show what's connected, what's available, and what needs your attention—without making you search across apps.</p>
+<div class="workspace-card">
+<div class="workspace-header"><div><span class="workspace-eyebrow">FICTIONAL BUSINESS</span><strong id="workspaceBusiness">Example Service Co.</strong></div><span class="workspace-status">EXAMPLE / NOT LIVE</span></div>
+<div class="status-grid">
+<div><strong>0</strong><span>Connected tools</span></div>
+<div><strong>0</strong><span>Active automations</span></div>
+<div><strong>0</strong><span>Actions sent</span></div>
+</div>
+<div class="setup-head"><strong>Your next steps</strong><span>SIMULATED</span></div>
+<div class="task"><span class="task-icon" aria-hidden="true">1</span><div><strong>Explore available tools</strong><small>See which connections may be possible for your business</small></div><span class="task-status">NOT AVAILABLE YET</span></div>
+<div class="task"><span class="task-icon" aria-hidden="true">2</span><div><strong>Review your first workflow</strong><small id="selectedPriorityLabel">Follow-up tracking</small></div><span class="task-status">PREVIEW ONLY</span></div>
+</div>
+<p class="subtle-note">This workspace is fictional. Your real account, plan and setup status must come from a verified sign-in.</p>
+</div>
+
+<div class="footer-controls">
+<button type="button" class="previous" id="previousBtn" disabled>← Back</button>
+<div class="right-controls"><span id="completionLabel">Preview step 1 of 4</span><button type="button" class="continue" id="continueBtn">Preview next step <span aria-hidden="true">→</span></button></div>
+</div>
+</section>
+</div>
+<div class="bottom-message"><p><strong>One business. Your tools. Your choices.</strong> The actual service will explain what's supported before you connect anything.</p><span>DESIGN ONLY · NO LIVE USER ACCOUNT</span></div>
+</main>
+<footer class="foot"><div class="shell"><strong>BAGDigital</strong><span>Customer journey preview · no registration, connection, billing or messaging occurs.</span></div></footer>
+</body>
+</html>
