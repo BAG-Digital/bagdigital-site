@@ -52,7 +52,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") setNavState(false);
+    if (event.key !== "Escape") return;
+
+    const nav = byId("primaryNav");
+    const toggle = byId("navToggle");
+    const shouldRestoreFocus =
+      nav?.dataset.open === "true" &&
+      (nav.contains(document.activeElement) || document.activeElement === toggle);
+
+    setNavState(false);
+
+    // Avoid stranding keyboard focus in links that become hidden on mobile.
+    if (shouldRestoreFocus) toggle?.focus();
   });
 
 });
