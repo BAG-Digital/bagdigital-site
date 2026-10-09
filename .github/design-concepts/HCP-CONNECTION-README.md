@@ -21,9 +21,27 @@ node --test tests/hcp-connection-journey-contract.test.mjs
 
 The dedicated GitHub Action runs the same source contract on PRs. A passing source test **does not** prove visual accessibility, authentic server authorization, protected credential handling or live HCP API availability. Check keyboard/focus, screen reader order, contrast and mobile widths before adopting the design into an authenticated app.
 
+## Customer-facing information rule (founder directive, 2026-10-09)
+
+**Show the customer only what they need to understand value, decide, act safely, or solve a problem.** The experience should be reassuring without explaining BAGDigital's internal architecture.
+
+The rendered customer page should answer:
+1. What is this? (Housecall Pro)
+2. Is my business connected? (Not connected / Needs attention / Basic connection confirmed)
+3. What can I do now? (Only genuinely available features and permitted actions)
+4. What should I do next? (A specific, plain-English next step)
+
+**Customer sees:** meaningful state, what data or actions they are approving, price/terms when relevant, timing/limitations that affect their decision, privacy/safety choices, and direct help.
+
+**Customer never needs internal implementation details:** `GET /company`, OAuth/credentials, vault, tenant/RLS, AWS/Vercel, Red Team gates, milestones, PR/CI, webhook mechanics, internal agent names, or tech-stack comparisons. Store those details here in engineering notes and owning Core/Infrastructure repositories. Error messages should say what happened and what the customer can do, not disclose provider payloads or internals.
+
+**Do not overcorrect into deception:** Show a truthful "Not available yet" instead of a pretend Connect button, explain consent and permissions before they take effect, and don't imply a successful company read enables jobs/estimates. A short preview-only disclaimer is necessary for this demo; it is not proposed production website copy.
+
+`tests/hcp-connection-journey-contract.test.mjs` now enforces the absence of internal engineering terminology in rendered page source.
+
 ## Visual state taxonomy
 
-The design's first card is **NOT CONNECTED** and is a synthetic default; the second is **REVIEW REQUIRED** (hypothetical blocked/pending state); the third is **READ VERIFIED / EXAMPLE** (hypothetical post-read state). None of these are fetched or validated. They deliberately do not represent a successfully completed Francisco connection, status from HCP, actual company record or active automation.
+The design's first card is **NOT CONNECTED** and is a synthetic default; the second is **NEEDS ATTENTION** (hypothetical blocked/pending state); the third is **BASIC CONNECTION / EXAMPLE** (hypothetical successful company-information check). None of these are fetched or validated. They deliberately do not represent a successfully completed Francisco connection, status from HCP, actual company record or active automation.
 
 Future product behavior should take **server-derived** status only after authorized tenant/workspace selection, restricted Core persistence, approved vault access, and relevant red-team controls. Do not infer a customer connection from milestone labels.
 
