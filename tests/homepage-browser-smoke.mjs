@@ -254,9 +254,20 @@ async function run() {
     process.stdout.write(JSON.stringify({ browserViewportChecks: results }, null, 2) + "\n");
   } finally {
     try { cdp?.close(); } catch { /* best effort */ }
-    if (browser && browser.exitCode === null) browser.kill("SIGTERM");
+    if (browser && browser.exitCode === null) {
+      browser.kill("SIGTERM");
+      const exited = await Promise.race([
+        once(browser, "exit").then(() => true),
+        sleep(2_000).then(() => false),
+      ]);
+      if (!exited && browser.exitCode === null) {
+        browser.kill("SIGKILL");
+        await once(browser, "exit");
+      }
+    }
     await new Promise((resolveClose) => server.close(resolveClose));
-    rmSync(userDataDir, { recursive: true, force: true });
+    // Chrome may still be flushing its temporary user profile just after exit.
+    rmSync(userDataDir, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
   }
 }
 
