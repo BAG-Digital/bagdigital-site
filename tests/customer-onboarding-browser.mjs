@@ -231,6 +231,13 @@ async function main() {
       await cdp.call("Page.navigate", { url: url + "/" }, session);
       await ready(cdp, session);
       const state = await evaluate(cdp, session, stateExpr);
+      if (state.width !== width || state.pageWidth > width + 2) {
+        const oversized = await evaluate(cdp, session, String.raw`(() => [...document.querySelectorAll('*')].map((el) => {
+          const r=el.getBoundingClientRect();
+          return { tag: el.tagName, cls: String(el.className).slice(0,65), width:Math.round(r.width), left:Math.round(r.left), right:Math.round(r.right) };
+        }).filter((r) => r.right > 320 || r.left < -2).slice(0,30))()`);
+        console.log("ONBOARDING_LAYOUT_OVERFLOW", JSON.stringify({ requested: width, state, oversized }));
+      }
       assert.equal(state.width, width);
       assert.equal(state.h1s, 1);
       assert.equal(state.disclosure, true);
