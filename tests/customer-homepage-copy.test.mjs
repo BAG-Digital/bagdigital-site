@@ -108,3 +108,15 @@ test("contact placeholders use a legible, reusable color with at least 4.5:1 tex
   assert.match(css, /\.field input::placeholder,.field textarea::placeholder\{color:var\(--faint\)\}/);
   assert.ok(contrastRatio(faint[1], inputSurface[1]) >= 4.5, "placeholder must meet WCAG AA normal-text contrast");
 });
+
+
+test("plain-English FAQ does not promise unsupported live product capabilities", () => {
+  const questions = sectionBetween('id="questions"', 'id="contact"');
+
+  assert.match(questions, /Will I need to replace the tools my team uses/);
+  assert.match(questions, /Will this work with my software/);
+  assert.match(questions, /We'll check what's possible before proposing a solution/);
+  assert.match(questions, /We're introducing services gradually/);
+  assert.doesNotMatch(questions, /(?:available on every plan|fully automated|works with any app)/i);
+  assert.doesNotMatch(questions, /(?:AWS|GitHub|Vercel|GET \/company)/i);
+});
