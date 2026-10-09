@@ -193,7 +193,7 @@ h1{
   background:#080907;color:var(--text);
 }
 .field textarea{min-height:145px;resize:vertical}
-.field input::placeholder,.field textarea::placeholder{color:#706e68}
+.field input::placeholder,.field textarea::placeholder{color:var(--faint)}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(102,217,255,.65);box-shadow:0 0 0 3px rgba(102,217,255,.09)}
 .field-error{display:none;color:#ffb199;font-size:.74rem}
 .field-help{color:var(--faint);font-size:.74rem;line-height:1.5}
