@@ -10,7 +10,7 @@
  */
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -289,6 +289,29 @@ async function run() {
         assert.equal(followingLink.expanded, "false", "mobile menu link should close menu");
         assert.equal(followingLink.sectionFocused, true, "mobile menu navigation must move focus to selected section");
         assert.equal(followingLink.destination, "#examples", "mobile menu navigation should keep real anchor destination");
+      }
+
+      if (width === 375 || width === 1440) {
+        // Only public local fixture content is captured. Never submit the form.
+        await evaluate(cdp, session, String.raw`(() => {
+          window.history.replaceState(null, '', '/');
+          window.scrollTo(0, 0);
+          return true;
+        })()`);
+
+        const screenshot = await cdp.call("Page.captureScreenshot", {
+          format: "png",
+          fromSurface: true,
+          captureBeyondViewport: true,
+        }, session);
+        assert.ok(screenshot.data, "Chrome did not return a visual QA screenshot");
+
+        const screenshotFolder = join(ROOT, "site-qa-screenshots");
+        mkdirSync(screenshotFolder, { recursive: true });
+        writeFileSync(
+          join(screenshotFolder, "homepage-" + width + "px.png"),
+          Buffer.from(screenshot.data, "base64"),
+        );
       }
 
       results.push({ viewport: width, pageWidth: layout.scrollWidth, h1: layout.headingCount, ctaWidth: Math.round(layout.mainCta.width), status: "PASS" });
