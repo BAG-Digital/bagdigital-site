@@ -43,7 +43,7 @@ test("all user choices and approval outcomes are simulated locally", () => {
   assert.match(js, /advance\.disabled = phase === 3/);
   assert.match(js, /phase = 0/);
   assert.match(js, /\.textContent = example\.reply/);
-  assert.match(js, /new Date\(/); // intentional guard? no dates should appear
+  assert.doesNotMatch(js, /new Date\(/); // never claim real-time activity
 });
 
 test("scenario buttons are real accessible controls with clear status and human review", () => {
