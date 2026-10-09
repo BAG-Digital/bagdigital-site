@@ -10,13 +10,13 @@ const publicHome = readFileSync(new URL("../index.html", import.meta.url), "utf8
 
 test("design preview is explicitly not a live portal or customer connection", () => {
   assert.match(html, /DESIGN STUDY \/ NOT A LIVE PORTAL/);
-  assert.match(html, /Illustrative screens only/);
-  assert.match(html, /SYNTHETIC \/ NO CUSTOMER DATA/);
+  assert.match(html, /Example screens only/);
+  assert.match(html, /EXAMPLE \/ NOT LIVE/);
   assert.match(html, /NOT CONNECTED/);
-  assert.match(html, /READ VERIFIED \/ EXAMPLE/);
-  assert.match(html, /ALL THREE ARE ILLUSTRATIONS/);
-  assert.match(html, /hypothetical/i);
-  assert.match(html, /This card is not evidence that such a call occurred/);
+  assert.match(html, /BASIC CONNECTION \/ EXAMPLE/);
+  assert.match(html, /EXAMPLE A/);
+  assert.match(html, /A future successful check could confirm/);
+  assert.match(html, /These examples don't show a live account/);
 });
 
 test("there are no executable actions, credential inputs, scripts or provider calls", () => {
@@ -52,13 +52,13 @@ test("all links stay on the page and have real destinations", () => {
 });
 
 test("status cards distinguish readiness from provider and credential authorization", () => {
-  assert.match(html, /Approve|approval|approved/i);
-  assert.match(html, /GET \/company/);
-  assert.match(html, /Never paste API keys into this page/);
-  assert.match(html, /No access assumed/);
-  assert.match(html, /Writes still disabled/);
-  assert.match(html, /server check your permissions/);
-  assert.match(html, /No Housecall Pro account is connected in this design/);
+  assert.match(html, /Review and approve the connection/);
+  assert.match(html, /Check the connection/);
+  assert.match(html, /Review what information a connection can use/);
+  assert.match(html, /You'll know the next step/);
+  assert.match(html, /No changes made/);
+  assert.match(html, /Select the business account you want to use/);
+  assert.match(html, /Housecall Pro isn't connected in this preview/);
 });
 
 test("layout includes keyboard, narrow-screen and reduced-motion affordances", () => {
@@ -128,4 +128,15 @@ test("document outline, IDs, and section labels are internally consistent", () =
       assert.ok(allIds.includes(id), "aria-labelledby target missing: " + id);
     }
   }
+});
+
+
+test("customer-facing copy explains outcomes without internal engineering jargon", () => {
+  const internalTerms = /\b(?:API|AWS|GitHub|Vercel|PostgreSQL|RLS|tenant|infrastructure|credential|webhook|OAuth|M9|RT-M3-11|CI)\b|GET\s*\/company/i;
+  assert.doesNotMatch(html, internalTerms, "internal implementation details belong in docs, not customer screens");
+  assert.match(html, /Your tools\./);
+  assert.match(html, /what's connected, what's available, and what needs attention/);
+  assert.match(html, /what information can be shared before you approve/);
+  assert.match(html, /Other features may still be unavailable/);
+  assert.match(html, /Design preview only/);
 });
