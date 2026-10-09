@@ -246,6 +246,21 @@ async function run() {
         })()`);
         assert.equal(closed.expanded, "false", "Escape failed to close mobile menu");
         assert.equal(closed.focusReturned, true, "Escape should return keyboard focus to Menu");
+
+        const followingLink = await evaluate(cdp, session, String.raw`(() => {
+          document.querySelector('#navToggle').click();
+          const link = document.querySelector('#primaryNav a[href="#examples"]');
+          link.focus();
+          link.click();
+          return {
+            expanded: document.querySelector('#navToggle').getAttribute('aria-expanded'),
+            sectionFocused: document.activeElement === document.querySelector('#examples'),
+            destination: window.location.hash
+          };
+        })()`);
+        assert.equal(followingLink.expanded, "false", "mobile menu link should close menu");
+        assert.equal(followingLink.sectionFocused, true, "mobile menu navigation must move focus to selected section");
+        assert.equal(followingLink.destination, "#examples", "mobile menu navigation should keep real anchor destination");
       }
 
       results.push({ viewport: width, pageWidth: layout.scrollWidth, h1: layout.headingCount, ctaWidth: Math.round(layout.mainCta.width), status: "PASS" });
