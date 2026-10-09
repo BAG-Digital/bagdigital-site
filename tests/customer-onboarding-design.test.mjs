@@ -32,6 +32,12 @@ test("preview cannot collect credentials or post to business APIs", () => {
   assert.doesNotMatch(css, /(?:@import|url\s*\()/i);
 });
 
+test("links to the checked-in JavaScript and CSS assets", () => {
+  assert.match(html, /href="\.\/customer-onboarding\.css"/);
+  assert.match(html, /src="\.\/customer-onboarding\.js"/);
+  assert.doesNotMatch(html, /(?:href|src)="\.\/onboarding\.(?:css|js)"/);
+});
+
 test("four-stage journey is explicit and accessible", () => {
   for (const id of ["screenAccount", "screenBusiness", "screenPriorities", "screenWorkspace", "continueBtn", "previousBtn", "progressFill", "stepCount"]) {
     assert.match(html, new RegExp('id="' + id + '"'));
