@@ -42,7 +42,7 @@ test("marketing content retains a meaningful customer permission explanation", (
 
   assert.match(permissionSection, /You choose what to connect/);
   assert.match(permissionSection, /before you approve it/);
-  assert.match(permissionSection, /Changing records or sending messages should require the right permission/);
+  assert.match(permissionSection, /We\'ll be clear about which actions require approval/);
   assert.doesNotMatch(permissionSection, /\b(?:AWS|IAM|RLS|OAuth|API key|GET \/company)\b/i);
 });
 
@@ -70,4 +70,18 @@ test("core navigation, page metadata, and contact anchors remain intact", () => 
   assert.match(html, /name="description"/);
   assert.match(html, /property="og:description"/);
   assert.match(html, /<script src="\/app\.js" defer><\/script>/);
+});
+
+
+test("visible navigation and illustrative workflow image have accessible targets", () => {
+  const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(new Set(ids).size, ids.length, "duplicate ID in public homepage");
+
+  for (const [, href] of html.matchAll(/<a\b[^>]*href="(#[^"]+)"/g)) {
+    assert.ok(ids.includes(href.slice(1)), "broken same-page navigation: " + href);
+  }
+
+  assert.match(html, /class="simple-diagram" role="img" aria-label="Illustrative workflow:/);
+  assert.match(html, /class="skip-link"/);
+  assert.match(html, /aria-controls="primaryNav"/);
 });
