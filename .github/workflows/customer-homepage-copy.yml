@@ -5,12 +5,14 @@ on:
     paths:
       - "index.html"
       - "tests/customer-homepage-copy.test.mjs"
+      - "tests/homepage-browser-smoke.mjs"
       - ".github/workflows/customer-homepage-copy.yml"
   push:
     branches: [main]
     paths:
       - "index.html"
       - "tests/customer-homepage-copy.test.mjs"
+      - "tests/homepage-browser-smoke.mjs"
       - ".github/workflows/customer-homepage-copy.yml"
 
 permissions:
@@ -32,3 +34,5 @@ jobs:
           node-version: 24.21.0
       - name: Verify homepage and public intake contracts
         run: node --test tests/customer-homepage-copy.test.mjs tests/contact-form-contract.test.mjs
+      - name: Verify actual Chromium desktop and mobile layout
+        run: node tests/homepage-browser-smoke.mjs
