@@ -5,6 +5,7 @@ import test from "node:test";
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const javaScript = readFileSync(new URL("../app.js", import.meta.url), "utf8");
 const privacy = readFileSync(new URL("../privacy.html", import.meta.url), "utf8");
+const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
 
 function sectionBetween(start, end) {
   const first = html.indexOf(start);
@@ -84,4 +85,26 @@ test("visible navigation and illustrative workflow image have accessible targets
   assert.match(html, /class="simple-diagram" role="img" aria-label="Illustrative workflow:/);
   assert.match(html, /class="skip-link"/);
   assert.match(html, /aria-controls="primaryNav"/);
+});
+
+
+function luminance(hex) {
+  const channels = [0, 2, 4].map((offset) => {
+    const channel = Number.parseInt(hex.slice(offset + 1, offset + 3), 16) / 255;
+    return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+}
+
+function contrastRatio(first, second) {
+  const values = [luminance(first), luminance(second)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+
+test("contact placeholders use a legible, reusable color with at least 4.5:1 text contrast", () => {
+  const faint = css.match(/--faint:(#[0-9a-fA-F]{6})/);
+  const inputSurface = css.match(/\.field input,.field select,.field textarea\s*\{[^}]*background:(#[0-9a-fA-F]{6})/);
+  assert.ok(faint && inputSurface, "expected theme palette and form surface");
+  assert.match(css, /\.field input::placeholder,.field textarea::placeholder\{color:var\(--faint\)\}/);
+  assert.ok(contrastRatio(faint[1], inputSurface[1]) >= 4.5, "placeholder must meet WCAG AA normal-text contrast");
 });
