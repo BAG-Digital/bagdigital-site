@@ -120,3 +120,11 @@ test("plain-English FAQ does not promise unsupported live product capabilities",
   assert.doesNotMatch(questions, /(?:available on every plan|fully automated|works with any app)/i);
   assert.doesNotMatch(questions, /(?:AWS|GitHub|Vercel|GET \/company)/i);
 });
+
+
+test("direct email fallback is usable even when JavaScript is disabled", () => {
+  assert.match(html, /id="emailLink" href="mailto:jaime@bagdigital\.tech"/);
+  assert.match(html, /id="emailDirectBtn"[^>]+href="mailto:jaime@bagdigital\.tech"/);
+  assert.match(javaScript, /EMAIL_USER: "jaime"/);
+  assert.match(javaScript, /EMAIL_DOMAIN: "bagdigital\.tech"/);
+});
