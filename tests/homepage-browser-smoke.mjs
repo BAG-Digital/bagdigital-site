@@ -238,7 +238,9 @@ async function run() {
         );
 
         assert.ok(has("main"), "main landmark missing from accessibility tree");
-        assert.ok(has("navigation", "Primary navigation"), "navigation landmark not named");
+        if (width === 1440) {
+          assert.ok(has("navigation", "Primary navigation"), "desktop navigation landmark not named");
+        }
         assert.ok(has("heading", "Keep your software"), "homepage heading not exposed");
         assert.ok(has("button", "Send inquiry"), "send-inquiry action has no accessible name");
         assert.ok(has("textbox", "Email"), "contact email field has no accessible name");
@@ -253,6 +255,14 @@ async function run() {
           return document.querySelector('#navToggle').getAttribute('aria-expanded');
         })()`);
         assert.equal(opened, "true", "mobile menu toggle did not open");
+
+        const mobileAccessibility = await cdp.call("Accessibility.getFullAXTree", {}, session);
+        const namedMobileNav = (mobileAccessibility.nodes || []).some((node) =>
+          !node.ignored &&
+          node.role?.value === "navigation" &&
+          (node.name?.value || "").includes("Primary navigation")
+        );
+        assert.ok(namedMobileNav, "opened mobile navigation should have a clear accessible name");
 
         const closed = await evaluate(cdp, session, String.raw`(() => {
           document.querySelector('#primaryNav a').focus();
