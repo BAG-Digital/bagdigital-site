@@ -29,6 +29,24 @@ export function syntheticWorkspace() {
     recentActivity:Object.freeze([])
   });
 }
+/**
+ * Populate only from a validated, explicitly supplied view model.
+ * No automatic connection to any provider or production API.
+ */
+export function renderWorkspaceSummary(root, workspace) {
+  if (!workspace || !Array.isArray(workspace.connections) ||
+      !Number.isSafeInteger(workspace.pendingApprovalsCount) || workspace.pendingApprovalsCount < 0 ||
+      !Number.isSafeInteger(workspace.activeWorkflowsCount) || workspace.activeWorkflowsCount < 0) {
+    throw new TypeError('Invalid workspace summary');
+  }
+  const count = root.querySelector('[data-metric="connections"]');
+  const approvals = root.querySelector('[data-metric="approvals"]');
+  const workflows = root.querySelector('[data-metric="workflows"]');
+  if (count) count.textContent = String(workspace.connections.filter(c => c.status === 'connected').length);
+  if (approvals) approvals.textContent = String(workspace.pendingApprovalsCount);
+  if (workflows) workflows.textContent = String(workspace.activeWorkflowsCount);
+  return true;
+}
 export function initCustomerNavigation(root=document) {
   const tabs=[...root.querySelectorAll('[data-view]')];
   const views=[...root.querySelectorAll('.view')];
