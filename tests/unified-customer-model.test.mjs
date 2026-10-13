@@ -15,7 +15,8 @@ test('preview workspace is disconnected and has no invented operational activity
 test('connected requires verification and explicit capabilities',()=>{
  assert.throws(()=>normalizeConnection({status:'connected'}),/requires verifiedAt/);
  assert.throws(()=>normalizeConnection({status:'connected',verifiedAt:'2026-10-13'}),/allowedCapabilities/);
- const connected=normalizeConnection({status:'connected',verifiedAt:'2026-10-13',allowedCapabilities:['jobs.read']});
+ assert.throws(()=>normalizeConnection({status:'connected',verifiedAt:'not-a-date',allowedCapabilities:[]}),/requires verifiedAt/);
+ const connected=normalizeConnection({status:'connected',verifiedAt:'2026-10-13T12:00:00Z',allowedCapabilities:['jobs.read']});
  assert.deepEqual(connected.allowedCapabilities,['jobs.read']);
  assert.ok(Object.isFrozen(connected.allowedCapabilities));
 });
