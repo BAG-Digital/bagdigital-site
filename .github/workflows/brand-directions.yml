@@ -35,10 +35,12 @@ jobs:
             done
           done
           ls -lh brand-review-screenshots
-      - name: Retain screenshots for Indigo/founder review
+      - name: Retain exact prototype and screenshots for Indigo/founder review
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: bagdigital-brand-direction-review
-          path: brand-review-screenshots/*.png
+          path: |
+            brand-review-screenshots/*.png
+            .github/design-concepts/three-brand-directions.html
           if-no-files-found: error
           retention-days: 14
