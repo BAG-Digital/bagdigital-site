@@ -1,0 +1,11 @@
+/* BAGDigital unified design tokens — synthetic design studies only. */
+:root{--bag-ink:#17191b;--bag-paper:#f0eee7;--bag-ember:#ff8060;--bag-glass:#7abfc1;--bag-slate:#717c86;--bag-radius:6px;--bag-focus:3px solid #ff8060;--bag-space-1:4px;--bag-space-2:8px;--bag-space-3:12px;--bag-space-4:16px;--bag-space-6:24px;--bag-space-8:32px;--bag-space-12:48px}
+.bag-focusable:focus-visible{outline:var(--bag-focus);outline-offset:3px}
+.bag-status{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:4px;font-size:12px;font-weight:700}
+.bag-status--disconnected{background:#f2e6d3;color:#795124}
+.bag-status--pending{background:#dce8f1;color:#244b68}
+.bag-status--attention{background:#f9dddd;color:#7e3030}
+.bag-status--connected{background:#d6eadb;color:#215535}
+.bag-button{display:inline-block;border-radius:4px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer}
+.bag-button:disabled{opacity:.5;cursor:not-allowed}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}

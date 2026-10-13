@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="description" content="BAGDigital designs websites, improves workflows and helps small businesses find practical technology solutions.">
+<meta name="theme-color" content="#F7F8F4">
+<title>BAGDigital — Material Organic Homepage Concept</title>
+<style>
+:root {
+  color-scheme:light;
+  --canvas:#F7F8F4;--surface:#FFFFFF;--ink:#20302D;--muted:#53655F;
+  --primary:#19665E;--primary-soft:#D9EEE8;--lime:#D9F294;--mist:#E6F2F1;
+  --outline:#DCE6E0;--coral:#E9AB91;--shadow:0 16px 56px rgba(33,69,60,.09);
+  --ease:cubic-bezier(.2,0,0,1);
+  font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-synthesis:none;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--canvas);color:var(--ink);line-height:1.6;overflow-x:hidden}
+button,input,select,textarea{font:inherit}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+button,a,select{touch-action:manipulation}
+[hidden]{display:none!important}
+.skip{position:fixed;z-index:20;top:-100px;left:14px;background:white;color:var(--ink);padding:12px 18px;border-radius:12px}
+.skip:focus{top:12px}
+.container{width:min(1130px,calc(100% - 44px));margin-inline:auto}
+.header{position:sticky;top:0;z-index:12;background:rgba(247,248,244,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(25,102,94,.1)}
+.navbar{min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:inline-flex;align-items:center;gap:11px;text-decoration:none;font-size:22px;letter-spacing:-.065em;font-weight:800;white-space:nowrap}
+.brand svg{width:40px;height:40px;flex:none}
+.brand small{display:block;font-size:10px;letter-spacing:.1em;font-weight:800;color:var(--primary);text-transform:uppercase;line-height:1.2}
+.nav{display:flex;align-items:center;gap:3px}
+.nav a:not(.button){padding:10px 13px;text-decoration:none;font-size:14px;font-weight:650;border-radius:999px}
+.nav a:not(.button):hover{background:var(--mist)}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:9px;text-align:center;text-decoration:none;border-radius:999px;border:1px solid transparent;min-height:48px;padding:11px 21px;font-size:14px;font-weight:750;cursor:pointer;transition:background .22s var(--ease),transform .22s var(--ease),box-shadow .22s var(--ease)}
+.button:hover{transform:translateY(-2px)}
+.button-primary{background:var(--primary);color:white;box-shadow:0 6px 16px rgba(25,102,94,.16)}
+.button-primary:hover{background:#105149;box-shadow:0 12px 24px rgba(25,102,94,.18)}
+.button-secondary{border-color:#BFD3CA;background:white;color:var(--ink)}
+.button-secondary:hover{background:var(--mist)}
+.button-lime{background:var(--lime);color:#263529}
+.button-lime:hover{background:#C9EA78}
+.hero{overflow:clip;position:relative;padding:89px 0 86px;isolation:isolate}
+.hero::before{content:"";position:absolute;z-index:-1;pointer-events:none;right:-17%;top:-34%;width:67vw;height:67vw;max-width:850px;max-height:850px;border-radius:42% 58% 68% 32%/48% 37% 63% 52%;background:radial-gradient(circle at 22% 55%,#CBECE7 0,#E1F1E7 44%,rgba(247,248,244,0) 72%);filter:blur(4px);animation:morph 24s ease-in-out infinite alternate}
+.hero-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(350px,.82fr);gap:70px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;text-transform:uppercase;font-weight:850;letter-spacing:.16em;color:var(--primary)}
+.eyebrow::before{content:"";width:20px;height:4px;background:var(--primary);border-radius:999px}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(50px,6.8vw,88px);letter-spacing:-.078em;line-height:.995;margin:21px 0 25px;max-width:650px;font-weight:790}
+h1 .accent{color:var(--primary)}
+.lead{font-size:clamp(17px,1.65vw,20px);color:#405650;line-height:1.65;max-width:590px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0}
+.hero-note{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+.hero-note .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--primary)}
+.orbit{position:relative;min-height:435px;display:grid;place-items:center}
+.orbit::before{content:"";width:86%;height:86%;position:absolute;border-radius:53% 47% 46% 54%/54% 38% 62% 46%;background:linear-gradient(145deg,#D1EAE4,#DDF1ED 50%,#EDF5D8);transform:rotate(-10deg);animation:float 21s ease-in-out infinite}
+.orbit::after{content:"";width:62%;height:62%;position:absolute;border-radius:50%;border:1px solid rgba(25,102,94,.16)}
+.demo{position:relative;z-index:1;width:min(100%,390px);background:rgba(255,255,255,.92);border:1px solid #D4E6DF;border-radius:28px;padding:22px;box-shadow:0 35px 80px rgba(20,73,65,.13);transform:rotate(-3deg);animation:rise 8s ease-in-out infinite alternate}
+.demo-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;font-size:13px}
+.demo-head b{font-size:15px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:99px;background:#E7F4E8;padding:5px 11px;color:#275849;font-size:11px;font-weight:750}
+.pill::before{content:"";width:6px;height:6px;background:#3F8D66;border-radius:50%}
+.flow-list{display:grid;gap:10px}
+.flow-row{display:flex;align-items:center;gap:13px;background:#F5F8F5;border:1px solid #E6EEE8;border-radius:17px;padding:13px}
+.flow-icon{display:grid;place-items:center;width:39px;height:39px;flex:none;background:var(--primary-soft);border-radius:13px;color:var(--primary);font-weight:850}
+.flow-row:nth-child(2) .flow-icon{background:#F0F5D9}
+.flow-row:nth-child(3) .flow-icon{background:#E7EAF9}
+.flow-row b{display:block;font-size:13px}
+.flow-row span{display:block;font-size:11px;color:var(--muted)}
+.flow-line{height:22px;width:2px;background:repeating-linear-gradient(to bottom,#8DBBAE 0 4px,transparent 4px 8px);margin:-3px 0 -3px 32px}
+.demo-foot{margin-top:15px;font-size:11px;color:var(--muted);text-align:right}
+.float-chip{position:absolute;z-index:2;background:white;padding:10px 16px;border-radius:50px;box-shadow:0 12px 30px rgba(24,68,59,.12);font-size:12px;font-weight:750;animation:rise 10s ease-in-out infinite alternate}
+.chip-one{left:-3%;top:12%;transform:rotate(-8deg)}
+.chip-two{right:-2%;bottom:12%;animation-delay:-5s;background:#EAF4C9}
+.section{padding:84px 0;scroll-margin-top:82px}
+.section-header{display:flex;justify-content:space-between;gap:32px;align-items:end;margin-bottom:28px}
+.section-header p{max-width:425px;color:var(--muted);margin-bottom:8px}
+h2{font-size:clamp(33px,4.5vw,55px);letter-spacing:-.063em;line-height:1.13;margin:12px 0}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--outline);border-radius:26px;padding:24px 21px;min-height:259px;box-shadow:0 7px 20px rgba(34,66,57,.035);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.icon-disc{display:grid;place-items:center;background:#E5F3ED;color:var(--primary);width:52px;height:52px;border-radius:18px;margin-bottom:23px;font-size:23px}
+.card:nth-child(2) .icon-disc{background:#F1F6DA}
+.card:nth-child(3) .icon-disc{background:#E7EEFC}
+.card:nth-child(4) .icon-disc{background:#F8EAE2}
+.card h3{font-size:20px;letter-spacing:-.04em;line-height:1.2;margin-bottom:12px}
+.card p{color:var(--muted);font-size:14px;margin-bottom:0}
+.process-wrap{background:#E9F3EC;border-radius:42px;padding:52px 45px;position:relative;overflow:hidden}
+.process-wrap::before{content:"";position:absolute;right:-80px;top:-95px;width:310px;height:250px;border:1px solid #BADDD1;border-radius:39% 61% 28% 72%/56% 30% 70% 44%;transform:rotate(16deg);pointer-events:none}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:26px;margin-top:30px;position:relative}
+.step-number{display:grid;place-items:center;background:white;width:46px;height:46px;border-radius:15px;color:var(--primary);font-weight:800;box-shadow:0 6px 20px rgba(33,69,60,.07);margin-bottom:22px}
+.step h3{font-size:17px;letter-spacing:-.025em;margin-bottom:8px}
+.step p{color:#53655F;font-size:14px;margin:0}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+.about-card{background:#EDF1D9;border-radius:43% 57% 55% 45%/48% 43% 57% 52%;min-height:300px;display:grid;place-items:center;position:relative;overflow:hidden}
+.about-card .rings{width:220px;height:220px;border-radius:46% 54% 35% 65%/58% 42% 58% 42%;border:21px solid #9BBFAE;box-shadow:inset 0 0 0 23px #CFE6D8,0 0 0 34px rgba(255,255,255,.33);transform:rotate(-23deg)}
+.about-card .center-label{position:absolute;background:white;border-radius:18px;padding:15px 23px;box-shadow:var(--shadow);font-weight:850;font-size:18px;letter-spacing:-.055em;transform:rotate(5deg)}
+.about-copy p{color:var(--muted);max-width:530px}
+.inquiry{padding:70px 0 95px}
+.inquiry-shell{background:linear-gradient(120deg,#D9EEE8 0%,#ECF3E6 65%,#F3F7EA);padding:48px;border-radius:42px;display:grid;grid-template-columns:.85fr 1.15fr;gap:55px;align-items:start}
+.inquiry-shell h2{margin-bottom:17px}
+.inquiry-copy p{color:#465D56}
+.contact-fallback{display:inline-block;color:var(--primary);overflow-wrap:anywhere;font-weight:700}
+.form-card{background:white;padding:29px;border-radius:29px;box-shadow:var(--shadow);border:1px solid #D9E8DF}
+.form-card h3{font-size:21px;letter-spacing:-.04em;margin-bottom:3px}
+.form-card p{font-size:13px;color:var(--muted);margin-bottom:16px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.wide{grid-column:1/-1}
+.field label{font-size:13px;font-weight:750;color:#314A42}
+.field input,.field select,.field textarea{width:100%;border:1px solid #C8D8CF;border-radius:14px;padding:12px 13px;background:#FBFCFA;color:var(--ink);min-height:48px}
+.field textarea{min-height:112px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);background:white}
+.form-footer{display:flex;flex-wrap:wrap;gap:13px;align-items:center;margin-top:16px}
+.form-note{font-size:12px!important;color:var(--muted)!important;margin:0!important;max-width:370px}
+.feedback{margin-top:15px;padding:12px 14px;border-radius:14px;background:#EBF5E8;border:1px solid #C7E0C7;font-size:13px}
+.footer{border-top:1px solid var(--outline);padding:30px 0 45px;color:var(--muted);font-size:13px}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.footer a{color:var(--primary);font-weight:700}
+@keyframes morph{to{transform:rotate(12deg) scale(1.06);border-radius:61% 39% 40% 60%/39% 60% 40% 61%}}
+@keyframes float{to{transform:rotate(9deg) scale(1.06)}}
+@keyframes rise{to{transform:translateY(-9px) rotate(-2deg)}}
+@media (max-width:980px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-layout{gap:25px;grid-template-columns:1fr 1fr}.inquiry-shell{gap:26px;padding:32px}.steps{gap:15px}}
+@media (max-width:760px){.navbar{min-height:72px;flex-wrap:wrap;padding:12px 0}.nav{width:100%;overflow-x:auto;order:3;padding-bottom:4px}.nav a:not(.button){padding:7px 10px}.navbar>.button{margin-left:auto}.hero{padding:54px 0 52px}.hero-layout{grid-template-columns:1fr}.hero h1{font-size:clamp(48px,10vw,69px)}.orbit{min-height:360px;margin-top:10px}.demo{width:min(90%,390px)}.section{padding:60px 0}.section-header{display:block}.section-header p{margin-top:12px}.process-wrap{padding:35px 24px;border-radius:29px}.steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}.about-grid,.inquiry-shell{grid-template-columns:1fr}.about-grid{gap:25px}.about-card{min-height:235px}.inquiry{padding:40px 0 70px}.inquiry-shell{border-radius:28px}}
+@media (max-width:480px){.container{width:calc(100% - 32px)}.brand{font-size:19px}.brand svg{width:34px;height:34px}.navbar>.button{padding:10px 13px;font-size:12px;min-height:44px}.hero-actions .button{width:100%}.orbit{min-height:290px}.demo{padding:15px}.chip-one{left:-1%;top:4%}.chip-two{bottom:4%}.cards{grid-template-columns:1fr}.card{min-height:auto}.steps{grid-template-columns:1fr}.inquiry-shell{padding:22px 16px}.form-card{padding:20px 16px}.fields{grid-template-columns:1fr}.process-wrap{padding:30px 20px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero::before,.orbit::before,.demo,.float-chip{animation:none!important}.button,.card{transition:none!important}.button:hover,.card:hover{transform:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="header">
+  <div class="container navbar">
+    <a class="brand" href="#top" aria-label="BAGDigital home">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="15" fill="#D9EEE8"/><path d="M13 34V14h9a5 5 0 0 1 0 10h-9m0 0h11a5 5 0 0 1 0 10H13" fill="none" stroke="#19665E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35" cy="15" r="5" fill="#BDD970"/><path d="M31 31c1.5-6 5-6 8 0" fill="none" stroke="#19665E" stroke-width="3" stroke-linecap="round"/></svg>
+      <span>BAGDigital<small>Tech for real people</small></span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#services">Services</a><a href="#how">How it works</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+    <a class="button button-primary" href="#contact">Let's talk <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main id="main">
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="container hero-layout">
+    <div>
+      <span class="eyebrow">Independent technology studio · Beaufort, SC</span>
+      <h1 id="hero-title">Less busywork.<br><span class="accent">More room to grow.</span></h1>
+      <p class="lead">We build great websites, simplify repetitive work, and help small businesses get more from the software they already use.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#contact">Request a free consultation <span aria-hidden="true">↗</span></a>
+        <a class="button button-secondary" href="#services">Explore our services <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-note"><span class="dot" aria-hidden="true"></span>One-on-one help. Practical technology. Clear next steps.</div>
+    </div>
+    <div class="orbit" aria-label="Illustration of a proposed inquiry, draft, and approval workflow">
+      <span class="float-chip chip-one">Built around your business</span>
+      <div class="demo">
+        <div class="demo-head"><b>A simpler way to work</b><span class="pill">Illustrative example</span></div>
+        <div class="flow-list">
+          <div class="flow-row"><div class="flow-icon" aria-hidden="true">↗</div><div><b>New inquiry</b><span>Capture the information you need</span></div></div>
+          <div class="flow-line" aria-hidden="true"></div>
+          <div class="flow-row"><div class="flow-icon" aria-hidden="true">✎</div><div><b>Prepare a follow-up</b><span>Organize a suggested next step</span></div></div>
+          <div class="flow-line" aria-hidden="true"></div>
+          <div class="flow-row"><div class="flow-icon" aria-hidden="true">✓</div><div><b>Owner reviews</b><span>People approve important actions</span></div></div>
+        </div>
+        <div class="demo-foot">Concept only · No live customer integration</div>
+      </div>
+      <span class="float-chip chip-two">Less friction. More clarity.</span>
+    </div>
+  </div>
+</section>
+<section class="section" id="services" aria-labelledby="services-title">
+  <div class="container">
+    <div class="section-header"><div><span class="eyebrow">What we can help with</span><h2 id="services-title">Practical tech.<br>Made for your business.</h2></div><p>Skip the jargon. Start with the problem slowing you down, and we'll work out a solution that fits your business.</p></div>
+    <div class="cards">
+      <article class="card"><div class="icon-disc" aria-hidden="true">▣</div><h3>Websites & web development</h3><p>Modern, responsive websites and landing pages that help customers understand what you do and how to reach you.</p></article>
+      <article class="card"><div class="icon-disc" aria-hidden="true">↝</div><h3>Workflow improvements</h3><p>Reduce copy-and-paste work, organize follow-ups, and improve handoffs with appropriately scoped automation.</p></article>
+      <article class="card"><div class="icon-disc" aria-hidden="true">⤳</div><h3>Software integration advice</h3><p>Explore ways your existing tools can work together. We verify compatibility, permissions, and scope before building.</p></article>
+      <article class="card"><div class="icon-disc" aria-hidden="true">◎</div><h3>Ongoing tech support</h3><p>Website updates, troubleshooting, and practical improvements as your business changes.</p></article>
+    </div>
+  </div>
+</section>
+<section class="section" id="how" aria-labelledby="how-title">
+  <div class="container">
+    <div class="process-wrap">
+      <span class="eyebrow">Simple from the start</span>
+      <h2 id="how-title">A clear plan.<br>No tech headaches.</h2>
+      <div class="steps">
+        <div class="step"><span class="step-number">01</span><h3>Tell us what's difficult</h3><p>Share your business, current tools, and what you'd like to improve.</p></div>
+        <div class="step"><span class="step-number">02</span><h3>Explore the options</h3><p>We discuss what is feasible and where a focused improvement helps most.</p></div>
+        <div class="step"><span class="step-number">03</span><h3>Agree on the scope</h3><p>You review the deliverables, costs, and approvals before work begins.</p></div>
+        <div class="step"><span class="step-number">04</span><h3>Build and improve</h3><p>We implement the agreed work and discuss any ongoing support needed.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="container about-grid">
+    <div class="about-card" aria-hidden="true"><div class="rings"></div><div class="center-label">Human-first technology.</div></div>
+    <div class="about-copy"><span class="eyebrow">Independent and personal</span><h2 id="about-title">Big-picture thinking.<br>Small-business focus.</h2><p>BAGDigital is an independent technology studio based in Beaufort, South Carolina. You work directly with the person understanding your problem and shaping the solution.</p><p>We care about making technology useful—not making it more complicated. Every project starts with a conversation and a clear idea of what can realistically be delivered.</p><a class="button button-secondary" href="#contact">Tell us what you're working on <span aria-hidden="true">↗</span></a></div>
+  </div>
+</section>
+<section class="inquiry" id="contact" aria-labelledby="contact-title">
+  <div class="container"><div class="inquiry-shell">
+    <div class="inquiry-copy"><span class="eyebrow">Start a conversation</span><h2 id="contact-title">Tell us what<br>you need.</h2><p>Need a website? Losing hours to repetitive tasks? Not sure which tools fit your business? Tell us about it.</p><p>We'll review your inquiry and discuss possible next steps. The initial conversation is free, with no obligation.</p><p>Prefer to email directly?<br><a class="contact-fallback" href="mailto:jaime@bagdigital.com?subject=BAGDigital%20consultation%20inquiry">jaime@bagdigital.com</a></p></div>
+    <div class="form-card">
+      <h3>Request a free consultation</h3>
+      <p>Preview form: this opens a message in your email application. Nothing is submitted automatically.</p>
+      <form id="inquiry-form">
+        <div class="fields">
+          <div class="field"><label for="visitor-name">Your name *</label><input id="visitor-name" name="name" type="text" autocomplete="name" maxlength="80" required placeholder="Your name"></div>
+          <div class="field"><label for="business-name">Business name</label><input id="business-name" name="business" type="text" autocomplete="organization" maxlength="100" placeholder="Optional"></div>
+          <div class="field wide"><label for="visitor-email">Email address *</label><input id="visitor-email" name="email" type="email" autocomplete="email" maxlength="180" required placeholder="you@business.com"></div>
+          <div class="field wide"><label for="interest">What can we help with? *</label><select id="interest" name="interest" required><option value="" selected disabled>Select a service</option><option>Website or redesign</option><option>Workflow or automation help</option><option>Software integration advice</option><option>Ongoing tech support</option><option>Not sure yet</option></select></div>
+          <div class="field wide"><label for="project-details">Tell us a little about it *</label><textarea id="project-details" name="details" maxlength="800" required placeholder="What takes too much time, or what would you like to improve?"></textarea></div>
+        </div>
+        <div class="form-footer"><button class="button button-primary" type="submit">Open email to review <span aria-hidden="true">↗</span></button><p class="form-note">Please don't include passwords, payment details, or customer records. You'll need to press Send in your email app.</p></div>
+        <div id="form-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+      </form>
+    </div>
+  </div></div>
+</section>
+</main>
+<footer class="footer"><div class="container footer-inner"><div><b>BAGDigital</b> · Beaufort, South Carolina · Technology for real people.</div><div><a href="#top">Back to top ↑</a> · <a href="mailto:jaime@bagdigital.com">Contact</a></div><div>Independent concept preview · Not the published website</div></div></footer>
+<script>
+document.getElementById('inquiry-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  if (!this.reportValidity()) return;
+  const value=id=>document.getElementById(id).value.trim();
+  const subject='BAGDigital consultation request — '+value('interest');
+  const body=[
+    'Name: '+value('visitor-name'),
+    'Business: '+(value('business-name')||'Not supplied'),
+    'Email: '+value('visitor-email'),
+    'Interested in: '+value('interest'),
+    '',
+    'Project details:',
+    value('project-details')
+  ].join('\n');
+  const link='mailto:jaime@bagdigital.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  const feedback=document.getElementById('form-feedback');
+  feedback.textContent='Your email application should open with a prepared message. Review it and press Send there. This website has not sent or stored your inquiry.';
+  feedback.hidden=false;
+  window.location.href=link;
+});
+</script>
+</body></html>
