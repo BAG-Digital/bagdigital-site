@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 const source=readFileSync(new URL('../.github/design-concepts/unified-customer.js',import.meta.url),'utf8');
 const moduleUrl='data:text/javascript;base64,'+Buffer.from(source).toString('base64');
-const {normalizeConnection,syntheticWorkspace,VIEW_IDS}=await import(moduleUrl);
+const {normalizeConnection,syntheticWorkspace,renderWorkspaceSummary,VIEW_IDS}=await import(moduleUrl);
 test('preview workspace is disconnected and has no invented operational activity',()=>{
  const model=syntheticWorkspace();
  assert.equal(model.pendingApprovalsCount,0);
@@ -27,4 +27,13 @@ test('navigation has four known sections and no network/storage operations',()=>
  assert.match(html,/type="module"/);
  assert.match(html,/unified-customer\.js/);
  assert.match(html,/class="view hidden" hidden/);
+});
+
+test('workspace summary renderer uses only validated counts',()=>{
+ const nodes=new Map(['connections','approvals','workflows'].map(key=>[key,{textContent:'uninitialized'}]));
+ const root={querySelector(selector){return nodes.get(selector.match(/data-metric="([^"]+)"/)?.[1])??null;}};
+ assert.equal(renderWorkspaceSummary(root,syntheticWorkspace()),true);
+ assert.deepEqual([...nodes.values()].map(node=>node.textContent),['0','0','0']);
+ assert.throws(()=>renderWorkspaceSummary(root,{connections:[],pendingApprovalsCount:-1,activeWorkflowsCount:0}),/Invalid workspace/);
+ assert.throws(()=>renderWorkspaceSummary(root,{connections:[],pendingApprovalsCount:0,activeWorkflowsCount:NaN}),/Invalid workspace/);
 });
