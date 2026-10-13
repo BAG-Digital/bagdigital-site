@@ -4,7 +4,9 @@ on:
     paths:
       - ".github/design-concepts/unified-*.html"
       - ".github/design-concepts/unified-tokens.css"
+      - ".github/design-concepts/unified-customer.js"
       - "tests/unified-experience-design.test.mjs"
+      - "tests/unified-customer-model.test.mjs"
       - ".github/workflows/unified-experience-design.yml"
 permissions:
   contents: read
@@ -17,4 +19,4 @@ jobs:
         with:
           persist-credentials: false
       - name: Run synthetic design contract checks
-        run: node --test tests/unified-experience-design.test.mjs
+        run: node --test tests/unified-experience-design.test.mjs tests/unified-customer-model.test.mjs
