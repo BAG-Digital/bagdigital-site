@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - ".github/design-concepts/unified-*.html"
+      - ".github/design-concepts/unified-tokens.css"
       - "tests/unified-experience-design.test.mjs"
       - ".github/workflows/unified-experience-design.yml"
 permissions:
