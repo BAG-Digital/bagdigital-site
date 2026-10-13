@@ -45,3 +45,12 @@ test('all three prototypes consume the shared design tokens',()=>{
  for(const token of ['--bag-ink','--bag-paper','--bag-ember','--bag-glass','--bag-focus'])assert.ok(css.includes(token));
  assert.match(css,/prefers-reduced-motion/);
 });
+
+test('customer preview uses explicit model binding without executable approvals',()=>{
+ const html=readFileSync(new URL('unified-customer-home.html',root),'utf8');
+ assert.match(html,/renderWorkspaceSummary\(document, syntheticWorkspace\(\)\)/);
+ assert.match(html,/data-metric="connections"/);
+ assert.match(html,/data-metric="approvals"/);
+ assert.match(html,/data-metric="workflows"/);
+ assert.doesNotMatch(html,/on(click|submit)=|<form\b/i);
+});
