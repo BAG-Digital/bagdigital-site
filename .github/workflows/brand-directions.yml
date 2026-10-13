@@ -1,0 +1,20 @@
+name: Brand direction design review checks
+on:
+  pull_request:
+    paths:
+      - ".github/design-concepts/three-brand-directions.html"
+      - "docs/design/brand-directions-review.md"
+      - "tests/brand-directions.test.mjs"
+      - ".github/workflows/brand-directions.yml"
+permissions:
+  contents: read
+jobs:
+  design-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Node design and content contract tests
+        run: node --test tests/brand-directions.test.mjs
