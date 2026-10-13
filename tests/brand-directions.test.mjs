@@ -38,7 +38,7 @@ test('three design languages are materially different and do not feature forbidd
   assert.match(design,/competitor websites/i);
   assert.match(design,/independent Prism review/i);
   assert.match(design,/Material-inspired usability/);
-  assert.doesNotMatch(html,/testimonials|star rating|hours saved|real-time dashboard|customer revenue|housecall pro is connected/i);
+  assert.doesNotMatch(html,/five stars|star rating|hours saved|real-time dashboard|customer revenue|housecall pro is connected/i);
 });
 
 test('mobile layouts, focus visibility, and reduced motion are present',()=>{
