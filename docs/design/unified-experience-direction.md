@@ -1,5 +1,5 @@
-# BAGDigital unified experience direction — design proposal
-Status: PROPOSED, non-public, design-only. Owner direction approved 2026-10-12. No publication, deployment, or merge authorization implied.
+# BAGDigital unified experience direction — superseded design exploration
+Status: HISTORICAL design exploration, not the current visual recommendation. Founder updated the direction on 2026-10-13 toward a light, organic, Material-inspired professional experience with no literal hobby imagery or synthetic location photography. See [Material-organic experience](material-organic-experience.md). No publication, deployment, or merge authorization implied.
 
 ## Creative thesis
 Independent systems studio: industrial counterculture with restrained borosilicate-glass materiality and skate-editorial confidence. Never imitate Thrasher or Volcom logos/trade dress. Business comprehension and trust outweigh decorative novelty.
