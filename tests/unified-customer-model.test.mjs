@@ -28,6 +28,9 @@ test('navigation has four known sections and no network/storage operations',()=>
  assert.match(html,/type="module"/);
  assert.match(html,/unified-customer\.js/);
  assert.match(html,/class="view hidden" hidden/);
+ assert.match(html,/href="#workspace-main"/);
+ assert.match(html,/id="workspace-main" tabindex="-1"/);
+ assert.doesNotMatch(html,/hidden hidden/);
 });
 
 test('workspace summary renderer uses only validated counts',()=>{
