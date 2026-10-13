@@ -43,4 +43,5 @@ jobs:
             brand-review-screenshots/*.png
             .github/design-concepts/three-brand-directions.html
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14
