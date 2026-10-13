@@ -8,7 +8,7 @@ export const CONNECTION_STATUSES = Object.freeze(['not_connected','pending_appro
 export function normalizeConnection(input) {
   if (!input || typeof input !== 'object') throw new TypeError('Connection must be an object');
   if (!CONNECTION_STATUSES.includes(input.status)) throw new RangeError('Unknown connection status');
-  if (input.status === 'connected' && (!input.verifiedAt || !Array.isArray(input.allowedCapabilities))) {
+  if (input.status === 'connected' && (typeof input.verifiedAt !== 'string' || !Number.isFinite(Date.parse(input.verifiedAt)) || !Array.isArray(input.allowedCapabilities))) {
     throw new Error('Connected status requires verifiedAt and allowedCapabilities');
   }
   return Object.freeze({
