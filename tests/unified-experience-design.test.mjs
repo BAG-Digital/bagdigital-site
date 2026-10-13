@@ -35,3 +35,13 @@ test('founder console has no real tenant or system claims',()=>{
  assert.match(html,/No customer data/);
  assert.match(html,/Not connected/);
 });
+
+test('all three prototypes consume the shared design tokens',()=>{
+ for(const name of pages){
+  const html=readFileSync(new URL(name,root),'utf8');
+  assert.match(html,/href="\.\/unified-tokens\.css"/);
+ }
+ const css=readFileSync(new URL('unified-tokens.css',root),'utf8');
+ for(const token of ['--bag-ink','--bag-paper','--bag-ember','--bag-glass','--bag-focus'])assert.ok(css.includes(token));
+ assert.match(css,/prefers-reduced-motion/);
+});
