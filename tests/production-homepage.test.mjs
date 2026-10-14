@@ -1,0 +1,70 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+
+const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
+
+test("public homepage has crawlable, accurate canonical and plain BAGDigital identity", () => {
+  assert.match(html, /<!doctype html>/i);
+  assert.match(html, /<html lang="en">/);
+  assert.match(html, /name="robots" content="index,follow/);
+  assert.match(html, /rel="canonical" href="https:\/\/bagdigital\.tech\/"/);
+  assert.match(html, /property="og:url" content="https:\/\/bagdigital\.tech\/"/);
+  assert.match(html, /<title>BAGDigital \| Websites, Workflows &amp; Technology Support<\/title>|<title>BAGDigital \| Websites, Workflows & Technology Support<\/title>/);
+  assert.match(html, /class="wordmark"[^>]*>BAGDigital<\/a>/);
+  assert.doesNotMatch(html, /<svg[^>]*class="logo"|class="brand-mark"/);
+});
+
+test("sales-first navigation and service cards link to real on-page sections", () => {
+  for (const section of ["top", "main", "services", "how", "about", "contact"]) {
+    assert.match(html, new RegExp('id="' + section + '"'));
+  }
+  for (const href of html.matchAll(/href="#([^"]+)"/g)) {
+    assert.ok(html.includes('id="' + href[1] + '"'), "Unresolved on-page link: #" + href[1]);
+  }
+  assert.match(html, />Services<\/a>/);
+  assert.match(html, />How it works<\/a>/);
+  assert.match(html, />About<\/a>/);
+  assert.match(html, /Let's talk/);
+  assert.equal((html.match(/class="service service-/g) || []).length, 4);
+  for (const label of ["Websites", "Workflows", "Integrations", "Support"]) {
+    assert.ok(html.includes(label), "Missing service " + label);
+  }
+});
+
+test("consultation is user-initiated email, with no unverified form or account controls", () => {
+  assert.match(html, /href="mailto:jaime@bagdigital\.com\?subject=BAGDigital%20consultation%20request"/);
+  assert.match(html, /nothing is submitted through this website/i);
+  assert.doesNotMatch(html, /<form\b|<script\b|<iframe\b|<input\b|<button\b|fetch\s*\(/i);
+  assert.doesNotMatch(html, /formsubmit|app\.js|analytics|tracking pixel|sign up|log in|password|field notes tile design concept|preview only|noindex/i);
+  assert.doesNotMatch(html, /live connected|automation active|customer metrics|approved integrations/i);
+});
+
+test("static page has self-hosted CSS and a restrictive source-level browser policy", () => {
+  assert.match(html, /rel="stylesheet" href="\.\/styles\.css"/);
+  assert.match(html, /http-equiv="Content-Security-Policy"/);
+  for (const control of ["default-src 'none'", "script-src 'none'", "style-src 'self'", "connect-src 'none'", "form-action 'none'"]) {
+    assert.ok(html.includes(control), "Missing CSP directive " + control);
+  }
+  assert.doesNotMatch(html, /style="|<style\b|<script\b/i);
+  assert.doesNotMatch(css, /@import\b|url\(\s*['"]?https?:/i);
+});
+
+test("selected Field Notes Metro tile layout retains accessibility and 320px mobile support", () => {
+  assert.match(html, /class="skip" href="#main"/);
+  assert.match(html, /<nav[^>]+aria-label="Main navigation"/);
+  assert.match(html, /role="img" aria-label="Abstract tile illustration/);
+  assert.match(html, /href="#contact" aria-label="Discuss/g);
+  assert.match(css, /\.tile-grid\{display:grid;grid-template-columns:repeat\(12,minmax\(0,1fr\)\)/);
+  assert.match(css, /\.service-main\{grid-column:span 7/);
+  assert.match(css, /\.service-dark\{grid-column:span 5/);
+  assert.match(css, /\.service-peach\{grid-column:span 5/);
+  assert.match(css, /\.service-paper\{grid-column:span 7/);
+  assert.match(css, /:focus-visible/);
+  assert.match(css, /prefers-reduced-motion:reduce/);
+  assert.match(css, /scroll-behavior:auto/);
+  for (const width of [1000, 760, 500, 360]) {
+    assert.ok(css.includes("@media(max-width:" + width + "px)"), "Missing breakpoint " + width);
+  }
+});
