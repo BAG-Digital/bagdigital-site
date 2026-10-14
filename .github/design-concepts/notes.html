@@ -2,266 +2,277 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <meta name="description" content="BAGDigital: websites, workflow improvements and practical technology support for small businesses. Non-public design preview.">
-  <meta name="theme-color" content="#f8f7f1">
-  <title>BAGDigital — Field Notes tile design preview</title>
+  <meta name="description" content="BAGDigital helps small businesses build better websites, improve workflows and make technology easier to use.">
+  <meta name="theme-color" content="#f7f6ef">
+  <title>BAGDigital — Field Notes / Mosaic Design Study</title>
   <style>
-    /* Field Notes / Tile Edition. Self-contained, synthetic design preview.
-       No external assets, form requests, analytics, provider API or customer data. */
     :root {
       color-scheme: light;
-      --paper:#f8f7f1;
-      --white:#ffffff;
-      --ink:#21312f;
-      --green:#254f45;
-      --deep:#173e36;
-      --mint:#dbe9dd;
-      --lime:#d7e6ad;
-      --sand:#f0e4cd;
-      --orange:#af563a;
-      --peach:#f0d0bd;
-      --edge:#cfdbd1;
-      --muted:#51615d;
-      --shadow:0 12px 35px rgba(33,60,49,.085);
-      --ease:cubic-bezier(.2,.8,.2,1);
-      font-family: "Segoe UI Variable", "Segoe UI", ui-sans-serif, system-ui, -apple-system, sans-serif;
-      font-synthesis:none;
+      --paper: #f7f6ef;
+      --white: #fffefb;
+      --ink: #263532;
+      --secondary: #54635d;
+      --deep: #254d44;
+      --deep-hover: #1d3d36;
+      --line: #cdd6cc;
+      --mint: #dceccf;
+      --lime: #e4eeac;
+      --sky: #e1ebe9;
+      --lavender: #e9e6ef;
+      --peach: #f2ddd0;
+      --coral: #ac593b;
+      --tile-gap: 12px;
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
     }
-    *,*::before,*::after{box-sizing:border-box}
-    html{scroll-behavior:smooth;scroll-padding-top:95px}
-    body{margin:0;background:var(--paper);color:var(--ink);line-height:1.55;overflow-x:hidden}
-    a{color:inherit}
-    a:focus-visible{outline:3px solid #156b61;outline-offset:4px}
-    p,h1,h2,h3{margin-top:0}
-    .skip{position:absolute;left:14px;top:-100px;z-index:20;background:var(--white);padding:12px}
-    .skip:focus{top:14px}
-    .wrap{width:min(1192px,calc(100% - 48px));margin-inline:auto}
-    .eyebrow{font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:.135em;color:#a34e35}
-    .nav-shell{background:rgba(248,247,241,.96);border-bottom:1px solid #ced8cf;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
-    .nav{min-height:78px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-    .wordmark{font-size:clamp(23px,2.5vw,30px);font-weight:850;letter-spacing:-.075em;text-decoration:none;white-space:nowrap}
-    .links{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(4px,1.4vw,19px);font-size:13px;font-weight:700}
-    .links a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:10px;border-radius:6px;transition:background .22s var(--ease)}
-    .links a:hover{background:#e8ede3}
-    .links .nav-contact{background:var(--lime);border:1px solid #a5bd88;padding:10px 17px}
-    .links .nav-contact:hover{background:#c9dfa0}
-    .hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);align-items:center;gap:55px;padding:82px 0 79px}
-    .hero h1{font-size:clamp(55px,7.2vw,104px);line-height:.98;letter-spacing:-.077em;font-weight:850;margin:18px 0 27px}
-    .hero h1 span{background:linear-gradient(transparent 74%,var(--lime) 74%);white-space:normal}
-    .lead{font-size:clamp(17px,1.45vw,19px);color:#445850;max-width:570px;line-height:1.7}
-    .hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:11px;margin-top:26px}
-    .button{border:1px solid transparent;min-height:49px;border-radius:8px;padding:12px 20px;display:inline-flex;justify-content:center;align-items:center;gap:12px;text-decoration:none;font-size:14px;font-weight:750;transition:transform .28s var(--ease),box-shadow .28s var(--ease),background .28s var(--ease)}
-    .button:hover{transform:translateY(-3px);box-shadow:0 10px 20px #1d473c22}
-    .button-primary{background:var(--deep);color:#fff}
-    .button-secondary{background:transparent;border-color:#668279;color:var(--ink)}
-    .button-secondary:hover{background:#e6ede2}
-    .local{font-size:13px;color:#4f615b;margin:22px 0 0}
-    /* Original tile composition. These are illustrative concepts, not actual product screens. */
-    .hero-tiles{min-height:420px;display:grid;grid-template-columns:1.16fr .84fr;grid-template-rows:1fr 1fr 76px;gap:10px}
-    .hero-tile{position:relative;overflow:hidden;padding:23px;border-radius:9px}
-    .hero-tile strong{display:block;font-size:clamp(23px,2.6vw,36px);line-height:1.12;letter-spacing:-.065em;font-weight:800}
-    .hero-tile small{display:block;font-weight:750;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
-    .hero-tile .mark{font-size:49px;line-height:1;position:absolute;right:17px;bottom:9px;opacity:.32;font-weight:300}
-    .hero-tile:nth-child(1){grid-row:span 2;background:var(--green);color:white;display:flex;flex-direction:column;justify-content:flex-end}
-    .hero-tile:nth-child(1) strong{font-size:clamp(35px,3.7vw,52px);max-width:235px}
-    .hero-tile:nth-child(1)::before{content:"";position:absolute;top:24px;left:24px;width:48%;height:38%;border:1px solid #b1d1bc;border-radius:0 38% 35% 0;transform:rotate(-18deg);opacity:.7}
-    .hero-tile:nth-child(2){background:var(--lime);color:#264738}
-    .hero-tile:nth-child(3){background:var(--sand)}
-    .hero-tile:nth-child(4){grid-column:span 2;background:#e7eeea;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 25px}
-    .hero-tile:nth-child(4) strong{font-size:16px;letter-spacing:-.025em}
-    .tile-dots{display:flex;gap:9px;align-items:center}
-    .tile-dots i{display:block;width:11px;height:11px;border-radius:50%;background:#357968}
-    .tile-dots i:nth-child(2){width:42px;height:2px;border-radius:0}
-    .tile-dots i:last-child{background:var(--orange)}
-    .section{padding:84px 0;scroll-margin-top:78px}
-    .section-heading{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:30px}
-    .section h2{font-size:clamp(35px,4.4vw,56px);line-height:1.05;letter-spacing:-.063em;margin:12px 0 0;max-width:610px}
-    .section-heading p{max-width:360px;color:var(--muted);margin:0 0 5px}
-    .tile-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
-    .service{position:relative;min-height:314px;display:flex;flex-direction:column;justify-content:space-between;border-radius:12px;padding:28px;overflow:hidden;text-decoration:none;transition:transform .27s var(--ease),box-shadow .27s var(--ease),background .27s var(--ease);border:1px solid rgba(41,69,56,.10)}
-    .service:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
-    .service:focus-visible{outline-offset:4px}
-    .service .number{display:block;font-size:13px;font-weight:850;letter-spacing:.12em}
-    .service h3{font-size:clamp(27px,2.65vw,36px);line-height:1.09;letter-spacing:-.055em;margin:12px 0}
-    .service p{font-size:15px;line-height:1.6;max-width:425px;margin:0}
-    .service .bottom{display:flex;justify-content:space-between;align-items:end;gap:16px}
-    .service .arrow{font-size:29px;line-height:1;flex:none;transition:transform .26s var(--ease)}
-    .service:hover .arrow{transform:translate(3px,-3px)}
-    .service-main{grid-column:span 7;min-height:350px;background:var(--mint)}
-    .service-dark{grid-column:span 5;background:var(--deep);color:white}
-    .service-peach{grid-column:span 5;background:var(--peach)}
-    .service-paper{grid-column:span 7;background:var(--white);border-color:var(--edge)}
-    .service-main .tile-graphic{position:absolute;right:28px;top:25px;width:117px;height:86px;border:2px solid #739789;border-radius:6px;box-shadow:-10px 10px 0 -2px #c6d9ca,-10px 10px 0 0 #739789;opacity:.75}
-    .service-main .tile-graphic::before{content:"";position:absolute;top:14px;left:13px;right:13px;height:8px;background:#7b9f93}
-    .service-main .tile-graphic::after{content:"";position:absolute;top:36px;left:13px;width:48px;height:24px;background:#bdd4c6}
-    .service-dark .tile-graphic{position:absolute;top:25px;right:30px;width:75px;height:36px;border-top:2px dashed #91c1aa;border-right:2px dashed #91c1aa;opacity:.65}
-    .service-peach .tile-graphic{position:absolute;top:27px;right:32px;display:flex;gap:8px}
-    .service-peach .tile-graphic::before,.service-peach .tile-graphic::after{content:"";width:34px;height:34px;border:2px solid #9f6951;border-radius:6px;transform:rotate(-7deg)}
-    .service-peach .tile-graphic::after{transform:rotate(8deg)}
-    .service-paper .tile-graphic{position:absolute;right:25px;top:20px;color:#80978b;font:700 75px/1 Georgia,serif;letter-spacing:-.1em}
-    .process{background:#e8eee6;border-top:1px solid #cbdace;border-bottom:1px solid #cbdace}
-    .process-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:37px}
-    .step{padding:18px 5px 0;border-top:2px solid #9ab8a5}
-    .step span{display:block;font-size:12px;color:#446d5e;font-weight:850;letter-spacing:.08em;margin-bottom:20px}
-    .step h3{font-size:20px;letter-spacing:-.04em;margin:0 0 9px}
-    .step p{font-size:14px;color:#51645a;margin:0}
-    .about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
-    .about h2{margin-bottom:0}
-    .about p{font-size:17px;color:var(--muted);margin:0}
-    .contact-panel{background:var(--sand);padding:58px 62px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;position:relative;overflow:hidden}
-    .contact-panel::after{content:"";position:absolute;right:-130px;bottom:-160px;width:280px;height:280px;border:23px solid #cfbfa4;border-radius:36% 64% 55% 45%;opacity:.36;pointer-events:none}
-    .contact-panel h2{max-width:690px;margin-bottom:15px}
-    .contact-panel p{color:#52615a;max-width:585px;margin:0}
-    .contact-panel .button{position:relative;z-index:1;white-space:nowrap}
-    .contact-note{font-size:12px;color:#52615a;margin-top:12px;display:block}
-    .footer{padding:36px 0 55px;border-top:1px solid #d4dbd1;color:#57665d;font-size:12px}
-    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-    .footer a{text-underline-offset:4px}
-    @media(max-width:1000px){
-      .hero{grid-template-columns:1fr 360px;gap:28px}
-      .hero-tiles{min-height:350px}
-      .contact-panel{grid-template-columns:1fr;padding:45px}
-      .section-heading{display:block}
-      .section-heading p{margin:17px 0 0}
-      .service-main .tile-graphic,.service-peach .tile-graphic{opacity:.45}
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); min-width: 0; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #165c86; outline-offset: 4px; }
+    ::selection { background: var(--lime); color: var(--deep); }
+    .skip { position: absolute; top: -90px; left: 15px; padding: 12px 18px; z-index: 50; background: var(--white); }
+    .skip:focus { top: 12px; }
+    .shell { width: min(1192px, calc(100% - 56px)); margin-inline: auto; }
+    .header { background: var(--paper); border-bottom: 1px solid var(--line); }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; min-height: 84px; }
+    .brand { font-size: 30px; letter-spacing: -.072em; font-weight: 850; line-height: 1; text-decoration: none; white-space: nowrap; }
+    .nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: clamp(8px, 1.6vw, 27px); }
+    .nav a { font-size: 13px; font-weight: 720; text-decoration: none; padding: 10px 5px; min-height: 44px; display: inline-flex; align-items: center; }
+    .nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
+    .nav a.nav-cta { background: var(--deep); color: white; border: 1px solid var(--deep); padding: 12px 17px; text-decoration: none; min-height: 46px; transition: background .2s ease, transform .32s var(--ease); }
+    .nav a.nav-cta:hover { background: var(--deep-hover); transform: translateY(-2px); }
+    .eyebrow { display: block; color: #8d4b36; letter-spacing: .16em; text-transform: uppercase; font-size: 11px; font-weight: 850; margin-bottom: 15px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { letter-spacing: -.055em; line-height: 1.08; }
+    h1 { font-size: clamp(54px, 6.1vw, 91px); margin-bottom: 24px; letter-spacing: -.075em; font-weight: 840; }
+    h2 { font-size: clamp(36px, 4.4vw, 58px); }
+    h3 { font-size: 26px; }
+    p { color: var(--secondary); }
+    .hero { padding: 47px 0 0; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); align-items: stretch; gap: var(--tile-gap); }
+    .hero-copy { padding: clamp(28px, 4vw, 61px) clamp(15px, 2vw, 32px) clamp(32px, 4vw, 56px) 0; }
+    .hero h1 .underline { background-image: linear-gradient(transparent 81%, #d7e99e 81%); background-size: 100% 100%; }
+    .hero-lead { max-width: 540px; font-size: clamp(17px, 1.65vw, 20px); line-height: 1.62; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 26px; }
+    .button { min-height: 50px; display: inline-flex; align-items: center; justify-content: space-between; gap: 27px; padding: 13px 20px; text-decoration: none; font-size: 13px; font-weight: 800; border: 1px solid var(--deep); background: var(--deep); color: white; transition: transform .32s var(--ease), background .2s ease, box-shadow .32s var(--ease); }
+    .button:hover { transform: translateY(-3px); background: var(--deep-hover); box-shadow: 0 9px 24px #254d4422; }
+    .button.outline { background: transparent; color: var(--deep); }
+    .button.outline:hover { background: #e9efe3; box-shadow: none; }
+    .hero-aside { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: 140px 136px 131px; gap: var(--tile-gap); min-height: 0; padding: 0; }
+    .hero-tile { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; padding: 21px 22px; }
+    .hero-tile small { display: block; font-size: 10px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+    .hero-tile em { font: normal 700 clamp(21px, 2.1vw, 31px)/1.08 system-ui, sans-serif; letter-spacing: -.055em; }
+    .hero-tile.primary { grid-column: 1 / span 4; grid-row: 1 / span 2; background: var(--mint); }
+    .hero-tile.primary .word { font-weight: 820; font-size: clamp(49px, 5.2vw, 81px); letter-spacing: -.095em; line-height: .92; }
+    .hero-tile.primary .word span { display: block; }
+    .hero-tile.primary::after { content: ""; position: absolute; width: 130%; height: 1px; background: linear-gradient(90deg, transparent, #55877577, transparent); left: -130%; bottom: 14px; animation: track 16s ease-in-out infinite; }
+    @keyframes track { 0%, 28% { left: -130%; } 63%, 100% { left: 100%; } }
+    .hero-tile.marker { grid-column: 5 / span 2; grid-row: 1; background: var(--peach); }
+    .hero-tile.marker .plus { align-self: flex-end; font-size: 69px; line-height: .65; font-weight: 250; }
+    .hero-tile.accent { grid-column: 5 / span 2; grid-row: 2; background: var(--deep); color: white; }
+    .hero-tile.accent .mini-path { font-size: 53px; line-height: .8; letter-spacing: -.19em; }
+    .hero-tile.bottom { grid-column: 1 / span 6; grid-row: 3; background: var(--sky); display: flex; flex-direction: row; align-items: end; gap: 20px; }
+    .hero-tile.bottom em { max-width: 300px; }
+    .hero-tile.bottom .arrow { margin-left: auto; font-size: 54px; line-height: 1; font-weight: 250; }
+    .hero-hint { margin: 13px 0 0; font-size: 12px; color: #68736e; }
+    .section { padding: 100px 0 0; scroll-margin-top: 30px; }
+    .section-heading { display: grid; grid-template-columns: 1fr .73fr; align-items: end; gap: 35px; margin-bottom: 33px; }
+    .section-heading h2 { margin-bottom: 0; }
+    .section-heading p { margin: 0 0 7px; font-size: 17px; max-width: 440px; }
+    .mosaic { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: minmax(176px, auto); gap: var(--tile-gap); }
+    .tile { text-decoration: none; color: var(--ink); position: relative; overflow: hidden; padding: clamp(22px, 2.5vw, 32px); display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #c6d0c4; isolation: isolate; transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .25s ease; }
+    .tile:hover, .tile:focus-visible { transform: translateY(-4px); box-shadow: 0 13px 29px #354a3620; border-color: #7fa58d; }
+    .tile .tile-no { display: block; color: #496659; font-size: 12px; font-weight: 850; letter-spacing: .16em; margin-bottom: 20px; }
+    .tile h3 { margin: 0 0 10px; max-width: 380px; }
+    .tile p { margin: 0; font-size: 15px; line-height: 1.55; max-width: 370px; }
+    .tile .tile-mark { position: absolute; pointer-events: none; font-weight: 900; letter-spacing: -.11em; opacity: .07; line-height: .75; z-index: -1; }
+    .web { grid-column: span 7; grid-row: span 2; background: var(--lime); min-height: 364px; }
+    .web h3 { font-size: clamp(35px, 4vw, 54px); max-width: 500px; }
+    .web .tile-mark { right: 18px; top: 45%; font-size: clamp(130px, 19vw, 240px); }
+    .workflows { grid-column: span 5; background: #f0e8df; }
+    .integrations { grid-column: span 5; background: #e1ebe9; }
+    .support { grid-column: span 7; background: #fdfbf3; }
+    .first-step { grid-column: span 5; background: #e7eadc; }
+    .first-step .step-arrow { position: absolute; top: 20px; right: 24px; font-size: 25px; font-weight: 300; }
+    .workflows::after, .integrations::after, .support::after { content: "↗"; position: absolute; right: 24px; top: 23px; font-size: 24px; font-weight: 350; color: #4f7165; }
+    .process { border-top: 1px solid var(--line); margin-top: 108px; padding-top: 78px; }
+    .process .section-heading { margin-bottom: 29px; }
+    .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--tile-gap); }
+    .step { min-height: 255px; padding: 25px 23px 24px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #ced7ce; background: #fbfcf8; }
+    .step:nth-child(1) { background: var(--sky); }
+    .step:nth-child(3) { background: var(--peach); }
+    .step:nth-child(4) { background: var(--mint); }
+    .step-no { font-size: 15px; font-weight: 900; }
+    .step h3 { font-size: 23px; margin-bottom: 9px; }
+    .step p { font-size: 14px; line-height: 1.54; margin: 0; }
+    .about { margin-top: 100px; display: grid; grid-template-columns: 2fr 1fr; gap: var(--tile-gap); scroll-margin-top: 30px; }
+    .about-main { padding: clamp(28px, 3.4vw, 50px); background: #e9e6ef; border: 1px solid #dbd6df; }
+    .about-main h2 { max-width: 670px; margin-bottom: 16px; }
+    .about-main p { max-width: 650px; margin-bottom: 0; font-size: 16px; }
+    .about-side { padding: 30px; background: #edead9; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #ded7ba; }
+    .about-side b { display: block; font-size: clamp(35px, 5vw, 74px); line-height: .95; letter-spacing: -.075em; font-weight: 830; }
+    .about-side small { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .15em; }
+    .inquiry { margin-top: 100px; scroll-margin-top: 25px; }
+    .inquiry-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: var(--tile-gap); }
+    .inquiry-copy { padding: clamp(28px, 4vw, 52px); background: var(--deep); color: white; }
+    .inquiry-copy h2 { margin-bottom: 15px; }
+    .inquiry-copy .eyebrow { color: #e4eeac; }
+    .inquiry-copy p { color: #dbe7df; max-width: 530px; }
+    .inquiry-copy .button { background: var(--lime); color: var(--ink); border: 1px solid var(--lime); margin-top: 12px; }
+    .inquiry-copy .button:hover { background: #f4ffbb; }
+    .inquiry-details { background: #e7efde; border: 1px solid #c5d4c1; display: flex; flex-direction: column; justify-content: space-between; padding: clamp(28px, 3.5vw, 46px); }
+    .inquiry-details h3 { font-size: 31px; max-width: 315px; margin-bottom: 16px; }
+    .inquiry-details p { margin-bottom: 12px; }
+    .inquiry-details .small-note { font-size: 12px; }
+    .footer { margin-top: 70px; padding: 32px 0 55px; border-top: 1px solid var(--line); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; color: var(--secondary); }
+    .footer b { color: var(--ink); font-size: 21px; letter-spacing: -.06em; }
+    @media (max-width: 920px) {
+      .hero-grid { grid-template-columns: minmax(0, 1fr); }
+      .hero { padding-top: 18px; }
+      .hero-copy { padding-right: 0; padding-bottom: 30px; }
+      .hero-aside { max-width: 680px; width: 100%; }
+      .section-heading { grid-template-columns: 1fr; gap: 14px; }
+      .about { grid-template-columns: 1.3fr .7fr; }
+      .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    @media(max-width:760px){
-      html{scroll-padding-top:35px}
-      .nav{flex-wrap:wrap;padding:14px 0;min-height:0;gap:4px}
-      .links{order:3;width:100%;justify-content:space-between;gap:1px}
-      .links a{padding:10px 8px;font-size:12px}
-      .links .nav-contact{padding:9px 12px}
-      .hero{grid-template-columns:1fr;padding:55px 0 53px}
-      .hero-tiles{width:min(100%,500px);min-height:290px;grid-template-rows:repeat(2,1fr) 60px}
-      .hero-tile{padding:20px}
-      .section{padding:60px 0;scroll-margin-top:35px}
-      .tile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .service{grid-column:span 1;min-height:295px;padding:23px}
-      .service-main,.service-paper{grid-column:span 2}
-      .service .tile-graphic{opacity:.30}
-      .process-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
-      .about{grid-template-columns:1fr;gap:19px}
-      .contact-panel{padding:39px 30px}
+    @media (max-width: 620px) {
+      .shell { width: calc(100% - 32px); }
+      .header-inner { flex-direction: column; align-items: stretch; gap: 4px; padding: 18px 0 14px; }
+      .brand { font-size: 27px; }
+      .nav { justify-content: space-between; gap: 0; }
+      .nav a { padding: 8px 5px; font-size: 12px; }
+      .nav a.nav-cta { padding: 8px 10px; min-height: 44px; }
+      .hero-copy { padding: 33px 0 30px; }
+      h1 { font-size: clamp(47px, 12vw, 70px); }
+      h2 { font-size: clamp(33px, 9vw, 48px); }
+      .hero-actions .button { flex: 1 1 100%; }
+      .hero-aside { grid-template-rows: 108px 114px 106px; gap: 7px; }
+      .hero-tile { padding: 14px; }
+      .hero-tile.primary .word { font-size: clamp(38px, 10vw, 64px); }
+      .hero-tile.marker .plus { font-size: 50px; }
+      .hero-tile.accent .mini-path { font-size: 39px; }
+      .hero-tile em { font-size: 21px; }
+      .hero-tile.bottom .arrow { font-size: 38px; }
+      .section { padding-top: 73px; }
+      .mosaic { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; gap: 9px; }
+      .mosaic .tile { grid-column: span 2; grid-row: auto; min-height: 223px; padding: 23px; }
+      .mosaic .web { min-height: 282px; }
+      .web h3 { font-size: 38px; }
+      .tile h3 { font-size: 25px; }
+      .tile .tile-mark { font-size: 120px; }
+      .process { margin-top: 72px; padding-top: 58px; }
+      .steps { gap: 9px; }
+      .step { min-height: 235px; padding: 19px 16px; }
+      .step h3 { font-size: 22px; }
+      .about { margin-top: 72px; grid-template-columns: 1fr; gap: 9px; }
+      .about-side { min-height: 162px; }
+      .inquiry { margin-top: 73px; }
+      .inquiry-grid { grid-template-columns: 1fr; gap: 9px; }
+      .inquiry-copy, .inquiry-details { padding: 29px; }
+      .inquiry-details { min-height: 205px; }
     }
-    @media(max-width:500px){
-      .wrap{width:calc(100% - 32px)}
-      .wordmark{font-size:25px}
-      .hero h1{font-size:clamp(47px,11.8vw,66px)}
-      .hero-actions .button{width:100%}
-      .hero-tiles{min-height:270px}
-      .hero-tile strong{font-size:22px}
-      .hero-tile:nth-child(1) strong{font-size:32px}
-      .hero-tile:nth-child(4) strong{font-size:13px}
-      .tile-grid{grid-template-columns:1fr}
-      .service{grid-column:span 1;min-height:265px;padding:23px}
-      .service h3{font-size:30px;max-width:290px}
-      .service-main .tile-graphic{width:80px;height:66px}
-      .section h2{font-size:clamp(33px,8.4vw,43px)}
-      .contact-panel{padding:33px 22px}
-      .contact-panel .button{width:100%;white-space:normal}
+    @media (max-width: 370px) {
+      .nav a { font-size: 11px; padding: 8px 3px; }
+      .nav a.nav-cta { padding: 8px 7px; }
+      h1 { font-size: clamp(43px, 12vw, 50px); }
+      .hero-tile.primary .word { font-size: 36px; }
+      .hero-tile small { font-size: 9px; }
+      .steps { grid-template-columns: 1fr; }
+      .step { min-height: 190px; }
     }
-    @media(max-width:360px){
-      .links a{font-size:11px;padding:9px 6px}
-      .links .nav-contact{padding:8px}
-      .hero h1{font-size:43px}
-      .hero-tile{padding:15px}
-      .hero-tile:nth-child(1) strong{font-size:29px}
-      .service h3{font-size:28px}
-    }
-    @media(prefers-reduced-motion:reduce){
-      html{scroll-behavior:auto}
-      *,*::before,*::after{transition-duration:0.01ms!important;animation-duration:0.01ms!important}
-      .button:hover,.service:hover,.service:hover .arrow{transform:none}
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+      .tile:hover, .button:hover, .nav a.nav-cta:hover { transform: none; }
     }
   </style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to main content</a>
-  <header class="nav-shell">
-    <nav class="nav wrap" aria-label="Main navigation">
-      <a class="wordmark" href="#top" aria-label="BAGDigital home">BAGDigital</a>
-      <div class="links">
+  <header class="header" id="top">
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="BAGDigital home">BAGDigital</a>
+      <nav class="nav" aria-label="Main navigation">
         <a href="#services">Services</a>
-        <a href="#how">How it works</a>
+        <a href="#process">How it works</a>
         <a href="#about">About</a>
-        <a class="nav-contact" href="#contact" aria-label="Request a free consultation">Let's talk ↗</a>
-      </div>
-    </nav>
+        <a class="nav-cta" href="#contact" aria-label="Request a free consultation">Let's talk ↗</a>
+      </nav>
+    </div>
   </header>
   <main id="main">
-    <section class="hero wrap" id="top" aria-labelledby="hero-heading">
-      <div>
-        <span class="eyebrow">Independent technology studio / Beaufort, SC</span>
-        <h1 id="hero-heading">Good business.<br><span>Less busywork.</span></h1>
-        <p class="lead">We build websites, improve workflows, and help small businesses make better use of the software they already have. Straightforward advice. Thoughtful work. No unnecessary complexity.</p>
-        <div class="hero-actions">
-          <a href="#contact" class="button button-primary">Request a free consultation <span aria-hidden="true">↗</span></a>
-          <a href="#services" class="button button-secondary">Explore services <span aria-hidden="true">↓</span></a>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Independent technology studio · Beaufort, SC</span>
+          <h1 id="hero-heading">Good business.<br><span class="underline">Less busywork.</span></h1>
+          <p class="hero-lead">Websites, practical automation, and smarter ways to work with the software your business already uses. Thoughtful solutions, without the tech headache.</p>
+          <div class="hero-actions">
+            <a class="button" href="#contact">Request a free consultation <span aria-hidden="true">↗</span></a>
+            <a class="button outline" href="#services">Explore services <span aria-hidden="true">↓</span></a>
+          </div>
         </div>
-        <p class="local">Based in Beaufort, SC · Working with small businesses near and far</p>
-      </div>
-      <div class="hero-tiles" role="img" aria-label="Abstract tile illustration showing people, tools and clearer workflows; conceptual, not a working dashboard">
-        <div class="hero-tile"><small>Made for people</small><strong>Human-first technology.</strong></div>
-        <div class="hero-tile"><small>Build</small><strong>Clearer websites.</strong><span class="mark" aria-hidden="true">↗</span></div>
-        <div class="hero-tile"><small>Improve</small><strong>Smoother work.</strong><span class="mark" aria-hidden="true">↝</span></div>
-        <div class="hero-tile"><strong>Small changes. Real utility.</strong><span class="tile-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
-      </div>
-    </section>
-    <section class="section wrap" id="services" aria-labelledby="services-heading">
-      <div class="section-heading">
-        <div><span class="eyebrow">What we do</span><h2 id="services-heading">Good technology.<br>Put to work.</h2></div>
-        <p>Start with what you need help with. We'll discuss a clear scope and what is realistic for your business.</p>
-      </div>
-      <div class="tile-grid">
-        <a class="service service-main" href="#contact" aria-label="Discuss a website or web development project">
-          <span class="number">01 / Websites</span><span class="tile-graphic" aria-hidden="true"></span>
-          <div><h3>Make a stronger first impression.</h3><p>Clean, responsive websites and redesigns that explain what you do and make it easy to get in touch.</p></div>
-          <span class="bottom"><strong>Discuss your website</strong><span class="arrow" aria-hidden="true">↗</span></span>
-        </a>
-        <a class="service service-dark" href="#contact" aria-label="Discuss a workflow improvement project">
-          <span class="number">02 / Workflows</span><span class="tile-graphic" aria-hidden="true"></span>
-          <div><h3>Spend less time on repeat tasks.</h3><p>Identify repetitive admin and plan focused automation where your tools and permissions allow.</p></div>
-          <span class="bottom"><strong>Explore a workflow</strong><span class="arrow" aria-hidden="true">↗</span></span>
-        </a>
-        <a class="service service-peach" href="#contact" aria-label="Discuss software integration planning">
-          <span class="number">03 / Integrations</span><span class="tile-graphic" aria-hidden="true"></span>
-          <div><h3>Help your tools fit together.</h3><p>Evaluate compatibility, access, and the steps involved before committing to a connection.</p></div>
-          <span class="bottom"><strong>Talk through your tools</strong><span class="arrow" aria-hidden="true">↗</span></span>
-        </a>
-        <a class="service service-paper" href="#contact" aria-label="Discuss ongoing website and technical support">
-          <span class="number">04 / Support</span><span class="tile-graphic" aria-hidden="true">+</span>
-          <div><h3>Keep things working well.</h3><p>Practical website updates, troubleshooting, and ongoing improvements when you need them.</p></div>
-          <span class="bottom"><strong>Ask about support</strong><span class="arrow" aria-hidden="true">↗</span></span>
-        </a>
-      </div>
-    </section>
-    <section class="section process" id="how" aria-labelledby="how-heading">
-      <div class="wrap">
-        <span class="eyebrow">How it works</span>
-        <h2 id="how-heading">Start with a conversation.<br>Leave with a plan.</h2>
-        <div class="process-grid">
-          <div class="step"><span>01 / TALK</span><h3>Tell us the problem.</h3><p>What is slowing down your business or holding back your website?</p></div>
-          <div class="step"><span>02 / EXPLORE</span><h3>Find a realistic approach.</h3><p>We'll look at your needs and which solutions are feasible.</p></div>
-          <div class="step"><span>03 / AGREE</span><h3>Approve the scope.</h3><p>Review deliverables and costs before paid work begins.</p></div>
-          <div class="step"><span>04 / BUILD</span><h3>Make it useful.</h3><p>We'll build the agreed work and discuss what comes next.</p></div>
+        <div>
+          <div class="hero-aside" aria-label="Visual concept: technology designed around your business">
+            <div class="hero-tile primary"><small>01 / The idea</small><div class="word" aria-hidden="true"><span>MAKE</span><span>WORK</span><span>FLOW.</span></div></div>
+            <div class="hero-tile marker"><small>Built for people</small><span class="plus" aria-hidden="true">+</span></div>
+            <div class="hero-tile accent"><small>Better together</small><span class="mini-path" aria-hidden="true">↗↗</span></div>
+            <div class="hero-tile bottom"><div><small>Small business / real solutions</small><em>Technology should feel easier.</em></div><span class="arrow" aria-hidden="true">↗</span></div>
+          </div>
+          <p class="hero-hint">A more useful relationship with your technology starts here.</p>
         </div>
       </div>
     </section>
-    <section class="section about wrap" id="about" aria-labelledby="about-heading">
-      <div><span class="eyebrow">The person behind the work</span><h2 id="about-heading">Independent by design.<br>Practical by nature.</h2></div>
-      <p>BAGDigital is an independent technology studio based in Beaufort, South Carolina. You work directly with the developer understanding your problem and shaping the solution—not a maze of departments or sales handoffs.</p>
+
+    <section class="section" id="services" aria-labelledby="services-heading">
+      <div class="shell">
+        <div class="section-heading">
+          <div><span class="eyebrow">01 / What we do</span><h2 id="services-heading">Practical technology.<br>Made for your business.</h2></div>
+          <p>From your website to the work behind it, BAGDigital helps you identify what's slowing you down and build a focused solution.</p>
+        </div>
+        <div class="mosaic">
+          <a class="tile web" href="#contact" aria-label="Ask about websites and web development"><span class="tile-no">01 / THE FRONT DOOR</span><span class="tile-mark" aria-hidden="true">W.</span><div><h3>Websites &<br>web development</h3><p>Fast, clear and mobile-friendly websites that help people understand your business and get in touch.</p></div></a>
+          <a class="tile workflows" href="#contact" aria-label="Ask about workflow improvements"><span class="tile-no">02 / THE DAILY WORK</span><div><h3>Workflow improvements</h3><p>Reduce repetitive tasks and build focused automations where the tools and permissions allow.</p></div></a>
+          <a class="tile integrations" href="#contact" aria-label="Ask about software integration planning"><span class="tile-no">03 / THE TOOLS YOU HAVE</span><div><h3>Software integration planning</h3><p>Explore how your existing software might work together, with compatibility and security checked first.</p></div></a>
+          <a class="tile support" href="#contact" aria-label="Ask about ongoing technical support"><span class="tile-no">04 / WE'RE HERE TO HELP</span><div><h3>Ongoing technical support</h3><p>Website updates, troubleshooting and practical improvements as your business changes.</p></div></a>
+          <a class="tile first-step" href="#contact" aria-label="Start with a free consultation"><span class="tile-no">05 / YOUR NEXT STEP</span><div><h3>Start with one problem.</h3><p>Tell us what is slowing you down. We’ll help find a practical place to begin.</p></div><span class="step-arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
     </section>
-    <section class="section wrap" id="contact" aria-labelledby="contact-heading">
-      <div class="contact-panel">
-        <div><span class="eyebrow">Let's work on something useful</span><h2 id="contact-heading">What's taking too much time?</h2><p>Tell us about the website or business process you'd like to improve. We'll talk through the possibilities and whether we're a good fit.</p><span class="contact-note">Preview only: the link opens your email app. You must review and send the message yourself; no information is submitted here.</span></div>
-        <a class="button button-primary" href="mailto:jaime@bagdigital.com?subject=BAGDigital%20consultation%20request">Email us about your project <span aria-hidden="true">↗</span></a>
+
+    <section class="section process" id="process" aria-labelledby="process-heading">
+      <div class="shell">
+        <div class="section-heading">
+          <div><span class="eyebrow">02 / How it works</span><h2 id="process-heading">Clear steps.<br>No guessing.</h2></div>
+          <p>We start by listening. You'll know what's possible, what's included and what it costs before committing to a build.</p>
+        </div>
+        <div class="steps">
+          <article class="step"><span class="step-no">01 →</span><div><h3>Tell us</h3><p>Explain what you'd like to improve and which tools you use.</p></div></article>
+          <article class="step"><span class="step-no">02 →</span><div><h3>Explore options</h3><p>We look at what is feasible and where to start.</p></div></article>
+          <article class="step"><span class="step-no">03 →</span><div><h3>Review the plan</h3><p>You approve a clear scope and cost before paid work begins.</p></div></article>
+          <article class="step"><span class="step-no">04 ✓</span><div><h3>Build & improve</h3><p>We deliver the agreed solution and support the next steps.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell about" id="about" aria-labelledby="about-heading">
+      <div class="about-main"><span class="eyebrow">03 / About BAGDigital</span><h2 id="about-heading">Independent by design.<br>Practical by nature.</h2><p>BAGDigital is a technology studio based in Beaufort, South Carolina. You work directly with the developer helping you understand the problem and create the right solution for your business.</p></div>
+      <div class="about-side"><small>Small business / big-picture thinking</small><b>REAL<br>WORK.<br>REAL<br>PEOPLE.</b></div>
+    </section>
+
+    <section class="inquiry" id="contact" aria-labelledby="contact-heading">
+      <div class="shell inquiry-grid">
+        <div class="inquiry-copy"><span class="eyebrow">04 / Let's talk</span><h2 id="contact-heading">What would make<br>your work easier?</h2><p>Tell us about the website, process or technical problem you'd like help with. The first conversation is free and comes with no obligation.</p><a class="button" href="mailto:jaime@bagdigital.com?subject=BAGDigital%20consultation%20request">Email us about your project <span aria-hidden="true">↗</span></a></div>
+        <div class="inquiry-details"><div><span class="eyebrow">Start with a conversation</span><h3>No long forms.<br>No sales pressure.</h3><p>Describe your project and how we can reach you. We'll talk through possible next steps.</p></div><p class="small-note">This non-public design preview opens your email app. It doesn't submit information or schedule a meeting automatically. Please don't email passwords or customer records.</p></div>
       </div>
     </section>
   </main>
-  <footer class="footer">
-    <div class="wrap footer-inner"><span>© BAGDigital · Beaufort, South Carolina</span><span>Field Notes tile design concept · Not the published website</span><a href="#top">Back to top ↑</a></div>
-  </footer>
+  <footer class="footer"><div class="shell footer-inner"><b>BAGDigital</b><span>Beaufort, South Carolina · Independent technology studio</span><span>Design concept · Not the published website</span></div></footer>
 </body>
 </html>
