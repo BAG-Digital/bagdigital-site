@@ -1,445 +1,109 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0b0b0a" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-  <link rel="canonical" href="https://bagdigital.tech/" />
-
-  <title>BAGDigital | Business Software Integration & Automation</title>
-  <meta
-    name="description"
-    content="Connect accounting, email, CRM, calendars, documents and other business software so information moves between tools and repetitive admin work takes less time."
-  />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="BAGDigital" />
-  <meta property="og:title" content="Make your business software work together | BAGDigital" />
-  <meta
-    property="og:description"
-    content="Connect the tools your business already uses, reduce repetitive admin work, and keep your team in control."
-  />
-  <meta property="og:url" content="https://bagdigital.tech/" />
-  <meta name="twitter:card" content="summary" />
-
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    base-uri 'self';
-    object-src 'none';
-    frame-ancestors 'none';
-    form-action 'self' mailto: https://formsubmit.co;
-    script-src 'self' 'sha256-pQDtQ1iVQdiSan8Yb+Wu419ZQXUI7CxOhR96jOYdKJY=';
-    style-src 'self';
-    img-src 'self' data:;
-    font-src 'self';
-    connect-src 'self' https://formsubmit.co;
-    upgrade-insecure-requests;
-    block-all-mixed-content;
-  " />
-
-  <meta http-equiv="Permissions-Policy" content="
-    geolocation=(),
-    camera=(),
-    microphone=(),
-    payment=(),
-    usb=()
-  " />
-
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://bagdigital.tech/#organization","name":"BAGDigital","url":"https://bagdigital.tech/","description":"BAGDigital helps businesses connect the software they already use and reduce repetitive operational work through secure integrations and controlled automation."},{"@type":"WebSite","@id":"https://bagdigital.tech/#website","url":"https://bagdigital.tech/","name":"BAGDigital","publisher":{"@id":"https://bagdigital.tech/#organization"}}]}</script>
-
-  <link rel="stylesheet" href="/styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="description" content="BAGDigital is an independent Beaufort, SC technology studio for websites, workflow improvements, integration planning, and practical technical support.">
+  <meta name="theme-color" content="#f8f7f1">
+  <meta name="color-scheme" content="light">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="canonical" href="https://bagdigital.tech/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="BAGDigital">
+  <meta property="og:title" content="BAGDigital | Websites, Workflows & Technology Support">
+  <meta property="og:description" content="Practical websites, smoother workflows, thoughtful integration planning and support for small businesses.">
+  <meta property="og:url" content="https://bagdigital.tech/">
+  <meta name="twitter:card" content="summary">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; upgrade-insecure-requests">
+  <title>BAGDigital | Websites, Workflows & Technology Support</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
-
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-header">
-    <div class="shell header-inner">
-      <a class="brand" href="#top" aria-label="BAGDigital home">
-        <span class="brand-mark" aria-hidden="true">BAG</span>
-        <span class="brand-lockup">
-          <strong>BAGDigital</strong>
-          <span>Make your software work together.</span>
-        </span>
-      </a>
-
-      <button class="nav-toggle" id="navToggle" type="button" aria-controls="primaryNav" aria-expanded="false">
-        <span>Menu</span>
-      </button>
-
-      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
-        <a href="#how" data-close-nav>How it works</a>
-        <a href="#examples" data-close-nav>Examples</a>
-        <a href="#software" data-close-nav>Software</a>
-        <a href="#questions" data-close-nav>Questions</a>
-        <a class="nav-cta" href="#contact" data-close-nav>Talk to us</a>
-      </nav>
-    </div>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header class="nav-shell">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="wordmark" href="#top" aria-label="BAGDigital home">BAGDigital</a>
+      <div class="links">
+        <a href="#services">Services</a>
+        <a href="#how">How it works</a>
+        <a href="#about">About</a>
+        <a class="nav-contact" href="#contact" aria-label="Request a free consultation">Let's talk ↗</a>
+      </div>
+    </nav>
   </header>
-
   <main id="main">
-    <section class="hero" id="top">
-      <div class="shell hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">Business software integration + automation</div>
-
-          <h1>Make the software you already use work together.</h1>
-
-          <p class="hero-lead">
-            BAGDigital helps businesses connect tools like accounting software, email, CRM,
-            calendars, documents, and industry-specific apps—so information does not have to be
-            copied, searched for, or entered by hand over and over.
-          </p>
-
-          <p class="hero-simple">
-            <strong>You keep your software.</strong> BAGDigital connects the pieces and helps
-            repetitive work happen more automatically, with you still in control.
-          </p>
-
-          <div class="hero-actions">
-            <a class="button button-primary" href="#examples">Show me examples</a>
-            <a class="button button-secondary" href="#contact">Tell us what you use</a>
-          </div>
+    <section class="hero wrap" id="top" aria-labelledby="hero-heading">
+      <div>
+        <span class="eyebrow">Independent technology studio / Beaufort, SC</span>
+        <h1 id="hero-heading">Good business.<br><span>Less busywork.</span></h1>
+        <p class="lead">We build websites, improve workflows, and help small businesses make better use of the software they already have. Straightforward advice. Thoughtful work. No unnecessary complexity.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="button button-primary">Request a free consultation <span aria-hidden="true">↗</span></a>
+          <a href="#services" class="button button-secondary">Explore services <span aria-hidden="true">↓</span></a>
         </div>
-
-        <div class="simple-diagram" aria-label="BAGDigital connects business software">
-          <div class="diagram-apps">
-            <span>Accounting</span>
-            <span>Email</span>
-            <span>CRM</span>
-            <span>Calendar</span>
-            <span>Documents</span>
-            <span>Industry tools</span>
-          </div>
-
-          <div class="diagram-arrow" aria-hidden="true">↓</div>
-
-          <div class="diagram-core">
-            <small>BAGDigital</small>
-            <strong>Connects the information</strong>
-            <span>and controls what can happen next</span>
-          </div>
-
-          <div class="diagram-arrow" aria-hidden="true">↓</div>
-
-          <div class="diagram-outcomes">
-            <span>Less copying</span>
-            <span>Fewer missed tasks</span>
-            <span>Better answers</span>
-            <span>Safer automation</span>
-          </div>
+        <p class="local">Based in Beaufort, SC · Working with small businesses near and far</p>
+      </div>
+      <div class="hero-tiles" role="img" aria-label="Abstract tile illustration showing people, tools and clearer workflows; conceptual, not a working dashboard">
+        <div class="hero-tile"><small>Made for people</small><strong>Human-first technology.</strong></div>
+        <div class="hero-tile"><small>Build</small><strong>Clearer websites.</strong><span class="mark" aria-hidden="true">↗</span></div>
+        <div class="hero-tile"><small>Improve</small><strong>Smoother work.</strong><span class="mark" aria-hidden="true">↝</span></div>
+        <div class="hero-tile"><strong>Small changes. Real utility.</strong><span class="tile-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+      </div>
+    </section>
+    <section class="section wrap" id="services" aria-labelledby="services-heading">
+      <div class="section-heading">
+        <div><span class="eyebrow">What we do</span><h2 id="services-heading">Good technology.<br>Put to work.</h2></div>
+        <p>Start with what you need help with. We'll discuss a clear scope and what is realistic for your business.</p>
+      </div>
+      <div class="tile-grid">
+        <a class="service service-main" href="#contact" aria-label="Discuss a website or web development project">
+          <span class="number">01 / Websites</span><span class="tile-graphic" aria-hidden="true"></span>
+          <div><h3>Make a stronger first impression.</h3><p>Clean, responsive websites and redesigns that explain what you do and make it easy to get in touch.</p></div>
+          <span class="bottom"><strong>Discuss your website</strong><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="service service-dark" href="#contact" aria-label="Discuss a workflow improvement project">
+          <span class="number">02 / Workflows</span><span class="tile-graphic" aria-hidden="true"></span>
+          <div><h3>Spend less time on repeat tasks.</h3><p>Identify repetitive admin and plan focused automation where your tools and permissions allow.</p></div>
+          <span class="bottom"><strong>Explore a workflow</strong><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="service service-peach" href="#contact" aria-label="Discuss software integration planning">
+          <span class="number">03 / Integrations</span><span class="tile-graphic" aria-hidden="true"></span>
+          <div><h3>Help your tools fit together.</h3><p>Evaluate compatibility, access, and the steps involved before committing to a connection.</p></div>
+          <span class="bottom"><strong>Talk through your tools</strong><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="service service-paper" href="#contact" aria-label="Discuss ongoing website and technical support">
+          <span class="number">04 / Support</span><span class="tile-graphic" aria-hidden="true">+</span>
+          <div><h3>Keep things working well.</h3><p>Practical website updates, troubleshooting, and ongoing improvements when you need them.</p></div>
+          <span class="bottom"><strong>Ask about support</strong><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+    </section>
+    <section class="section process" id="how" aria-labelledby="how-heading">
+      <div class="wrap">
+        <span class="eyebrow">How it works</span>
+        <h2 id="how-heading">Start with a conversation.<br>Leave with a plan.</h2>
+        <div class="process-grid">
+          <div class="step"><span>01 / TALK</span><h3>Tell us the problem.</h3><p>What is slowing down your business or holding back your website?</p></div>
+          <div class="step"><span>02 / EXPLORE</span><h3>Find a realistic approach.</h3><p>We'll look at your needs and which solutions are feasible.</p></div>
+          <div class="step"><span>03 / AGREE</span><h3>Approve the scope.</h3><p>Review deliverables and costs before paid work begins.</p></div>
+          <div class="step"><span>04 / BUILD</span><h3>Make it useful.</h3><p>We'll build the agreed work and discuss what comes next.</p></div>
         </div>
       </div>
     </section>
-
-    <section class="section" id="how">
-      <div class="shell">
-        <div class="section-heading">
-          <span class="section-index">HOW IT WORKS</span>
-          <h2>Three simple ideas.</h2>
-        </div>
-
-        <div class="three-grid">
-          <article class="plain-card">
-            <span class="step-number">1</span>
-            <h3>Keep the software you already have.</h3>
-            <p>
-              You do not need another replacement CRM just because you want better automation.
-              Keep the tools your team already knows.
-            </p>
-          </article>
-
-          <article class="plain-card">
-            <span class="step-number">2</span>
-            <h3>BAGDigital connects the right information.</h3>
-            <p>
-              With permission, BAGDigital can connect supported systems so important information
-              can move between them instead of living in separate silos.
-            </p>
-          </article>
-
-          <article class="plain-card">
-            <span class="step-number">3</span>
-            <h3>Your business gets easier to operate.</h3>
-            <p>
-              You can spend less time checking five places, entering the same information twice,
-              or trying to remember what still needs attention.
-            </p>
-          </article>
-        </div>
-      </div>
+    <section class="section about wrap" id="about" aria-labelledby="about-heading">
+      <div><span class="eyebrow">The person behind the work</span><h2 id="about-heading">Independent by design.<br>Practical by nature.</h2></div>
+      <p>BAGDigital is an independent technology studio based in Beaufort, South Carolina. You work directly with the developer understanding your problem and shaping the solution—not a maze of departments or sales handoffs.</p>
     </section>
-
-    <section class="section examples-section" id="examples">
-      <div class="shell">
-        <div class="section-heading wide-heading">
-          <div>
-            <span class="section-index">REAL-LIFE EXAMPLES</span>
-            <h2>What could that look like?</h2>
-          </div>
-          <p>
-            These examples show how connected software can reduce repetitive work and make important
-            information easier to find. Exact capabilities depend on the software your business uses.
-          </p>
-        </div>
-
-        <div class="example-grid">
-          <article class="example-card">
-            <div class="example-type">Bookkeeping</div>
-            <h3>“Which clients still owe me documents this month?”</h3>
-            <p>
-              Instead of checking email, folders, client notes, and accounting records separately,
-              BAGDigital could bring those signals together and show the bookkeeper who still needs attention.
-            </p>
-            <div class="example-flow">
-              <span>Email</span><i>+</i><span>Drive</span><i>+</i><span>Accounting</span><i>→</i><strong>One answer</strong>
-            </div>
-          </article>
-
-          <article class="example-card">
-            <div class="example-type">Service business</div>
-            <h3>“What jobs next week are not actually ready?”</h3>
-            <p>
-              BAGDigital could compare job status, schedule, customer information, documents,
-              and other connected systems so an operations manager sees the exceptions first.
-            </p>
-            <div class="example-flow">
-              <span>CRM</span><i>+</i><span>Calendar</span><i>+</i><span>Files</span><i>→</i><strong>Readiness</strong>
-            </div>
-          </article>
-
-          <article class="example-card">
-            <div class="example-type">Office operations</div>
-            <h3>“Did anyone follow up with this customer?”</h3>
-            <p>
-              Instead of searching inboxes and customer systems manually, BAGDigital could use
-              connected records to help answer the question and prepare the next step.
-            </p>
-            <div class="example-flow">
-              <span>CRM</span><i>+</i><span>Email</span><i>→</i><strong>Next step</strong>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section software-section" id="software">
-      <div class="shell">
-        <div class="section-heading wide-heading">
-          <div>
-            <span class="section-index">SOFTWARE</span>
-            <h2>What could BAGDigital connect to?</h2>
-          </div>
-          <p>
-            BAGDigital can work with software that allows trusted tools to connect.
-            Availability varies by product, account type, and business need.
-          </p>
-        </div>
-
-        <div class="software-grid">
-          <article>
-            <h3>Accounting & payments</h3>
-            <p>QuickBooks Online, Xero, Stripe, Square and similar systems.</p>
-          </article>
-
-          <article>
-            <h3>Email, files & calendars</h3>
-            <p>Google Workspace, Gmail, Drive, Calendar, Microsoft 365, Outlook, OneDrive and SharePoint.</p>
-          </article>
-
-          <article>
-            <h3>CRM & field service</h3>
-            <p>Housecall Pro, Jobber, ServiceTitan, HubSpot, Salesforce and other customer systems.</p>
-          </article>
-
-          <article>
-            <h3>Team communication</h3>
-            <p>Slack, Microsoft Teams, Google Chat and other collaboration tools.</p>
-          </article>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section safe-section">
-      <div class="shell safe-grid">
-        <div>
-          <span class="section-index">SAFE BY DESIGN</span>
-          <h2>Connecting software should not mean giving AI unlimited access.</h2>
-        </div>
-
-        <div class="safe-points">
-          <article>
-            <strong>You choose what is connected.</strong>
-            <p>BAGDigital is designed around explicit business connections and permissions.</p>
-          </article>
-          <article>
-            <strong>Read first. Automate carefully.</strong>
-            <p>We start by understanding and presenting information before expanding into approved actions.</p>
-          </article>
-          <article>
-            <strong>Sensitive access stays protected.</strong>
-            <p>Connections are designed to use only the access needed for the job instead of giving broad access to everything.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section questions-section" id="questions">
-      <div class="shell">
-        <div class="section-heading">
-          <span class="section-index">COMMON QUESTIONS</span>
-          <h2>Plain-English answers.</h2>
-        </div>
-
-        <div class="question-list">
-          <details open>
-            <summary>What does BAGDigital actually do?</summary>
-            <p>
-              It connects business software so information can move between systems and repetitive operational
-              work can be reduced. The goal is fewer manual handoffs and better answers without replacing everything you use.
-            </p>
-          </details>
-
-          <details>
-            <summary>Do I have to replace QuickBooks, my CRM, or my email?</summary>
-            <p>
-              No. The main idea is the opposite: keep the systems that already work for your business and connect them where useful.
-            </p>
-          </details>
-
-          <details>
-            <summary>Can BAGDigital connect to any software?</summary>
-            <p>
-              Not every product can be connected. It depends on whether the software supports a secure connection
-              and whether the right access is available for your account.
-            </p>
-          </details>
-
-          <details>
-            <summary>Can I use BAGDigital today?</summary>
-            <p>
-              BAGDigital is being introduced gradually. Tell us which software you use and what work takes too much time,
-              and we can tell you whether your business is a fit for the integrations currently available.
-            </p>
-          </details>
-
-          <details>
-            <summary>Where does AI fit in?</summary>
-            <p>
-              AI can make it easier to ask questions, summarize information, and prepare routine work.
-              BAGDigital helps connect the right business information while keeping access and actions controlled.
-            </p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <section class="section contact-section" id="contact">
-      <div class="shell contact-grid">
-        <div class="contact-copy">
-          <span class="section-index">TALK TO BAGDIGITAL</span>
-          <h2>What software does your business use every day?</h2>
-          <p>
-            Tell us where you copy information, check multiple systems, chase documents,
-            or repeat the same administrative work. That is the best place to start.
-          </p>
-
-          <div class="contact-direct">
-            <span>Email</span>
-            <a id="emailLink" href="#" rel="nofollow">jaime@bagdigital.tech</a>
-          </div>
-        </div>
-
-        <div class="form-card">
-          <form
-            id="quoteForm"
-            action="https://formsubmit.co/f28d9379c3ea08498a2e16e20d2ed1a7"
-            data-ajax-action="https://formsubmit.co/ajax/f28d9379c3ea08498a2e16e20d2ed1a7"
-            method="post"
-            autocomplete="on"
-            novalidate
-          >
-            <input type="hidden" name="_subject" value="New BAGDigital inquiry" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value="https://bagdigital.tech/#contact" />
-
-            <div class="honeypot" aria-hidden="true">
-              <label>Leave this field empty <input name="company_site" tabindex="-1" autocomplete="off" /></label>
-            </div>
-
-            <div class="form-row">
-              <div class="field">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" required autocomplete="name" />
-                <span class="field-error">Please enter your name.</span>
-              </div>
-              <div class="field">
-                <label for="business">Business</label>
-                <input id="business" name="business" type="text" autocomplete="organization" />
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" />
-              <span class="field-error">Please enter a valid email.</span>
-            </div>
-
-            <div class="field">
-              <label for="need">What best describes the problem?</label>
-              <select id="need" name="need">
-                <option>I enter the same information in multiple places</option>
-                <option>I have to check several systems to answer simple questions</option>
-                <option>Follow-up or tasks are getting missed</option>
-                <option>I want to automate repetitive office work</option>
-                <option>I want to discuss an integration or partnership</option>
-                <option>Something else</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="details">Which software do you use, and what takes too much manual work?</label>
-              <textarea
-                id="details"
-                name="details"
-                rows="6"
-                required
-                placeholder="Example: We use QuickBooks, Gmail and Google Drive. I spend every Friday checking who still owes us documents."
-              ></textarea>
-              <span class="field-error">Please add a short description.</span>
-            </div>
-
-            <div class="form-actions">
-              <button class="button button-primary" type="submit">Send inquiry</button>
-              <a id="emailDirectBtn" class="button button-secondary" href="#" rel="nofollow">Email directly</a>
-            </div>
-
-            <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
-            <p class="form-privacy">By submitting, you agree BAGDigital can contact you about this request. No mailing-list signup.</p>
-          </form>
-        </div>
+    <section class="section wrap" id="contact" aria-labelledby="contact-heading">
+      <div class="contact-panel">
+        <div><span class="eyebrow">Let's work on something useful</span><h2 id="contact-heading">What's taking too much time?</h2><p>Tell us about the website or business process you'd like to improve. We'll talk through the possibilities and whether we're a good fit.</p><span class="contact-note">Selecting email opens your email app. You review and send the message yourself; nothing is submitted through this website.</span></div>
+        <a class="button button-primary" href="mailto:jaime@bagdigital.com?subject=BAGDigital%20consultation%20request">Email us about your project <span aria-hidden="true">↗</span></a>
       </div>
     </section>
   </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner">
-      <div>
-        <strong>BAGDigital</strong>
-        <span>Beaufort, South Carolina</span>
-      </div>
-      <div>
-        <span>© <span id="year"></span> BAGDigital</span>
-        <span>Keep your software. Connect the work.</span>
-      </div>
-    </div>
+  <footer class="footer">
+    <div class="wrap footer-inner"><span>© BAGDigital · Beaufort, South Carolina</span><span>Websites · Workflows · Integration planning · Support</span><a href="#top">Back to top ↑</a></div>
   </footer>
-
-  <script src="/app.js" defer></script>
 </body>
 </html>
