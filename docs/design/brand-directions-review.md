@@ -22,6 +22,24 @@ The founder prefers **Field Notes** but rejected its bracket-plus logo and reque
 
 **Before public-site implementation:** reconcile Site #7/PR #5 contact privacy/anti-spam work; verify email delivery, mobile keyboard and screen-reader navigation, full contrast, 200% zoom, original typography, and reduced-motion behavior. Require Mara/Prism review and founder exact-release approval. No autonomous website synchronization/merge.
 
+## Founder request — modern tiled UI direction (2026-10-14)
+
+**Instruction:** Retain selected Field Notes, simple **BAGDigital** wordmark and customer-first copy, but make the website feel like a **modern CSS tile interface inspired by classic Windows Metro**. This is inspiration for layout rhythm, not a request to use Microsoft imagery or mimic the operating system.
+
+**Implemented in the non-public selected prototype** \`.github/design-concepts/notes.html\`:
+
+- A purposefully asymmetric 12-column service mosaic: website (7 columns), workflow (5), integrations (5), ongoing support (7). Each entire tile links to the consultation section; there are no controls that pretend to execute a workflow.
+- A smaller hero grid of informational tiles in place of fake live dashboards, futuristic gradients or generated photography.
+- Original CSS details, restrained paper/evergreen/mint/sand/coral palette, square-rounded material-like surfaces, clear hierarchy and text-only wordmark.
+- Gentle hover elevation/arrow motion with keyboard focus outlines and \`prefers-reduced-motion\` opt-out.
+- Responsive stacking at 760px and 500px, plus a narrow 360px typography adaptation.
+- Services explicitly state feasibility of automation and integrations; no HCP or Google provider connection is marketed as live.
+- Contact action remains \`mailto:\` only. A real public lead-capture form must be reconciled with Site #7 / PR #5, with privacy, spam, delivery and security review. No silent submissions or false receipt notices.
+
+**UX acceptance pending:** source tests and Actions screenshots are necessary but not sufficient. Check 320/375/768/1440 browser render, 200% zoom, keyboard navigation, reduced motion, text contrast and actual inquiry flow. Review with founder and independent Prism before production. Vesper review required for security-sensitive form/integration/auth boundary; do not convert a synthetic visual concept into a security PASS.
+
+**Design status:** SELECTED FOR ITERATION, NOT APPROVED FOR PRODUCTION. Keep the three-direction comparison as historical reference but selected tile edition is the only candidate moving forward.
+
 ## What we intentionally rejected
 
 - The predictable "AI company" composition: huge soft blob + floating fake dashboard + generic 4-card service grid + fictitious performance metrics.
