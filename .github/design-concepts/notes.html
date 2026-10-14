@@ -1,78 +1,267 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="description" content="Standalone preview of the BAGDigital 03 · Field Notes identity direction."><title>BAGDigital — Field Notes homepage design review</title>
-<style>
-:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#1c2b31;background:#e9efeb}*{box-sizing:border-box}
-body{margin:0}.choices a{text-decoration:none;display:inline-flex;align-items:center}button,a,select{font:inherit}a{color:inherit}button{cursor:pointer}[hidden]{display:none!important}
-:focus-visible{outline:3px solid #164c87;outline-offset:4px}html{scroll-behavior:smooth}
-.skip{position:absolute;top:-100px;left:12px;z-index:5;background:white;padding:12px}.skip:focus{top:12px}
-.deck-head{position:relative;z-index:10;display:flex;gap:20px;justify-content:space-between;align-items:center;padding:15px clamp(20px,4vw,55px);background:#1b3231;color:white}
-.deck-head strong{font-size:14px;letter-spacing:.055em}.deck-head small{display:block;font-size:11px;opacity:.75;margin-top:3px}.choices{display:flex;flex-wrap:wrap;gap:6px}.choices a{background:transparent;border:1px solid #6b8682;color:white;border-radius:99px;padding:9px 15px;font-size:12px}.choices a[aria-current=page]{background:#e3f3e7;color:#14362c;border-color:#e3f3e7;font-weight:800}
-.view{min-height:100vh;overflow:hidden}.site-width{width:min(1180px,calc(100% - 48px));margin:auto}.site-nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:25px 0}
-.wordmark{display:flex;align-items:center;gap:12px;text-decoration:none;font-size:24px;font-weight:800;letter-spacing:-.065em}
-.wordmark svg{width:40px;height:40px;flex:none}.links{display:flex;align-items:center;gap:22px;font-size:13px;font-weight:700}.links a{text-decoration:none}
-.cta{display:inline-flex;align-items:center;gap:12px;justify-content:center;border-radius:12px;text-decoration:none;padding:13px 18px;min-height:46px;font-size:13px;font-weight:800;white-space:nowrap;transition:transform .25s cubic-bezier(.2,0,0,1),box-shadow .25s cubic-bezier(.2,0,0,1)}.cta:hover{transform:translateY(-3px);box-shadow:0 13px 22px #162f2920}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1,h2,p{margin-top:0}h1{font-size:clamp(48px,8vw,105px);line-height:1.01;letter-spacing:-.075em;margin-bottom:24px}h2{font-size:clamp(32px,4vw,53px);line-height:1.07;letter-spacing:-.06em}p{line-height:1.65}
-.actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:27px}.second{background:transparent;border:1px solid currentColor}
-.kicker{font-size:13px;font-weight:700;letter-spacing:.04em;margin-top:30px}
-.foot{margin-top:60px;padding:28px 0;border-top:1px solid currentColor;font-size:12px;opacity:.8}
-.buyer{padding:70px 0}.buyer h2{max-width:690px}.buyer .intro{max-width:710px}
-.buyflow{padding:45px 0 70px}.buyflow h2{font-size:clamp(28px,4vw,45px)}
-.contact{padding:45px 0 70px}.contact h2{margin-bottom:16px}.contact p{max-width:570px}
-.contact-note{font-size:12px;opacity:.8;display:block;margin-top:12px}
-.contact a:not(.cta){text-decoration:underline;text-underline-offset:4px}
-svg{max-width:100%}
-/* 01 RELAY — confident architectonic composition, precise movement */
-.relay{background:#f5f4ed;color:#183732}.relay .site-nav{border-bottom:1px solid #b9c6bb}.relay .cta{background:#173d37;color:white;border-radius:7px}
-.relay .second{background:transparent;color:#173d37}.relay .hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:30px;padding:84px 0 55px}
-.relay h1{font-weight:850}.relay h1 .highlight{color:#216a5c}.relay .eyebrow{color:#286c5e}.relay .lead{max-width:520px;font-size:19px}
-.relay .diagram{height:470px;position:relative;display:grid;place-items:center}
-.relay .diagram::before{content:"";position:absolute;inset:5% 10%;background:#dfeadf;border-radius:42% 58% 25% 75%/36% 46% 54% 64%;transform:rotate(-14deg)}
-.relay .diagram svg{position:relative;width:100%;height:100%}.relay .diagram .label{position:absolute;background:#fff;border:1px solid #a9c4b8;box-shadow:0 8px 28px #173d371a;padding:11px 15px;border-radius:7px;font-size:12px;font-weight:750}.relay .diagram .one{left:0;top:13%}.relay .diagram .two{right:3%;bottom:13%}
-.relay .buyer{border-top:1px solid #bbccc1}.relay .offerlist{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #b8cbbd;border-left:1px solid #b8cbbd}.relay .offer{padding:24px;border-right:1px solid #b8cbbd;border-bottom:1px solid #b8cbbd;display:grid;grid-template-columns:44px 1fr;gap:17px}
-.relay .offer b{font-size:15px}.relay .offer p{font-size:14px;margin:6px 0 0;color:#4a645a}.relay .index{font-size:13px;color:#286c5e;font-weight:850}.relay .buyflow{background:#e6ebe2;border-radius:6px;padding:50px;display:grid;grid-template-columns:.85fr 1fr;gap:25px}
-.relay .stages{display:grid;gap:18px}.relay .stage{display:flex;gap:18px;border-bottom:1px solid #b6c8bb;padding:12px 0}.relay .stage span{font-size:14px;font-weight:850;color:#2b7b65}
-.relay .contact{background:#d0e3d6;border-radius:6px;padding:40px 48px;margin-top:55px}
-/* 02 TIDE — tactile, flowing, calm, expressive serif contrast */
-.tide{background:#eff5f0;color:#173f4b}.tide .site-width{width:min(1220px,calc(100% - 48px))}.tide .wordmark{letter-spacing:-.07em}.tide .cta{background:#176b77;color:white;border-radius:100px}
-.tide .second{background:transparent;color:#176b77}.tide .hero{position:relative;padding:100px 0 65px;text-align:center}.tide h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(55px,9vw,115px);letter-spacing:-.065em;line-height:1.02;max-width:980px;margin:20px auto 25px}.tide h1 em{font-weight:500;color:#0a7b81}
-.tide .lead{max-width:620px;font-size:19px;margin:0 auto}.tide .actions{justify-content:center}.tide .eyebrow{color:#23747e}.tide .stream{height:240px;position:relative;margin:40px 0 0}.tide .stream svg{width:100%;height:100%;display:block}
-.tide .buyer{background:white;border-radius:54px 54px 0 0;padding:75px 55px}.tide .buyer-top{display:grid;grid-template-columns:1fr .65fr;gap:35px}.tide .buyer .intro{align-self:end}.tide .offers{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:34px}
-.tide .offer{background:#f3f8f5;padding:32px;border-radius:28px;min-height:170px;border:1px solid #e2efea}.tide .offer b{display:block;font-size:22px;font-weight:700;letter-spacing:-.035em}.tide .offer p{color:#47646b;font-size:14px;max-width:350px;margin:13px 0 0}.tide .offer:nth-child(2){background:#e3f0e9}.tide .offer:nth-child(3){background:#e5f0f4}.tide .offer:nth-child(4){background:#eef3df}
-.tide .buyflow{padding:80px 0}.tide .stages{display:flex;align-items:flex-start;gap:10px;justify-content:space-between}.tide .stage{flex:1;border-top:2px solid #97c6c0;padding:18px 12px 0 0}.tide .stage span{display:block;font-size:12px;color:#23747e;font-weight:800;margin-bottom:7px}
-.tide .contact{background:#cee5e0;border-radius:44px;margin-bottom:50px;padding:70px 60px}.tide .contact h2{font-family:Georgia,serif;font-weight:500;letter-spacing:-.045em}
-/* 03 FIELD NOTES — editorial utility, authored warmth, annotation */
-.notes{background:#fbf8ef;color:#242d35}.notes .site-nav{border-bottom:2px solid #283e43}.notes .wordmark{letter-spacing:-.065em;font-size:clamp(24px,2.6vw,31px);font-weight:850}.notes .cta{border-radius:2px;background:#2e514c;color:#fff}
-.notes .second{background:transparent;color:#2e514c}
-.notes .links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:clamp(8px,1.6vw,23px)}
-.notes .links a{display:inline-flex;align-items:center;min-height:44px;padding:7px 8px;border-radius:4px;white-space:nowrap;transition:background .22s ease}
-.notes .links a:hover{background:#e9eddf}
-.notes .links .nav-contact{background:#e0ebcd;border:1px solid #bdcfac;padding:9px 13px;font-weight:800}
-.notes .links .nav-contact:hover{background:#d3e4bb}
-.notes .about{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center;padding:55px 0;border-bottom:2px solid #283e43}
-.notes .about p{max-width:490px;margin:0;color:#52605e;font-size:16px}
-.notes .about h2{font-size:clamp(31px,3.4vw,44px);margin:16px 0 0}.notes .eyebrow{color:#b4503a}.notes .hero{display:grid;grid-template-columns:1.3fr .7fr;gap:30px;padding:95px 0 75px;border-bottom:2px solid #283e43}
-.notes h1{font-size:clamp(52px,8.4vw,112px);font-weight:850;line-height:.99}.notes h1 mark{color:inherit;background:linear-gradient(transparent 76%,#d3edbb 76%)}.notes .lead{font-size:18px;max-width:620px}.notes .margin-note{position:relative;border-left:2px solid #bf5944;padding:14px 0 0 22px;margin-top:30px;align-self:start;transform:rotate(-2deg)}.notes .margin-note strong{display:block;font-size:13px;letter-spacing:.17em;text-transform:uppercase;color:#af4a36}.notes .margin-note p{margin:13px 0 20px;font-family:Georgia,serif;font-size:25px;line-height:1.3}.notes .margin-note svg{width:100%}
-.notes .buyer{padding:75px 0}.notes .buyer-top{display:grid;grid-template-columns:.85fr 1fr;gap:35px}.notes .intro{align-self:end}
-.notes .offerlist{margin-top:35px;border-top:2px solid #273c42}.notes .offer{display:grid;grid-template-columns:65px 1fr 1.3fr;align-items:start;padding:22px 0;gap:22px;border-bottom:1px solid #c4c9bc}.notes .offer b{font-size:22px;letter-spacing:-.05em}.notes .offer p{color:#52605e;margin:0;font-size:15px}.notes .index{font-size:14px;font-weight:850;color:#b4503a}
-.notes .buyflow{border-top:2px solid #273c42;border-bottom:2px solid #273c42}.notes .stages{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px}.notes .stage{border-left:1px solid #a7b6aa;padding-left:15px;font-size:14px}.notes .stage span{display:block;font-weight:800;color:#af4a36;margin-bottom:12px}
-.notes .contact{position:relative;margin-top:50px;padding:40px 0 70px}.notes .contact::after{content:"";position:absolute;width:135px;height:135px;right:7%;top:8%;border:1px solid #9cbab1;border-radius:53% 47% 39% 61%/51% 34% 66% 49%;transform:rotate(22deg);pointer-events:none}
-@media(max-width:900px){.notes .site-nav{align-items:flex-start}.notes .links{max-width:66%}.notes .about{grid-template-columns:1fr;gap:8px}.links{gap:10px}.relay .hero,.notes .hero{grid-template-columns:1fr}.relay .diagram{height:300px}.notes .margin-note{max-width:440px}.tide .buyer-top,.notes .buyer-top{grid-template-columns:1fr}.tide .buyer{padding:60px 30px}}
-@media(max-width:620px){.notes .site-nav{gap:8px}.notes .links{max-width:none;width:100%;justify-content:space-between;gap:0}.notes .links a{font-size:12px;min-height:44px;padding:8px 9px}.notes .links .nav-contact{padding:8px 10px}.notes .about{padding:40px 0}.notes .about p{font-size:15px}.deck-head{flex-direction:column;align-items:flex-start}.choices{width:100%}.choices a{flex:1;min-width:92px}.site-width,.tide .site-width{width:calc(100% - 32px)}.site-nav{flex-wrap:wrap;padding:17px 0}.links{order:3;width:100%;justify-content:space-between;gap:6px}.links a{font-size:12px}.wordmark{font-size:21px}.wordmark svg{width:34px;height:34px}.relay .hero,.notes .hero{padding:55px 0 42px}.tide .hero{padding:60px 0 35px}.relay .diagram{height:260px}.relay .offerlist,.tide .offers{grid-template-columns:1fr}.tide .buyer{padding:50px 18px;border-radius:27px 27px 0 0}.tide .stream{height:130px}.tide .stages,.notes .stages{display:grid;grid-template-columns:1fr 1fr}.tide .contact{padding:40px 22px;border-radius:25px}.relay .buyflow{grid-template-columns:1fr;padding:28px}.relay .contact{padding:26px}.notes .offer{grid-template-columns:28px 1fr;gap:8px}.notes .offer p{grid-column:2}.notes .contact::after{display:none}h1{font-size:clamp(45px,11vw,68px)}.actions .cta{width:100%}.buyer,.buyflow{padding-top:50px;padding-bottom:50px}}
-@media(max-width:360px){.relay h1,.notes h1{font-size:clamp(38px,11.5vw,45px)}.notes .margin-note p{font-size:22px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cta{transition:none}.cta:hover{transform:none;box-shadow:none}}
-</style></head><body>
-<a class="skip" href="#main">Skip to main content</a>
-
-<main id="main"><section class="view notes" id="notes" aria-label="Direction 03 — Field Notes">
-<div class="site-width"><nav class="site-nav" aria-label="Field Notes preview navigation"><a class="wordmark" href="#notes" aria-label="BAGDigital home">BAGDigital</a><div class="links"><a href="#n-services">Services</a><a href="#n-process">How it works</a><a href="#n-about">About</a><a class="nav-contact" href="#n-contact" aria-label="Request a free consultation">Let’s talk ↗</a></div></nav>
-<div class="hero"><div><span class="eyebrow">Independent technology studio / Beaufort, SC</span><h1>Good business.<br><mark>Less busywork.</mark></h1><p class="lead">We build websites, simplify repetitive work, and help small businesses get more from the tools they already use. Clear scope. Practical solutions. No unnecessary complexity.</p><div class="actions"><a class="cta" href="#n-contact">Request a free consultation ↗</a><a class="cta second" href="#n-services">See our services ↓</a></div></div>
-<aside class="margin-note"><strong>Why BAGDigital exists</strong><p>Good technology should make your work easier, not give you more to manage.</p><svg viewBox="0 0 340 160" aria-hidden="true"><path d="M12 126C85 160 120 32 191 62S281 140 325 19" fill="none" stroke="#b4503a" stroke-width="5" stroke-linecap="round"/><circle cx="12" cy="126" r="9" fill="#273c42"/><circle cx="191" cy="62" r="10" fill="#d3edbb" stroke="#273c42" stroke-width="2"/><circle cx="325" cy="19" r="11" fill="#273c42"/></svg></aside></div>
-<section class="buyer" id="n-services"><div class="buyer-top"><div><span class="eyebrow">The work we do</span><h2>What we can do for your business.</h2></div><p class="intro">Need a better website? Spending too much time copying information or chasing updates? We start with the problem, then recommend a sensible next step.</p></div>
-<div class="offerlist"><div class="offer"><span class="index">01</span><b>Websites & web development</b><p>Clear, mobile-friendly sites and redesigns that help customers understand your business and get in touch.</p></div>
-<div class="offer"><span class="index">02</span><b>Workflow improvements</b><p>Find repetitive work and build focused improvements where the tools and permissions allow.</p></div>
-<div class="offer"><span class="index">03</span><b>Software integration planning</b><p>Evaluate how your existing systems could work together before committing to an integration.</p></div>
-<div class="offer"><span class="index">04</span><b>Ongoing technical support</b><p>Website updates, troubleshooting, and ongoing improvements when you need them.</p></div></div></section>
-<section class="buyflow" id="n-process"><span class="eyebrow">What to expect</span><h2>Start with a conversation. Leave with a plan.</h2><div class="stages"><div class="stage"><span>01 / Talk</span>Tell us what you want to improve.</div><div class="stage"><span>02 / Explore</span>We look at your tools, needs, and what is feasible.</div><div class="stage"><span>03 / Approve</span>Review a clear proposal before any paid work begins.</div><div class="stage"><span>04 / Build</span>We deliver the agreed work and discuss the next steps.</div></div></section>
-<section class="about" id="n-about"><div><span class="eyebrow">A real person behind the work</span><h2>Independent by design. Practical by nature.</h2></div><p>BAGDigital is an independent technology studio based in Beaufort, South Carolina. You work directly with the developer helping you understand the problem and build a solution.</p></section>
-<section class="contact" id="n-contact"><span class="eyebrow">Let’s talk</span><h2>What could work better in your business?</h2><p>Tell us about the website or process you want to improve. We’ll discuss what may help and whether we’re a good fit.</p><a class="cta" href="mailto:jaime@bagdigital.com?subject=BAGDigital%20consultation%20request">Email us about your project ↗</a><span class="contact-note">Opens email. No form submission or tracking in this design prototype.</span></section>
-<div class="foot">BAGDigital · Beaufort, South Carolina · Design preview, not the published website</div></div></section></main></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="BAGDigital: websites, workflow improvements and practical technology support for small businesses. Non-public design preview.">
+  <meta name="theme-color" content="#f8f7f1">
+  <title>BAGDigital — Field Notes tile design preview</title>
+  <style>
+    /* Field Notes / Tile Edition. Self-contained, synthetic design preview.
+       No external assets, form requests, analytics, provider API or customer data. */
+    :root {
+      color-scheme: light;
+      --paper:#f8f7f1;
+      --white:#ffffff;
+      --ink:#21312f;
+      --green:#254f45;
+      --deep:#173e36;
+      --mint:#dbe9dd;
+      --lime:#d7e6ad;
+      --sand:#f0e4cd;
+      --orange:#af563a;
+      --peach:#f0d0bd;
+      --edge:#cfdbd1;
+      --muted:#51615d;
+      --shadow:0 12px 35px rgba(33,60,49,.085);
+      --ease:cubic-bezier(.2,.8,.2,1);
+      font-family: "Segoe UI Variable", "Segoe UI", ui-sans-serif, system-ui, -apple-system, sans-serif;
+      font-synthesis:none;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:95px}
+    body{margin:0;background:var(--paper);color:var(--ink);line-height:1.55;overflow-x:hidden}
+    a{color:inherit}
+    a:focus-visible{outline:3px solid #156b61;outline-offset:4px}
+    p,h1,h2,h3{margin-top:0}
+    .skip{position:absolute;left:14px;top:-100px;z-index:20;background:var(--white);padding:12px}
+    .skip:focus{top:14px}
+    .wrap{width:min(1192px,calc(100% - 48px));margin-inline:auto}
+    .eyebrow{font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:.135em;color:#a34e35}
+    .nav-shell{background:rgba(248,247,241,.96);border-bottom:1px solid #ced8cf;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+    .nav{min-height:78px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+    .wordmark{font-size:clamp(23px,2.5vw,30px);font-weight:850;letter-spacing:-.075em;text-decoration:none;white-space:nowrap}
+    .links{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(4px,1.4vw,19px);font-size:13px;font-weight:700}
+    .links a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px;padding:10px;border-radius:6px;transition:background .22s var(--ease)}
+    .links a:hover{background:#e8ede3}
+    .links .nav-contact{background:var(--lime);border:1px solid #a5bd88;padding:10px 17px}
+    .links .nav-contact:hover{background:#c9dfa0}
+    .hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);align-items:center;gap:55px;padding:82px 0 79px}
+    .hero h1{font-size:clamp(55px,7.2vw,104px);line-height:.98;letter-spacing:-.077em;font-weight:850;margin:18px 0 27px}
+    .hero h1 span{background:linear-gradient(transparent 74%,var(--lime) 74%);white-space:normal}
+    .lead{font-size:clamp(17px,1.45vw,19px);color:#445850;max-width:570px;line-height:1.7}
+    .hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:11px;margin-top:26px}
+    .button{border:1px solid transparent;min-height:49px;border-radius:8px;padding:12px 20px;display:inline-flex;justify-content:center;align-items:center;gap:12px;text-decoration:none;font-size:14px;font-weight:750;transition:transform .28s var(--ease),box-shadow .28s var(--ease),background .28s var(--ease)}
+    .button:hover{transform:translateY(-3px);box-shadow:0 10px 20px #1d473c22}
+    .button-primary{background:var(--deep);color:#fff}
+    .button-secondary{background:transparent;border-color:#668279;color:var(--ink)}
+    .button-secondary:hover{background:#e6ede2}
+    .local{font-size:13px;color:#4f615b;margin:22px 0 0}
+    /* Original tile composition. These are illustrative concepts, not actual product screens. */
+    .hero-tiles{min-height:420px;display:grid;grid-template-columns:1.16fr .84fr;grid-template-rows:1fr 1fr 76px;gap:10px}
+    .hero-tile{position:relative;overflow:hidden;padding:23px;border-radius:9px}
+    .hero-tile strong{display:block;font-size:clamp(23px,2.6vw,36px);line-height:1.12;letter-spacing:-.065em;font-weight:800}
+    .hero-tile small{display:block;font-weight:750;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+    .hero-tile .mark{font-size:49px;line-height:1;position:absolute;right:17px;bottom:9px;opacity:.32;font-weight:300}
+    .hero-tile:nth-child(1){grid-row:span 2;background:var(--green);color:white;display:flex;flex-direction:column;justify-content:flex-end}
+    .hero-tile:nth-child(1) strong{font-size:clamp(35px,3.7vw,52px);max-width:235px}
+    .hero-tile:nth-child(1)::before{content:"";position:absolute;top:24px;left:24px;width:48%;height:38%;border:1px solid #b1d1bc;border-radius:0 38% 35% 0;transform:rotate(-18deg);opacity:.7}
+    .hero-tile:nth-child(2){background:var(--lime);color:#264738}
+    .hero-tile:nth-child(3){background:var(--sand)}
+    .hero-tile:nth-child(4){grid-column:span 2;background:#e7eeea;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 25px}
+    .hero-tile:nth-child(4) strong{font-size:16px;letter-spacing:-.025em}
+    .tile-dots{display:flex;gap:9px;align-items:center}
+    .tile-dots i{display:block;width:11px;height:11px;border-radius:50%;background:#357968}
+    .tile-dots i:nth-child(2){width:42px;height:2px;border-radius:0}
+    .tile-dots i:last-child{background:var(--orange)}
+    .section{padding:84px 0;scroll-margin-top:78px}
+    .section-heading{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:30px}
+    .section h2{font-size:clamp(35px,4.4vw,56px);line-height:1.05;letter-spacing:-.063em;margin:12px 0 0;max-width:610px}
+    .section-heading p{max-width:360px;color:var(--muted);margin:0 0 5px}
+    .tile-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
+    .service{position:relative;min-height:314px;display:flex;flex-direction:column;justify-content:space-between;border-radius:12px;padding:28px;overflow:hidden;text-decoration:none;transition:transform .27s var(--ease),box-shadow .27s var(--ease),background .27s var(--ease);border:1px solid rgba(41,69,56,.10)}
+    .service:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+    .service:focus-visible{outline-offset:4px}
+    .service .number{display:block;font-size:13px;font-weight:850;letter-spacing:.12em}
+    .service h3{font-size:clamp(27px,2.65vw,36px);line-height:1.09;letter-spacing:-.055em;margin:12px 0}
+    .service p{font-size:15px;line-height:1.6;max-width:425px;margin:0}
+    .service .bottom{display:flex;justify-content:space-between;align-items:end;gap:16px}
+    .service .arrow{font-size:29px;line-height:1;flex:none;transition:transform .26s var(--ease)}
+    .service:hover .arrow{transform:translate(3px,-3px)}
+    .service-main{grid-column:span 7;min-height:350px;background:var(--mint)}
+    .service-dark{grid-column:span 5;background:var(--deep);color:white}
+    .service-peach{grid-column:span 5;background:var(--peach)}
+    .service-paper{grid-column:span 7;background:var(--white);border-color:var(--edge)}
+    .service-main .tile-graphic{position:absolute;right:28px;top:25px;width:117px;height:86px;border:2px solid #739789;border-radius:6px;box-shadow:-10px 10px 0 -2px #c6d9ca,-10px 10px 0 0 #739789;opacity:.75}
+    .service-main .tile-graphic::before{content:"";position:absolute;top:14px;left:13px;right:13px;height:8px;background:#7b9f93}
+    .service-main .tile-graphic::after{content:"";position:absolute;top:36px;left:13px;width:48px;height:24px;background:#bdd4c6}
+    .service-dark .tile-graphic{position:absolute;top:25px;right:30px;width:75px;height:36px;border-top:2px dashed #91c1aa;border-right:2px dashed #91c1aa;opacity:.65}
+    .service-peach .tile-graphic{position:absolute;top:27px;right:32px;display:flex;gap:8px}
+    .service-peach .tile-graphic::before,.service-peach .tile-graphic::after{content:"";width:34px;height:34px;border:2px solid #9f6951;border-radius:6px;transform:rotate(-7deg)}
+    .service-peach .tile-graphic::after{transform:rotate(8deg)}
+    .service-paper .tile-graphic{position:absolute;right:25px;top:20px;color:#80978b;font:700 75px/1 Georgia,serif;letter-spacing:-.1em}
+    .process{background:#e8eee6;border-top:1px solid #cbdace;border-bottom:1px solid #cbdace}
+    .process-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:37px}
+    .step{padding:18px 5px 0;border-top:2px solid #9ab8a5}
+    .step span{display:block;font-size:12px;color:#446d5e;font-weight:850;letter-spacing:.08em;margin-bottom:20px}
+    .step h3{font-size:20px;letter-spacing:-.04em;margin:0 0 9px}
+    .step p{font-size:14px;color:#51645a;margin:0}
+    .about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+    .about h2{margin-bottom:0}
+    .about p{font-size:17px;color:var(--muted);margin:0}
+    .contact-panel{background:var(--sand);padding:58px 62px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;position:relative;overflow:hidden}
+    .contact-panel::after{content:"";position:absolute;right:-130px;bottom:-160px;width:280px;height:280px;border:23px solid #cfbfa4;border-radius:36% 64% 55% 45%;opacity:.36;pointer-events:none}
+    .contact-panel h2{max-width:690px;margin-bottom:15px}
+    .contact-panel p{color:#52615a;max-width:585px;margin:0}
+    .contact-panel .button{position:relative;z-index:1;white-space:nowrap}
+    .contact-note{font-size:12px;color:#52615a;margin-top:12px;display:block}
+    .footer{padding:36px 0 55px;border-top:1px solid #d4dbd1;color:#57665d;font-size:12px}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+    .footer a{text-underline-offset:4px}
+    @media(max-width:1000px){
+      .hero{grid-template-columns:1fr 360px;gap:28px}
+      .hero-tiles{min-height:350px}
+      .contact-panel{grid-template-columns:1fr;padding:45px}
+      .section-heading{display:block}
+      .section-heading p{margin:17px 0 0}
+      .service-main .tile-graphic,.service-peach .tile-graphic{opacity:.45}
+    }
+    @media(max-width:760px){
+      html{scroll-padding-top:35px}
+      .nav{flex-wrap:wrap;padding:14px 0;min-height:0;gap:4px}
+      .links{order:3;width:100%;justify-content:space-between;gap:1px}
+      .links a{padding:10px 8px;font-size:12px}
+      .links .nav-contact{padding:9px 12px}
+      .hero{grid-template-columns:1fr;padding:55px 0 53px}
+      .hero-tiles{width:min(100%,500px);min-height:290px;grid-template-rows:repeat(2,1fr) 60px}
+      .hero-tile{padding:20px}
+      .section{padding:60px 0;scroll-margin-top:35px}
+      .tile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .service{grid-column:span 1;min-height:295px;padding:23px}
+      .service-main,.service-paper{grid-column:span 2}
+      .service .tile-graphic{opacity:.30}
+      .process-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+      .about{grid-template-columns:1fr;gap:19px}
+      .contact-panel{padding:39px 30px}
+    }
+    @media(max-width:500px){
+      .wrap{width:calc(100% - 32px)}
+      .wordmark{font-size:25px}
+      .hero h1{font-size:clamp(47px,11.8vw,66px)}
+      .hero-actions .button{width:100%}
+      .hero-tiles{min-height:270px}
+      .hero-tile strong{font-size:22px}
+      .hero-tile:nth-child(1) strong{font-size:32px}
+      .hero-tile:nth-child(4) strong{font-size:13px}
+      .tile-grid{grid-template-columns:1fr}
+      .service{grid-column:span 1;min-height:265px;padding:23px}
+      .service h3{font-size:30px;max-width:290px}
+      .service-main .tile-graphic{width:80px;height:66px}
+      .section h2{font-size:clamp(33px,8.4vw,43px)}
+      .contact-panel{padding:33px 22px}
+      .contact-panel .button{width:100%;white-space:normal}
+    }
+    @media(max-width:360px){
+      .links a{font-size:11px;padding:9px 6px}
+      .links .nav-contact{padding:8px}
+      .hero h1{font-size:43px}
+      .hero-tile{padding:15px}
+      .hero-tile:nth-child(1) strong{font-size:29px}
+      .service h3{font-size:28px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{transition-duration:0.01ms!important;animation-duration:0.01ms!important}
+      .button:hover,.service:hover,.service:hover .arrow{transform:none}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header class="nav-shell">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="wordmark" href="#top" aria-label="BAGDigital home">BAGDigital</a>
+      <div class="links">
+        <a href="#services">Services</a>
+        <a href="#how">How it works</a>
+        <a href="#about">About</a>
+        <a class="nav-contact" href="#contact" aria-label="Request a free consultation">Let's talk ↗</a>
+      </div>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" id="top" aria-labelledby="hero-heading">
+      <div>
+        <span class="eyebrow">Independent technology studio / Beaufort, SC</span>
+        <h1 id="hero-heading">Good business.<br><span>Less busywork.</span></h1>
+        <p class="lead">We build websites, improve workflows, and help small businesses make better use of the software they already have. Straightforward advice. Thoughtful work. No unnecessary complexity.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="button button-primary">Request a free consultation <span aria-hidden="true">↗</span></a>
+          <a href="#services" class="button button-secondary">Explore services <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="local">Based in Beaufort, SC · Working with small businesses near and far</p>
+      </div>
+      <div class="hero-tiles" role="img" aria-label="Abstract tile illustration showing people, tools and clearer workflows; conceptual, not a working dashboard">
+        <div class="hero-tile"><small>Made for people</small><strong>Human-first technology.</strong></div>
+        <div class="hero-tile"><small>Build</small><strong>Clearer websites.</strong><span class="mark" aria-hidden="true">↗</span></div>
+        <div class="hero-tile"><small>Improve</small><strong>Smoother work.</strong><span class="mark" aria-hidden="true">↝</span></div>
+        <div class="hero-tile"><strong>Small changes. Real utility.</strong><span class="tile-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+      </div>
+    </section>
+    <section class="section wrap" id="services" aria-labelledby="services-heading">
+      <div class="section-heading">
+        <div><span class="eyebrow">What we do</span><h2 id="services-heading">Good technology.<br>Put to work.</h2></div>
+        <p>Start with what you need help with. We'll discuss a clear scope and what is realistic for your business.</p>
+      </div>
+      <div class="tile-grid">
+        <a class="service service-main" href="#contact" aria-label="Discuss a website or web development project">
+          <span class="number">01 / Websites</span><span class="tile-graphic" aria-hidden="true"></span>
+          <div><h3>Make a stronger first impression.</h3><p>Clean, responsive websites and redesigns that explain what you do and make it easy to get in touch.</p></div>
+          <span class="bottom"><strong>Discuss your website</strong><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="service service-dark" href="#contact" aria-label="Discuss a workflow improvement project">
+          <span class="number">02 / Workflows</span><span class="tile-graphic" aria-hidden="true"></span>
+          <div><h3>Spend less time on repeat tasks.</h3><p>Identify repetitive admin and plan focused automation where your tools and permissions allow.</p></div>
+          <span class="bottom"><strong>Explore a workflow</strong><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="service service-peach" href="#contact" aria-label="Discuss software integration planning">
+          <span class="number">03 / Integrations</span><span class="tile-graphic" aria-hidden="true"></span>
+          <div><h3>Help your tools fit together.</h3><p>Evaluate compatibility, access, and the steps involved before committing to a connection.</p></div>
+          <span class="bottom"><strong>Talk through your tools</strong><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+        <a class="service service-paper" href="#contact" aria-label="Discuss ongoing website and technical support">
+          <span class="number">04 / Support</span><span class="tile-graphic" aria-hidden="true">+</span>
+          <div><h3>Keep things working well.</h3><p>Practical website updates, troubleshooting, and ongoing improvements when you need them.</p></div>
+          <span class="bottom"><strong>Ask about support</strong><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+      </div>
+    </section>
+    <section class="section process" id="how" aria-labelledby="how-heading">
+      <div class="wrap">
+        <span class="eyebrow">How it works</span>
+        <h2 id="how-heading">Start with a conversation.<br>Leave with a plan.</h2>
+        <div class="process-grid">
+          <div class="step"><span>01 / TALK</span><h3>Tell us the problem.</h3><p>What is slowing down your business or holding back your website?</p></div>
+          <div class="step"><span>02 / EXPLORE</span><h3>Find a realistic approach.</h3><p>We'll look at your needs and which solutions are feasible.</p></div>
+          <div class="step"><span>03 / AGREE</span><h3>Approve the scope.</h3><p>Review deliverables and costs before paid work begins.</p></div>
+          <div class="step"><span>04 / BUILD</span><h3>Make it useful.</h3><p>We'll build the agreed work and discuss what comes next.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="section about wrap" id="about" aria-labelledby="about-heading">
+      <div><span class="eyebrow">The person behind the work</span><h2 id="about-heading">Independent by design.<br>Practical by nature.</h2></div>
+      <p>BAGDigital is an independent technology studio based in Beaufort, South Carolina. You work directly with the developer understanding your problem and shaping the solution—not a maze of departments or sales handoffs.</p>
+    </section>
+    <section class="section wrap" id="contact" aria-labelledby="contact-heading">
+      <div class="contact-panel">
+        <div><span class="eyebrow">Let's work on something useful</span><h2 id="contact-heading">What's taking too much time?</h2><p>Tell us about the website or business process you'd like to improve. We'll talk through the possibilities and whether we're a good fit.</p><span class="contact-note">Preview only: the link opens your email app. You must review and send the message yourself; no information is submitted here.</span></div>
+        <a class="button button-primary" href="mailto:jaime@bagdigital.com?subject=BAGDigital%20consultation%20request">Email us about your project <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="wrap footer-inner"><span>© BAGDigital · Beaufort, South Carolina</span><span>Field Notes tile design concept · Not the published website</span><a href="#top">Back to top ↑</a></div>
+  </footer>
+</body>
+</html>
