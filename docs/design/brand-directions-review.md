@@ -1,9 +1,26 @@
 # BAGDigital site #18 — three original identity directions (review pack)
 
-**Status:** Indigo/Control Desk design exploration for founder selection. **Not an adopted brand, not a public site change, not a Prism independent review.**
+**Status:** Founder selected **Field Notes for continued refinement** on 2026-10-14. Not approved for publication or merge; no Prism/Vesper verdict on this revised candidate.
 **Preview:** [.github/design-concepts/three-brand-directions.html](../../.github/design-concepts/three-brand-directions.html) (standalone browser HTML; no remote assets, real customer data, provider calls, secrets, or tracking).
 **Source issue:** https://github.com/BAG-Digital/bagdigital-site/issues/18
 **Supersedes for branding:** generic organic material homepage exploration in draft site PR #17. PR #17 remains historical/design-only, not a publication candidate.
+
+## Founder selection and editorial revision — 2026-10-14
+
+The founder prefers **Field Notes** but rejected its bracket-plus logo and requested the plain **BAGDigital** name, with a review of the menu and copy. The updated `.github/design-concepts/notes.html` is the sole selected experience for further implementation. Relay and Tide remain historical alternatives, not competing public templates.
+
+**Approved design direction for refinement:** a text-only BAGDigital wordmark (no icon), editorial layout, warm paper, restrained green/coral accents, plain-language services and visible consultation CTA. **Not approved:** any new icon/logo, publishing the mockup, or claiming live BAGDigital Core integration.
+
+**Navigation:** Services → How it works → About → Free consultation. The previous “Method” and “Contact” labels were less descriptive. On small screens, these remain direct anchor links with large tap targets rather than an additional hamburger-menu interaction.
+
+**Copy principles:**
+- What BAGDigital sells now: websites and web development, scoping workflow improvements, software integration feasibility/planning, and ongoing technical support.
+- Avoid “we connect everything” or implying a particular provider is live without Core's independently verified capability evidence and required approval gates.
+- Say what is in it for the buyer, not “no invented testimonials” or internal engineering/prototype caveats within marketing sections.
+- “Free consultation” is an invitation to discuss scope, not a promise of instant scheduling; preview CTA uses a clearly described email link only.
+- About message: independent developer based in Beaufort, SC; no unapproved testimonials, team-size or outcome promises.
+
+**Before public-site implementation:** reconcile Site #7/PR #5 contact privacy/anti-spam work; verify email delivery, mobile keyboard and screen-reader navigation, full contrast, 200% zoom, original typography, and reduced-motion behavior. Require Mara/Prism review and founder exact-release approval. No autonomous website synchronization/merge.
 
 ## What we intentionally rejected
 
@@ -40,13 +57,13 @@ This is a design-pattern audit and rejection list, not a claim to have audited s
 
 ## 03 — FIELD NOTES / "Good business. Less busywork."
 
-**Distinctive signature:** working-notebook editorial geometry, ruled sections, small human annotations, contrasting line weights and a precise bracket-plus brand mark. It says “we diagnose and solve real problems” without decorating the page with personal hobbies.
+**Distinctive signature:** working-notebook editorial geometry, ruled sections, small human annotations, contrasting line weights and a **text-only BAGDigital wordmark**. It says “we diagnose and solve real problems” without decorating the page with personal hobbies.
 
 - Typography: bold clean system display plus restrained editorial serif as commentary; no remote font loads by default.
 - Palette: paper \`#FBF8EF\`, slate ink \`#242D35\`, deep evergreen \`#2E514C\`, burnt coral \`#B4503A\`, restrained chartreuse highlight \`#D3EDBB\`.
 - Layout: daring but scannable left-heavy hero, single useful founder perspective note, numbered horizontal service registry and transparent four-stage engagement.
 - Motion candidate: quiet focus/hover responses and nonblocking line emphasis; avoid repeated floating components.
-- Logo direction: bounded/paired brackets holding an action signal, illustrating human oversight.
+- Identity direction: **BAGDigital set in clear custom-considered typography only**. Founder rejected the illustrative bracket-plus logo; do not reintroduce an icon by default.
 - Benefit: the **most ownable** and distinct from templated AI SaaS marketing. It can extend to customer and founder workspaces as annotated operational tools with clear evidence and provenance.
 - Tradeoff: editorial personality must not hurt legibility or distract from consultation CTA; founder note requires factual owner approval before publication.
 
@@ -62,7 +79,7 @@ This is a design-pattern audit and rejection list, not a claim to have audited s
 | Extension to Core customer UI | Natural | Requires more disciplined app shells | Natural; provenance/decisions become visual language |
 | Immediate buyer clarity | Strong | Strong | Strong |
 
-**Indigo recommendation:** FIELD NOTES as the best **creative starting point**, Relay as a polished and safer alternative. No automatic selection. Tide is available if founder prioritizes calmness over edgy personality. This is a design recommendation, not an independent Prism review or client-validated preference.
+**Indigo recommendation and founder selection:** FIELD NOTES is the chosen refinement starting point; Relay and Tide remain unselected comparisons. No publication approval implied. Tide is available if founder prioritizes calmness over edgy personality. This is a design recommendation, not an independent Prism review or client-validated preference.
 
 ## Shared design and business truth
 
