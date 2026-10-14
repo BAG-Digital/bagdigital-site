@@ -11,7 +11,7 @@ The founder prefers **Field Notes** but rejected its bracket-plus logo and reque
 
 **Approved design direction for refinement:** a text-only BAGDigital wordmark (no icon), editorial layout, warm paper, restrained green/coral accents, plain-language services and visible consultation CTA. **Not approved:** any new icon/logo, publishing the mockup, or claiming live BAGDigital Core integration.
 
-**Navigation:** Services → How it works → About → Free consultation. The previous “Method” and “Contact” labels were less descriptive. On small screens, these remain direct anchor links with large tap targets rather than an additional hamburger-menu interaction.
+**Navigation:** Services → How it works → About → Let’s talk. The final link announces “Request a free consultation” accessibly, and the hero shows the full call to action. The previous “Method” and “Contact” labels were less descriptive. On small screens, these remain direct anchor links with large tap targets rather than an additional hamburger-menu interaction.
 
 **Copy principles:**
 - What BAGDigital sells now: websites and web development, scoping workflow improvements, software integration feasibility/planning, and ongoing technical support.
