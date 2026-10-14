@@ -3,8 +3,12 @@ on:
   pull_request:
     paths:
       - ".github/design-concepts/three-brand-directions.html"
+      - ".github/design-concepts/relay.html"
+      - ".github/design-concepts/tide.html"
+      - ".github/design-concepts/notes.html"
       - "docs/design/brand-directions-review.md"
       - "tests/brand-directions.test.mjs"
+      - "tests/brand-standalone.test.mjs"
       - ".github/workflows/brand-directions.yml"
 permissions:
   contents: read
@@ -17,7 +21,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Node design and content contract tests
-        run: node --test tests/brand-directions.test.mjs
+        run: node --test tests/brand-directions.test.mjs tests/brand-standalone.test.mjs
       - name: Capture mobile and desktop concept screenshots
         shell: bash
         run: |
@@ -42,6 +46,9 @@ jobs:
           path: |
             brand-review-screenshots/*.png
             .github/design-concepts/three-brand-directions.html
+            .github/design-concepts/relay.html
+            .github/design-concepts/tide.html
+            .github/design-concepts/notes.html
           if-no-files-found: error
           include-hidden-files: true
           retention-days: 14
