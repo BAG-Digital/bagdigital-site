@@ -1,0 +1,54 @@
+name: Brand direction design review checks
+on:
+  pull_request:
+    paths:
+      - ".github/design-concepts/three-brand-directions.html"
+      - ".github/design-concepts/relay.html"
+      - ".github/design-concepts/tide.html"
+      - ".github/design-concepts/notes.html"
+      - "docs/design/brand-directions-review.md"
+      - "tests/brand-directions.test.mjs"
+      - "tests/brand-standalone.test.mjs"
+      - ".github/workflows/brand-directions.yml"
+permissions:
+  contents: read
+jobs:
+  design-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Node design and content contract tests
+        run: node --test tests/brand-directions.test.mjs tests/brand-standalone.test.mjs
+      - name: Capture mobile and desktop concept screenshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          if [[ -z "$BROWSER" ]]; then
+            echo "::error::Headless Chrome/Chromium unavailable on runner"
+            exit 1
+          fi
+          mkdir -p brand-review-screenshots
+          for concept in relay tide notes; do
+            for width in 320 375 768 1440; do
+              "$BROWSER" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars                 --window-size="${width},1000"                 --screenshot="brand-review-screenshots/${concept}-${width}.png"                 "file://${PWD}/.github/design-concepts/${concept}.html"                 >/tmp/bagdigital-chrome.log 2>&1 || { cat /tmp/bagdigital-chrome.log; exit 1; }
+              test -s "brand-review-screenshots/${concept}-${width}.png"
+            done
+          done
+          ls -lh brand-review-screenshots
+      - name: Retain exact prototype and screenshots for Indigo/founder review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: bagdigital-brand-direction-review
+          path: |
+            brand-review-screenshots/*.png
+            .github/design-concepts/three-brand-directions.html
+            .github/design-concepts/relay.html
+            .github/design-concepts/tide.html
+            .github/design-concepts/notes.html
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14

@@ -1,0 +1,118 @@
+# BAGDigital site #18 — three original identity directions (review pack)
+
+**Status:** Founder selected **Field Notes for continued refinement** on 2026-10-14. Not approved for publication or merge; no Prism/Vesper verdict on this revised candidate.
+**Preview:** [.github/design-concepts/three-brand-directions.html](../../.github/design-concepts/three-brand-directions.html) (standalone browser HTML; no remote assets, real customer data, provider calls, secrets, or tracking).
+**Source issue:** https://github.com/BAG-Digital/bagdigital-site/issues/18
+**Supersedes for branding:** generic organic material homepage exploration in draft site PR #17. PR #17 remains historical/design-only, not a publication candidate.
+
+## Founder selection and editorial revision — 2026-10-14
+
+The founder prefers **Field Notes** but rejected its bracket-plus logo and requested the plain **BAGDigital** name, with a review of the menu and copy. The updated `.github/design-concepts/notes.html` is the sole selected experience for further implementation. Relay and Tide remain historical alternatives, not competing public templates.
+
+**Approved design direction for refinement:** a text-only BAGDigital wordmark (no icon), editorial layout, warm paper, restrained green/coral accents, plain-language services and visible consultation CTA. **Not approved:** any new icon/logo, publishing the mockup, or claiming live BAGDigital Core integration.
+
+**Navigation:** Services → How it works → About → Let’s talk. The final link announces “Request a free consultation” accessibly, and the hero shows the full call to action. The previous “Method” and “Contact” labels were less descriptive. On small screens, these remain direct anchor links with large tap targets rather than an additional hamburger-menu interaction.
+
+**Copy principles:**
+- What BAGDigital sells now: websites and web development, scoping workflow improvements, software integration feasibility/planning, and ongoing technical support.
+- Avoid “we connect everything” or implying a particular provider is live without Core's independently verified capability evidence and required approval gates.
+- Say what is in it for the buyer, not “no invented testimonials” or internal engineering/prototype caveats within marketing sections.
+- “Free consultation” is an invitation to discuss scope, not a promise of instant scheduling; preview CTA uses a clearly described email link only.
+- About message: independent developer based in Beaufort, SC; no unapproved testimonials, team-size or outcome promises.
+
+**Before public-site implementation:** reconcile Site #7/PR #5 contact privacy/anti-spam work; verify email delivery, mobile keyboard and screen-reader navigation, full contrast, 200% zoom, original typography, and reduced-motion behavior. Require Mara/Prism review and founder exact-release approval. No autonomous website synchronization/merge.
+
+## Founder request — modern tiled UI direction (2026-10-14)
+
+**Instruction:** Retain selected Field Notes, simple **BAGDigital** wordmark and customer-first copy, but make the website feel like a **modern CSS tile interface inspired by classic Windows Metro**. This is inspiration for layout rhythm, not a request to use Microsoft imagery or mimic the operating system.
+
+**Implemented in the non-public selected prototype** \`.github/design-concepts/notes.html\`:
+
+- A purposefully asymmetric 12-column service mosaic: website (7 columns), workflow (5), integrations (5), ongoing support (7). Each entire tile links to the consultation section; there are no controls that pretend to execute a workflow.
+- A smaller hero grid of informational tiles in place of fake live dashboards, futuristic gradients or generated photography.
+- Original CSS details, restrained paper/evergreen/mint/sand/coral palette, square-rounded material-like surfaces, clear hierarchy and text-only wordmark.
+- Gentle hover elevation/arrow motion with keyboard focus outlines and \`prefers-reduced-motion\` opt-out.
+- Responsive stacking at 760px and 500px, plus a narrow 360px typography adaptation.
+- Services explicitly state feasibility of automation and integrations; no HCP or Google provider connection is marketed as live.
+- Contact action remains \`mailto:\` only. A real public lead-capture form must be reconciled with Site #7 / PR #5, with privacy, spam, delivery and security review. No silent submissions or false receipt notices.
+
+**UX acceptance pending:** source tests and Actions screenshots are necessary but not sufficient. Check 320/375/768/1440 browser render, 200% zoom, keyboard navigation, reduced motion, text contrast and actual inquiry flow. Review with founder and independent Prism before production. Vesper review required for security-sensitive form/integration/auth boundary; do not convert a synthetic visual concept into a security PASS.
+
+**Design status:** SELECTED FOR ITERATION, NOT APPROVED FOR PRODUCTION. Keep the three-direction comparison as historical reference but selected tile edition is the only candidate moving forward.
+
+## What we intentionally rejected
+
+- The predictable "AI company" composition: huge soft blob + floating fake dashboard + generic 4-card service grid + fictitious performance metrics.
+- Neon gradients on black, stock-style computer photos, synthetic Beaufort scenery, literal skateboarding/glass imagery and unrelated visual gimmicks.
+- Fake social proof, named unconsented customers, placeholder "View our work" with nothing verified to show, and implied live BAGDigital Core connectors.
+- Busy hero animation, scrolling tricks or form motion that interferes with lead capture.
+
+This is a design-pattern audit and rejection list, not a claim to have audited specific competitor websites.
+
+## 01 — RELAY / "Work, without the workarounds."
+
+**Distinctive signature:** precisely connected paths, a purposeful center-of-work decision node, structured editorial grid, restrained geometry, original geometric logo with two linked terminals. The interface feels competent and fast rather than techy for its own sake.
+
+- Typography: bold system grotesk; compact letter spacing; left-aligned, highly scannable.
+- Palette: warm white \`#F5F4ED\`, forest ink \`#183732\`, connection teal \`#2A7464\`, warm action indicator \`#E6AE68\`.
+- Layout: asymmetric editorial hero, original line-path diagram, two-column ruled service ledger, clear three-step method.
+- Motion candidate: draw a connector as user scrolls into view or transitions between sections, 200–300ms; reduced motion equivalent fully static.
+- Logo direction: paired nodes and open loop; experimental mark, not the company-approved logo.
+- Benefit: clear industrial/service-business credibility; extends well to a customer console with persistent identity and verified statuses.
+- Tradeoff: can feel reserved; needs warmth in microcopy and real founder voice.
+
+## 02 — TIDE / "Give your business room to flow."
+
+**Distinctive signature:** airy typographic calm, broad organic current illustration and asymmetrical gently tiered surfaces. Organic refers to the motion of information, not an invented Beaufort landscape.
+
+- Typography: modest contrast between system UI body and editorial Georgia display.
+- Palette: pale seafoam \`#EFF5F0\`, deep blue-green \`#173F4B\`, tide teal \`#147B81\`.
+- Layout: centered generous hero, single large original line/stream illustration, offset surface-based service explanations, linear process.
+- Motion candidate: a single subtle line-draw or transform for the stream, reduced motion off.
+- Logo direction: two hand-drawn-looking structured flow paths; not a wave photograph or industry-specific symbol.
+- Benefit: approachable for nontechnical service owners, less hard-edged than most tech agencies.
+- Tradeoff: higher risk of looking like a generic contemporary wellness/consulting page unless typography/section structure is refined.
+
+## 03 — FIELD NOTES / "Good business. Less busywork."
+
+**Distinctive signature:** working-notebook editorial geometry, ruled sections, small human annotations, contrasting line weights and a **text-only BAGDigital wordmark**. It says “we diagnose and solve real problems” without decorating the page with personal hobbies.
+
+- Typography: bold clean system display plus restrained editorial serif as commentary; no remote font loads by default.
+- Palette: paper \`#FBF8EF\`, slate ink \`#242D35\`, deep evergreen \`#2E514C\`, burnt coral \`#B4503A\`, restrained chartreuse highlight \`#D3EDBB\`.
+- Layout: daring but scannable left-heavy hero, single useful founder perspective note, numbered horizontal service registry and transparent four-stage engagement.
+- Motion candidate: quiet focus/hover responses and nonblocking line emphasis; avoid repeated floating components.
+- Identity direction: **BAGDigital set in clear custom-considered typography only**. Founder rejected the illustrative bracket-plus logo; do not reintroduce an icon by default.
+- Benefit: the **most ownable** and distinct from templated AI SaaS marketing. It can extend to customer and founder workspaces as annotated operational tools with clear evidence and provenance.
+- Tradeoff: editorial personality must not hurt legibility or distract from consultation CTA; founder note requires factual owner approval before publication.
+
+## First-pass comparison (qualitative, subjective assessment—not usability research)
+
+| Criterion | Relay | Tide | Field Notes |
+| --- | --- | --- | --- |
+| Professional credibility | Strong | Strong | Strong |
+| Distinct from AI templates | Strong | Moderate | Strongest |
+| Material-inspired usability | Strong | Strong | Strong |
+| Organic feel | Moderate | Strongest | Medium; ink-and-flow linework |
+| Accessibility potential | Strong | Strong, subject to contrast testing | Strong, subject to contrast testing |
+| Extension to Core customer UI | Natural | Requires more disciplined app shells | Natural; provenance/decisions become visual language |
+| Immediate buyer clarity | Strong | Strong | Strong |
+
+**Indigo recommendation and founder selection:** FIELD NOTES is the chosen refinement starting point; Relay and Tide remain unselected comparisons. No publication approval implied. Tide is available if founder prioritizes calmness over edgy personality. This is a design recommendation, not an independent Prism review or client-validated preference.
+
+## Shared design and business truth
+
+- BAGDigital sells scoped web development, workflow improvement, integration feasibility/advice, and technical support **as engagements assessed for feasibility**.
+- BAGDigital Core is a **development-stage secure, provider-neutral, multi-tenant foundation**; a working brand prototype or passing CI does not mean any connection is commercially live.
+- Do not publish customer-specific examples, outcomes, client names or quotes without evidence and consent.
+- All three concepts have a single consultation CTA opening a visitor's own email application. **They do not collect or submit a real lead.** Site #7 / PR #5 retains ownership of safe production intake; Site #11 governs customer-facing messaging; Company #13/#37 govern publication.
+- Keep public GitHub Pages separate from any future Core-authenticated customer workspace and owner-only console. Rook and Vesper own security boundaries; page-level switching or client-side masks are not access controls.
+
+## Review plan and release gates
+
+1. **Control Desk first-pass review** against Site #18 and documented browser/static checks; record verdict and reservations in issue #18.
+2. **Founder selection** of a concept, or focused revision request. No publication implied.
+3. Indigo builds one selected responsive candidate in a narrow PR (not three alternative public destinations). Verify mobile 320/375/768/1440, keyboard, 200% zoom, contrast, reduced motion, and actual inquiry flow.
+4. Mara verifies services and intended audience against actual commitments. Prism independently reviews chosen wording/visual claims and direct use of brand; Vesper independently reviews security-sensitive changes (especially form/contact data flow, auth, APIs) to the exact SHA. Founder approves any merge/publication separately.
+5. Check core #84, company #33, infrastructure #15 before changing any Housecall Pro availability copy. Read and follow site #19 website-change intake rather than updating pages on every internal commit.
+
+**Definition of design review done:** Three clearly different source-backed concepts; useful comparison; safety checks and limitations recorded; actual GitHub draft PR and issue comment. Definition does **not** include publication approval, real customer testing, or live service delivery evidence.
