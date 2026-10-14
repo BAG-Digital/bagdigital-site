@@ -41,11 +41,12 @@ test("selected Field Notes uses a text-only BAGDigital wordmark and buyer-friend
   assert.doesNotMatch(html,/<a class="wordmark"[^>]*><svg/);
   assert.doesNotMatch(html,/class="deck-head"/);
   assert.match(html,/class="skip" href="#main"/);
-  for(const [label,id] of [["Services","n-services"],["How it works","n-process"],["About","n-about"],["Free consultation","n-contact"]]){
+  for(const [label,id] of [["Services","n-services"],["How it works","n-process"],["About","n-about"],["Let’s talk","n-contact"]]){
     assert.ok(html.includes('href="#'+id+'"'),label+' link');
     assert.ok(html.includes('id="'+id+'"'),label+' anchor');
   }
   assert.match(html,/Email us about your project/);
+  assert.match(html,/aria-label="Request a free consultation">Let’s talk/);
   assert.match(html,/Design preview, not the published website/);
   assert.doesNotMatch(html,/fake testimonials|No invented success stories|Field Notes logo concept/i);
 });
