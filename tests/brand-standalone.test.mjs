@@ -1,0 +1,36 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+
+const folder=new URL("../.github/design-concepts/",import.meta.url);
+const variants=[
+  {id:"relay",title:"Work,",cta:"Let's talk about your business"},
+  {id:"tide",title:"room to flow",cta:"Start a conversation"},
+  {id:"notes",title:"Good business",cta:"Tell us what you need"}
+];
+
+for(const variant of variants){
+ test(variant.id+" opens as a standalone responsive theme without JavaScript",()=>{
+   const page=readFileSync(new URL(variant.id+".html",folder),"utf8");
+   assert.match(page,/<!doctype html>/i);
+   assert.match(page,/name="robots" content="noindex"/);
+   assert.match(page,new RegExp('class="view '+variant.id+'"'));
+   assert.match(page,new RegExp('id="'+variant.id+'"'));
+   assert.match(page,/aria-current="page"/);
+   assert.ok(page.includes(variant.title));
+   assert.ok(page.includes(variant.cta));
+   assert.match(page,/mailto:jaime@bagdigital\.com/);
+   assert.match(page,/@media\(max-width:620px\)/);
+   assert.match(page,/@media\(prefers-reduced-motion:reduce\)/);
+   assert.match(page,/:focus-visible/);
+   assert.doesNotMatch(page,/<script\b|<form\b|fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|WebSocket|<iframe\b|<img\b/);
+   assert.doesNotMatch(page,/\bhidden(?:=|\s|>)/);
+   for (const other of variants)assert.match(page,new RegExp('href="\\./'+other.id+'\\.html"'));
+ });
+}
+
+test("standalone themes do not rely on unverified proof or real integrations",()=>{
+ const pages=variants.map(v=>readFileSync(new URL(v.id+".html",folder),"utf8")).join("\n");
+ assert.doesNotMatch(pages,/five.star.review|verified.customer.results|live.connected.Housecall.Pro|revenue.saved/i);
+ assert.match(pages,/No live customer data|No live integrations|no live product claims/i);
+});
