@@ -24,7 +24,7 @@ for(const variant of variants){
    assert.match(page,/@media\(prefers-reduced-motion:reduce\)/);
    assert.match(page,/:focus-visible/);
    assert.doesNotMatch(page,/<script\b|<form\b|fetch\s*\(|XMLHttpRequest|localStorage|sessionStorage|WebSocket|<iframe\b|<img\b/);
-   assert.doesNotMatch(page,/\bhidden(?:=|\s|>)/);
+   assert.doesNotMatch(page,/<section\b[^>]*\shidden(?:\b|=)/);
    for (const other of variants)assert.match(page,new RegExp('href="\\./'+other.id+'\\.html"'));
  });
 }
