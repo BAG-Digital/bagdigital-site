@@ -34,7 +34,7 @@ jobs:
           mkdir -p brand-review-screenshots
           for concept in relay tide notes; do
             for width in 320 375 768 1440; do
-              "$BROWSER" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars                 --window-size="${width},1000"                 --screenshot="brand-review-screenshots/${concept}-${width}.png"                 "file://${PWD}/.github/design-concepts/three-brand-directions.html#direction-${concept}"                 >/tmp/bagdigital-chrome.log 2>&1 || { cat /tmp/bagdigital-chrome.log; exit 1; }
+              "$BROWSER" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars                 --window-size="${width},1000"                 --screenshot="brand-review-screenshots/${concept}-${width}.png"                 "file://${PWD}/.github/design-concepts/${concept}.html"                 >/tmp/bagdigital-chrome.log 2>&1 || { cat /tmp/bagdigital-chrome.log; exit 1; }
               test -s "brand-review-screenshots/${concept}-${width}.png"
             done
           done
