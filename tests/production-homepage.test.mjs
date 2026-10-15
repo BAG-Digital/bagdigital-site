@@ -80,3 +80,13 @@ test("public sitemap modification date and crawl destinations match the revised 
   assert.match(html, /<meta name="description"/);
   assert.match(html, /property="og:description"/);
 });
+
+
+test("hero mosaic labels can wrap safely instead of clipping long words", () => {
+  // The illustrative tiles have overflow:hidden; emergency wrapping is required
+  // for long words at the smallest responsive widths and font variations.
+  assert.match(css, /\\.hero-tile strong\\{[^}]*overflow-wrap:anywhere/);
+  assert.match(css, /\\.hero-tile:nth-child\\(1\\) strong\\{font-size:clamp\\(30px,3vw,43px\\)/);
+  assert.match(css, /@media\\(max-width:500px\\)\\{[\\s\\S]*?\\.hero-tile:nth-child\\(1\\) strong\\{font-size:26px/);
+  assert.match(css, /@media\\(max-width:360px\\)\\{[\\s\\S]*?\\.hero-tile:nth-child\\(1\\) strong\\{font-size:24px/);
+});
