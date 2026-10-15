@@ -42,11 +42,25 @@ Site #18's selected **Field Notes / Metro-inspired tiles** direction is implemen
 remains untouched in Site PR #20. This changes neither the live GitHub Pages branch nor
 production DNS until the separately approved merge/publication.
 
-**Contact is mailto-only:** the visitor's own email application opens when they choose
-"Email us about your project"; the visitor must review and send it. This page contains no
-FormSubmit form, analytics, JavaScript, customer login, credentials, provider calls, or account
-creation. The separate Site #7 / PR #5 FormSubmit source and live anti-abuse/delivery gate
-are **not** declared resolved by this homepage.
+**Founder-requested in-page inquiry form — SOURCE-ONLY, NOT LIVE OR DELIVERY-VERIFIED:**
+The proposed homepage now has a native HTML form for name, email, optional business
+name, project category and short project description. Visitors can submit from the page
+without launching a mail app. A required checkbox discloses that submitted details go
+to **FormSubmit.co**, BAGDigital's existing site intake provider. Native POST may navigate
+to FormSubmit's CAPTCHA challenge and thank-you/verification page. No custom JavaScript,
+AJAX, tracking, attachments, payment or BAGDigital customer authentication is added.
+The visible `jaime@bagdigital.tech` email address remains a manual fallback.
+
+This is **not** an approved live form: provider recipient activation, owner-approved
+synthetic end-to-end submission, server-side `_honey`/CAPTCHA enforcement, filtered
+negative-path behavior, delivery and privacy disclosures require evidence plus
+independent Vesper review under **Site #7 / PR #5 (RT-WEB-01)**. Provider-side
+validation cannot be claimed from HTML or CI tests. No real visitor data should be
+entered until approval. Do not send test forms without founder authorization.
+
+Browser source policy now permits `form-action https://formsubmit.co` to support the
+native provider POST and otherwise retains script/connect denials. The old tracked
+`app.js` remains **unreferenced**; do not re-enable the historical AJAX handler.
 
 **Verify locally:**
 
@@ -55,8 +69,9 @@ node --test tests/production-homepage.test.mjs
 python3 -m http.server 8765
 ```
 
-Then visit `http://localhost:8765/` in a browser and inspect the page and mailto link.
-Do not send a test email unless specifically authorized. The PR workflow runs static
+Then visit `http://localhost:8765/` in a browser to inspect the on-page form, native
+required/email validation, keyboard focus, privacy/consent notice and responsive layout.
+Do not click Submit with real data or send a test inquiry without specific approval. The PR workflow runs static
 contracts and captures Chromium screenshots at widths 320, 375, 768 and 1440. Screenshot
 generation is *not* a substitute for manual keyboard, 200% zoom, screen-reader or
 live-host verification.
@@ -73,9 +88,10 @@ The historical `app.js` remains tracked but is not referenced by this page.
 **Accessibility boundary:** four Chromium viewport screenshots and offline DOM
 checks do not prove actual 200% browser zoom, keyboard order, screen-reader
 behavior, or hidden overflow. Indigo must independently test those before
-publication and return an exact-SHA verdict.
+publication and return an exact-SHA verdict. Earlier mailto-only acceptance evidence
+cannot establish the new third-party contact form's privacy or delivery.
 
-**Publication gates:** Indigo visual/mobile and accessibility acceptance; Mara service and
+**Publication gates:** the founder additionally reviews any new form destination and consent/privacy behavior; Site #7 independent provider anti-abuse/delivery evidence and a fresh Vesper exact-SHA verdict are required. Indigo visual/mobile and accessibility acceptance; Mara service and
 consultation claims check; Prism independent exact-artifact publication review; Vesper
 technical review if a later revision introduces sensitive form/auth/provider/deployment
 functionality; founder exact-PR source merge and separate publication approval; then
