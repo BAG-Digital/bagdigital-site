@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
 const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
+const privacy = readFileSync(new URL("../privacy.html", import.meta.url), "utf8");
 
 test("public homepage has crawlable, accurate canonical and plain BAGDigital identity", () => {
   assert.match(html, /<!doctype html>/i);
@@ -44,7 +45,7 @@ test("contact is a small native HTML form with accessible validation and explici
   assert.match(html, /name="processing_ack"[^>]*required/);
   assert.match(html, /name="_honey"[^>]*tabindex="-1"/);
   assert.doesNotMatch(html, /name="_captcha"\s+value="false"/i);
-  assert.match(html, /FormSubmit\.co to deliver my message/);
+  assert.match(html, /submitting this form sends my information to FormSubmit\.co/);
   assert.match(html, /may open FormSubmit's CAPTCHA verification/i);
   assert.match(html, /Please do not include passwords, API keys, customer records/i);
   assert.match(html, /href="mailto:jaime@bagdigital\.tech"/);
@@ -108,19 +109,42 @@ test("hero mosaic type preserves whole words at narrow and wide widths", () => {
   assert.match(css, /@media\(max-width:360px\)\{[\s\S]*?\.hero-tile strong\{font-size:17px\}/);
 });
 
-test("visitor sees provider retention and privacy handling before the consent checkbox", () => {
+test("visitor sees linked BAGDigital privacy notice and readable provider disclosure before consent", () => {
   const notice = html.indexOf('id="contact-data-note"');
   const consent = html.indexOf('class="contact-consent"');
-  assert.ok(notice > 0 && consent > notice, "Data processor notice should precede consent");
-  assert.ok(html.includes("FormSubmit says it retains form submissions in its archive for 30 days"));
-  assert.ok(html.includes('href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer"'));
-  assert.ok(html.includes("FormSubmit's privacy terms (opens in a new tab)"));
-  assert.ok(html.includes("BAGDigital uses inquiries to consider and reply to your request"));
-  assert.ok(html.includes("Emails received by BAGDigital may be retained as business correspondence"));
-  assert.ok(html.includes("no separate deletion deadline is promised"));
-  assert.ok(html.includes('href="mailto:jaime@bagdigital.tech"'));
-  assert.ok(css.includes(".contact-form .contact-data-note{"));
-  assert.ok(css.includes(".contact-form .contact-data-note a{"));
+  assert.ok(notice > 0 && consent > notice, "Processor notice precedes required acknowledgment");
+  assert.match(html, /href="\.\/privacy\.html">Inquiry Privacy Notice<\/a>/);
+  assert.equal((html.match(/href="\.\/privacy\.html"/g) || []).length, 2, "Privacy linked from form and footer");
+  assert.match(html, /FormSubmit says it keeps form submissions in its archive for 30 days/);
+  assert.match(html, /href="https:\/\/formsubmit\.co\/privacy\.pdf" target="_blank" rel="noopener noreferrer"/);
+  assert.match(html, /BAGDigital may retain the emailed copy as business correspondence/);
+  assert.match(html, /submitting this form sends my information to FormSubmit\.co for delivery to BAGDigital/);
+  assert.match(html, /<input id="contact-consent" name="processing_ack" type="checkbox" value="yes" required>/);
+  assert.match(css, /\.contact-form \.contact-data-note\{font-size:14px/);
+  assert.match(css, /\.contact-form \.contact-data-note p\{margin:0 0 12px\}/);
+  assert.match(html, /FormSubmit privacy terms \(opens in a new tab\)/);
+});
+
+test("first-party inquiry privacy notice is an actual scriptless same-origin page with truthful handling", () => {
+  assert.match(privacy, /<html lang="en">/);
+  assert.match(privacy, /<title>Inquiry Privacy Notice \| BAGDigital<\/title>/);
+  assert.match(privacy, /href="https:\/\/bagdigital\.tech\/privacy\.html"/);
+  assert.match(privacy, /href="\.\/styles\.css"/);
+  assert.match(privacy, /script-src 'none'; style-src 'self'/);
+  assert.match(privacy, /form-action 'none'/);
+  assert.match(privacy, /id="main"/);
+  for (const title of ["What information you provide", "How your inquiry is delivered", "How we use inquiries", "Retention and other providers", "Contact and requests"]) {
+    assert.ok(privacy.includes(title), "Missing privacy section: " + title);
+  }
+  assert.match(privacy, /documentation \(opens in a new tab\)/);
+  assert.match(privacy, /30 days/);
+  assert.match(privacy, /BAGDigital may retain inquiries received by email as business correspondence/);
+  assert.match(privacy, /does not subscribe you to a marketing mailing list/);
+  assert.match(privacy, /request that we review, correct or delete information/);
+  assert.match(privacy, /request is not a promise of immediate or complete deletion/);
+  assert.match(privacy, /href="mailto:jaime@bagdigital\.tech"/);
+  assert.match(privacy, /href="\.\/index\.html#contact"/);
+  assert.doesNotMatch(privacy, /<form\b|<script\b|<iframe\b|<input\b|<button\b|_captcha=false|guaranteed deletion/i);
 });
 
 test("form source and documentation do not overclaim server-side controls or delivered production", () => {

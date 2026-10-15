@@ -65,6 +65,17 @@ have **not** been independently verified. Browser `required`, `maxlength`,
 directly. These controls are browser usability aids, **not** proof that the
 provider enforces consent, content limits or anti-abuse rules.
 
+**First-party Inquiry Privacy Notice:** `privacy.html` is linked directly from
+the form's pre-acknowledgment processor disclosure and the global footer, and
+uses the same Field Notes styling and strict scriptless meta CSP. It explains
+the precise requested fields, FormSubmit delivery/30-day documented archive,
+BAGDigital inquiry-only use and possible business-email retention, limits of
+deletion promises, and contact options. The shorter three-paragraph form notice
+remains before the unchecked required acknowledgment. This is source-only and
+has not received independent final Prism/Vesper publication acceptance.
+Set any “last updated” publication date to the ACTUAL approved release date;
+do not silently backdate this unreleased candidate.
+
 **Privacy disclosure under founder/Mara/Prism acceptance review:** submitted
 name, email, service, message and optional business are transferred to
 FormSubmit.co, which emails them to BAGDigital. FormSubmit documents a

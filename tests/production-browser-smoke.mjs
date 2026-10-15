@@ -12,7 +12,8 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const root = new URL("../", import.meta.url);
 const files = new Map([
   ["/", ["index.html", "text/html; charset=utf-8"]],
-  ["/styles.css", ["styles.css", "text/css; charset=utf-8"]]
+  ["/styles.css", ["styles.css", "text/css; charset=utf-8"]],
+  ["/privacy.html", ["privacy.html", "text/html; charset=utf-8"]]
 ]);
 const server = createServer((req, res) => {
   const entry = files.get(req.url);
@@ -141,6 +142,9 @@ try {
   assert.equal(await inspect("return document.activeElement.id;"), "contact-email",
     "Tab after the name field should focus the email input");
 
+  const privacyResponse = await fetch(origin + "privacy.html");
+  assert.equal(privacyResponse.status, 200, "First-party privacy notice must resolve on HTTP");
+  assert.match(await privacyResponse.text(), /<h1>Inquiry Privacy Notice<\/h1>/);
   assert.ok(requests.every(u => u.startsWith(origin) || u === "about:blank"),
     "Unexpected outgoing request: " + JSON.stringify(requests));
   console.log("PASS local HTTP Chromium smoke: source CSP, notice ordering, four viewport widths, native validation.");
