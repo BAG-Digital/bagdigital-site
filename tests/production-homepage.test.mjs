@@ -132,7 +132,7 @@ test("form source and documentation do not overclaim server-side controls or del
   assert.ok(!html.includes('type="file"'));
   assert.ok(readme.includes("two distinct synthetic submissions from localhost"));
   assert.ok(readme.includes("not evidence of duplicate-provider behavior"));
-  assert.ok(readme.includes("not proof that the provider enforces consent"));
+  assert.ok(readme.includes("browser usability aids") && readme.includes("provider enforces consent"));
   assert.ok(readme.includes("No additional"));
   assert.ok(readme.includes("not yet executed for this form"));
   assert.ok(readme.includes("No retries, load testing, rate-limit probes, secrets, real customers"));
