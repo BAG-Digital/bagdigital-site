@@ -85,10 +85,12 @@ test("public sitemap modification date and crawl destinations match the revised 
 });
 
 
-test("hero mosaic labels can wrap safely instead of clipping long words", () => {
-  // Tiles intentionally hide illustration overflow; text must remain readable.
-  assert.ok(css.includes(".hero-tile strong{display:block;overflow-wrap:anywhere"));
-  assert.ok(css.includes(".hero-tile:nth-child(1) strong{font-size:clamp(30px,3vw,43px)"));
-  assert.ok(css.includes(".hero-tile:nth-child(1) strong{font-size:26px}"));
-  assert.ok(css.includes(".hero-tile:nth-child(1) strong{font-size:24px}"));
+test("hero mosaic type preserves whole words at narrow and wide widths", () => {
+  // Headless screenshot review found mid-word breaks in the decorative
+  // illustration; preserve word wrapping and responsive font-size limits.
+  assert.ok(css.includes(".hero-tile strong{display:block;overflow-wrap:normal;font-size:clamp(20px,2vw,28px)"));
+  assert.ok(css.includes(".hero-tile:nth-child(1) strong{font-size:clamp(26px,2.4vw,35px)"));
+  assert.match(css, /@media\(max-width:1000px\)\{[\s\S]*?\.hero-tile strong\{font-size:20px\}/);
+  assert.match(css, /@media\(max-width:500px\)\{[\s\S]*?\.hero-tile strong\{font-size:19px\}/);
+  assert.match(css, /@media\(max-width:360px\)\{[\s\S]*?\.hero-tile strong\{font-size:17px\}/);
 });
