@@ -78,10 +78,14 @@ promise a BAGDigital inbox deletion deadline. The founder/Mara still must
 accept the actual post-receipt business email handling, and independent Prism
 must review the exact public disclosure.
 
-**Release HOLD:** Site #7 / PR #5 (RT-WEB-01) remains OPEN. No additional
-FormSubmit provider test, negative-path POST, simulated abuse probe, activation,
-or email-delivery test is authorized by the previous founder approval for
-one positive synthetic test. No real visitor data should be entered until
+**Release HOLD:** Site #7 / PR #5 (RT-WEB-01) remains OPEN.
+The founder subsequently approved the documented bounded **maximum-three-test**
+FormSubmit plan in the 2026-10-15 Control Desk chat, recorded at
+https://github.com/BAG-Digital/bagdigital-site/issues/7#issuecomment-6202766146 .
+The older one-positive-test approval is not blanket authorization.
+**No additional external provider requests have been performed in this
+remediation run.** This source review/CI does not prove any negative-path
+provider enforcement. No real visitor data should be entered before
 independent review and founder publication authorization.
 
 Browser source policy now permits `form-action https://formsubmit.co` to support the
@@ -127,16 +131,19 @@ verify real `https://bagdigital.tech/` and the contact experience. Customer logi
 connected provider claims require independent Core release evidence. No design mockup
 or green CI is proof of customer availability.
 
-## Limited provider test plan — REQUEST FOR NEW FOUNDER APPROVAL, NOT AUTHORIZED
+## Limited provider test plan — FOUNDER APPROVED IN SCOPE; NOT EXECUTED HERE
 
-A new, explicitly bounded founder decision is required before any further
-third-party request. The previous founder authorization covered one
-positive synthetic submission, not negative probes; the founder separately
-acknowledged intentionally sending two positive tests.
-
-Proposed **maximum three manual interactions total**, using only invented
-identities and a unique non-sensitive test marker. This is a suggested
-plan for independent review, **not** permission to execute:
+The founder explicitly approved a maximum of **three benign manual
+FormSubmit interactions** as described below, and accepted the disclosed
+FormSubmit / BAGDigital business-email handling, under the precise conditions
+recorded in Site #7 decision https://github.com/BAG-Digital/bagdigital-site/issues/7#issuecomment-6202766146 .
+This approval is **NOT a result of testing** and does not authorize publication,
+broad provider testing, secrets, actual customer records or changing systems.
+The execution environment in this session blocks external browser/provider
+submissions, so all three live-provider scenarios remain **NOT EXECUTED here**.
+Each proposed interaction must use fabricated identifiers and a distinct,
+non-sensitive test marker, and must be performed only manually by the founder
+or authorized human tester:
 
 1. Observe the normal hosted CAPTCHA/confirmation/return behavior with
    one benign synthetic form, stopping on errors and never bypassing CAPTCHA.
@@ -154,6 +161,14 @@ activation requests, challenge failure, provider complaints or ambiguous
 results. Record sanitized request type, marker, time, page outcome and
 receipt/non-receipt only. Independent Vesper must judge whether evidence
 satisfies Site #7; positive localhost deliveries alone do not.
+
+**Execution note:** These are conditional, manually operated external
+provider tests, **not performed by GitHub Actions**. GitHub CI instead runs
+`tests/production-browser-smoke.mjs` with Chromium over loopback HTTP,
+checks real native browser form validity, notice ordering, zero page-wide
+overflow across four viewports, and asserts no external network request.
+It NEVER clicks Submit, sends inquiries, tests live CAPTCHA or impersonates
+a human screen-reader session. CI evidence cannot close RT-WEB-01.
 
 ## Human acceptance checklist — not yet executed for this form
 
