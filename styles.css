@@ -1,4 +1,4 @@
-/* Field Notes public website: original responsive tile design with no third-party assets, inline scripts or customer-data collection. */
+/* Field Notes public website: responsive design with no remote visual assets or active JavaScript; inquiry form sends visitor-entered data to FormSubmit.co after user submission. */
     :root {
       color-scheme: light;
       --paper:#f8f7f1;
@@ -116,6 +116,8 @@
     .contact-field input:focus-visible,.contact-field select:focus-visible,.contact-field textarea:focus-visible,.contact-consent input:focus-visible,.contact-form button:focus-visible{outline:3px solid #156b61;outline-offset:3px}
     .contact-field input::placeholder,.contact-field textarea::placeholder{color:#65766e;opacity:1}
     .contact-form .contact-help{font-size:12px;line-height:1.55;color:#52615a}
+    .contact-form .contact-data-note{font-size:12px;line-height:1.65;color:#52615a;background:#f6f8f5;border-left:3px solid var(--green);padding:12px 14px}
+    .contact-form .contact-data-note a{text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
     .contact-consent{display:flex;gap:11px;align-items:flex-start;color:var(--ink);font-size:13px;line-height:1.6;cursor:pointer}
     .contact-consent input{accent-color:var(--green);width:19px;height:19px;flex:none;margin:1px 0 0}
     .contact-form .button{position:relative;z-index:1;justify-self:start;cursor:pointer;white-space:normal}
