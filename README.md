@@ -61,6 +61,20 @@ contracts and captures Chromium screenshots at widths 320, 375, 768 and 1440. Sc
 generation is *not* a substitute for manual keyboard, 200% zoom, screen-reader or
 live-host verification.
 
+**HTTP security boundary:** the page declares a restrictive **meta CSP** that Chromium
+can apply to this document; GitHub Pages response headers are not controlled by
+root HTML. In particular, `frame-ancestors` / framing policy, HSTS,
+`X-Content-Type-Options`, and other response-level controls cannot be proven
+from the meta element or CI screenshots. Verify the actual HTTPS response and
+hosting behavior separately after release, and report any unsupported header
+control as residual risk rather than claiming that a meta directive enforces it.
+The historical `app.js` remains tracked but is not referenced by this page.
+
+**Accessibility boundary:** four Chromium viewport screenshots and offline DOM
+checks do not prove actual 200% browser zoom, keyboard order, screen-reader
+behavior, or hidden overflow. Indigo must independently test those before
+publication and return an exact-SHA verdict.
+
 **Publication gates:** Indigo visual/mobile and accessibility acceptance; Mara service and
 consultation claims check; Prism independent exact-artifact publication review; Vesper
 technical review if a later revision introduces sensitive form/auth/provider/deployment

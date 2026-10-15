@@ -68,3 +68,15 @@ test("selected Field Notes Metro tile layout retains accessibility and 320px mob
     assert.ok(css.includes("@media(max-width:" + width + "px)"), "Missing breakpoint " + width);
   }
 });
+
+test("public sitemap modification date and crawl destinations match the revised homepage", () => {
+  const sitemap = readFileSync(new URL("../sitemap.xml", import.meta.url), "utf8");
+  const robots = readFileSync(new URL("../robots.txt", import.meta.url), "utf8");
+  assert.match(sitemap, /<loc>https:\/\/bagdigital\.tech\/<\/loc>/);
+  assert.match(robots, /Sitemap: https:\/\/bagdigital\.tech\/sitemap\.xml/);
+  const match = sitemap.match(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/);
+  assert.ok(match, "Publication sitemap must have an ISO modification date");
+  assert.ok(match[1] >= "2026-10-14", "Modification date must reflect the Field Notes revision");
+  assert.match(html, /<meta name="description"/);
+  assert.match(html, /property="og:description"/);
+});

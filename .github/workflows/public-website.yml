@@ -8,6 +8,8 @@ on:
       - "tests/production-homepage.test.mjs"
       - ".github/workflows/public-website.yml"
       - "README.md"
+      - "sitemap.xml"
+      - "robots.txt"
   workflow_dispatch:
 
 permissions:
