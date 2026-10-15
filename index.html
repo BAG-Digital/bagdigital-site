@@ -15,7 +15,7 @@
   <meta property="og:description" content="Practical websites, smoother workflows, thoughtful integration planning and support for small businesses.">
   <meta property="og:url" content="https://bagdigital.tech/">
   <meta name="twitter:card" content="summary">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action https://formsubmit.co; upgrade-insecure-requests">
   <title>BAGDigital | Websites, Workflows & Technology Support</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
@@ -97,8 +97,56 @@
     </section>
     <section class="section wrap" id="contact" aria-labelledby="contact-heading">
       <div class="contact-panel">
-        <div><span class="eyebrow">Let's work on something useful</span><h2 id="contact-heading">What's taking too much time?</h2><p>Tell us about the website or business process you'd like to improve. We'll talk through the possibilities and whether we're a good fit.</p><p class="contact-address">Or reach us at <a href="mailto:jaime@bagdigital.tech">jaime@bagdigital.tech</a></p><span class="contact-note">Selecting email opens your email app. You review and send the message yourself; nothing is submitted through this website. You can also copy the address above.</span></div>
-        <a class="button button-primary" href="mailto:jaime@bagdigital.tech?subject=BAGDigital%20consultation%20request">Email us about your project <span aria-hidden="true">↗</span></a>
+        <div class="contact-intro">
+          <span class="eyebrow">Let's work on something useful</span>
+          <h2 id="contact-heading">What's taking too much time?</h2>
+          <p>Tell us a little about your business and what you'd like to improve. We'll discuss whether BAGDigital is a good fit during a free initial consultation.</p>
+          <p class="contact-address">Prefer to write directly? <a href="mailto:jaime@bagdigital.tech">jaime@bagdigital.tech</a></p>
+        </div>
+        <form class="contact-form" id="project-inquiry" method="post" action="https://formsubmit.co/jaime@bagdigital.tech" autocomplete="on" aria-label="Project inquiry form">
+          <input type="hidden" name="_subject" value="New BAGDigital website inquiry">
+          <input type="hidden" name="_template" value="table">
+          <div class="contact-honeypot" aria-hidden="true">
+            <label for="contact-website-check">Leave this field empty</label>
+            <input id="contact-website-check" type="text" name="_honey" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="contact-form-grid">
+            <div class="contact-field">
+              <label for="contact-name">Your name <span aria-hidden="true">*</span></label>
+              <input id="contact-name" name="name" type="text" autocomplete="name" maxlength="100" required>
+            </div>
+            <div class="contact-field">
+              <label for="contact-email">Your email <span aria-hidden="true">*</span></label>
+              <input id="contact-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required>
+            </div>
+          </div>
+          <div class="contact-field">
+            <label for="contact-business">Business name <span class="optional">(optional)</span></label>
+            <input id="contact-business" name="business" type="text" autocomplete="organization" maxlength="150">
+          </div>
+          <div class="contact-field">
+            <label for="contact-service">What can we help with? <span aria-hidden="true">*</span></label>
+            <select id="contact-service" name="interest" required>
+              <option value="" selected>Choose a service</option>
+              <option value="Website or redesign">Website or redesign</option>
+              <option value="Workflow improvement">Workflow improvement</option>
+              <option value="Integration planning">Integration planning</option>
+              <option value="Technical support">Technical support</option>
+              <option value="Not sure yet">I'm not sure yet</option>
+            </select>
+          </div>
+          <div class="contact-field">
+            <label for="contact-details">Tell us about the project <span aria-hidden="true">*</span></label>
+            <textarea id="contact-details" name="message" rows="5" maxlength="3000" aria-describedby="contact-details-help" required placeholder="What are you trying to accomplish, and what's getting in the way?"></textarea>
+            <p id="contact-details-help" class="contact-help">Please do not include passwords, API keys, customer records, payment details, health information, or other sensitive data.</p>
+          </div>
+          <label class="contact-consent" for="contact-consent">
+            <input id="contact-consent" name="processing_ack" type="checkbox" value="yes" required>
+            <span>I understand this request is handled by FormSubmit.co to deliver my message to BAGDigital. BAGDigital may reply about my inquiry. <span aria-hidden="true">*</span></span>
+          </label>
+          <button class="button button-primary" type="submit">Send my inquiry <span aria-hidden="true">↗</span></button>
+          <p class="contact-privacy">Required fields are marked *. Submission may open FormSubmit's CAPTCHA verification and confirmation page. Do not assume your message was received until the submission finishes. No account or mail app is needed.</p>
+        </form>
       </div>
     </section>
   </main>
