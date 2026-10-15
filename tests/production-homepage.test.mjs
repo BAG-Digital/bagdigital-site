@@ -34,8 +34,11 @@ test("sales-first navigation and service cards link to real on-page sections", (
 });
 
 test("consultation is user-initiated email, with no unverified form or account controls", () => {
-  assert.match(html, /href="mailto:jaime@bagdigital\.com\?subject=BAGDigital%20consultation%20request"/);
+  assert.match(html, /href="mailto:jaime@bagdigital\.tech\?subject=BAGDigital%20consultation%20request"/);
   assert.match(html, /nothing is submitted through this website/i);
+  assert.match(html, /<p class="contact-address">Or reach us at <a href="mailto:jaime@bagdigital\.tech">jaime@bagdigital\.tech<\/a><\/p>/);
+  assert.doesNotMatch(html, /jaime@bagdigital\.com/i);
+  assert.match(css, /\.contact-panel \.contact-address a\{text-underline-offset:3px;overflow-wrap:anywhere\}/);
   assert.doesNotMatch(html, /<form\b|<script\b|<iframe\b|<input\b|<button\b|fetch\s*\(/i);
   assert.doesNotMatch(html, /formsubmit|app\.js|analytics|tracking pixel|sign up|log in|password|field notes tile design concept|preview only|noindex/i);
   assert.doesNotMatch(html, /live connected|automation active|customer metrics|approved integrations/i);
@@ -54,7 +57,7 @@ test("static page has self-hosted CSS and a restrictive source-level browser pol
 test("selected Field Notes Metro tile layout retains accessibility and 320px mobile support", () => {
   assert.match(html, /class="skip" href="#main"/);
   assert.match(html, /<nav[^>]+aria-label="Main navigation"/);
-  assert.match(html, /role="img" aria-label="Abstract tile illustration/);
+  assert.match(html, /role="img" aria-label="Illustrative tiles: human-first technology/);
   assert.match(html, /href="#contact" aria-label="Discuss/g);
   assert.match(css, /\.tile-grid\{display:grid;grid-template-columns:repeat\(12,minmax\(0,1fr\)\)/);
   assert.match(css, /\.service-main\{grid-column:span 7/);
