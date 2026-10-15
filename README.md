@@ -42,7 +42,7 @@ Site #18's selected **Field Notes / Metro-inspired tiles** direction is implemen
 remains untouched in Site PR #20. This changes neither the live GitHub Pages branch nor
 production DNS until the separately approved merge/publication.
 
-**Founder-requested in-page inquiry form — SOURCE-ONLY, NOT LIVE OR DELIVERY-VERIFIED:**
+**Founder-requested in-page inquiry form — SOURCE-ONLY, NOT LIVE / PUBLIC-ORIGIN DELIVERY UNVERIFIED:**
 The proposed homepage now has a native HTML form for name, email, optional business
 name, project category and short project description. Visitors can submit from the page
 without launching a mail app. A required checkbox discloses that submitted details go
@@ -51,12 +51,38 @@ to FormSubmit's CAPTCHA challenge and thank-you/verification page. No custom Jav
 AJAX, tracking, attachments, payment or BAGDigital customer authentication is added.
 The visible `jaime@bagdigital.tech` email address remains a manual fallback.
 
-This is **not** an approved live form: provider recipient activation, owner-approved
-synthetic end-to-end submission, server-side `_honey`/CAPTCHA enforcement, filtered
-negative-path behavior, delivery and privacy disclosures require evidence plus
-independent Vesper review under **Site #7 / PR #5 (RT-WEB-01)**. Provider-side
-validation cannot be claimed from HTML or CI tests. No real visitor data should be
-entered until approval. Do not send test forms without founder authorization.
+This is **not** an approved public form. On 2026-10-15, the founder made
+**two distinct synthetic submissions from localhost**, and two corresponding
+FormSubmit inquiry emails were confirmed in the BAGDigital inbox. They were
+intentional separate submissions, not evidence of duplicate-provider behavior.
+This proves positive delivery for those local test submissions **only**, not
+from the eventual public `bagdigital.tech` site.
+
+FormSubmit's server-side `_honey` suppression, CAPTCHA challenge, provider
+rate limiting, direct-POST behavior and negative-path/non-delivery outcomes
+have **not** been independently verified. Browser `required`, `maxlength`,
+`type=email` and `processing_ack` can be bypassed by clients posting
+directly. These controls are browser usability aids, **not** proof that the
+provider enforces consent, content limits or anti-abuse rules.
+
+**Privacy disclosure under founder/Mara/Prism acceptance review:** submitted
+name, email, service, message and optional business are transferred to
+FormSubmit.co, which emails them to BAGDigital. FormSubmit documents a
+**30-day archive for form submissions**, separate from the copies retained
+in BAGDigital's email account:
+https://formsubmit.co/documentation
+Its published privacy terms are https://formsubmit.co/privacy.pdf .
+The new pre-consent page text links those terms, explains FormSubmit's 30-day
+archive and BAGDigital's use of the inquiry for review/reply; it does **not**
+promise a BAGDigital inbox deletion deadline. The founder/Mara still must
+accept the actual post-receipt business email handling, and independent Prism
+must review the exact public disclosure.
+
+**Release HOLD:** Site #7 / PR #5 (RT-WEB-01) remains OPEN. No additional
+FormSubmit provider test, negative-path POST, simulated abuse probe, activation,
+or email-delivery test is authorized by the previous founder approval for
+one positive synthetic test. No real visitor data should be entered until
+independent review and founder publication authorization.
 
 Browser source policy now permits `form-action https://formsubmit.co` to support the
 native provider POST and otherwise retains script/connect denials. The old tracked
@@ -85,11 +111,13 @@ hosting behavior separately after release, and report any unsupported header
 control as residual risk rather than claiming that a meta directive enforces it.
 The historical `app.js` remains tracked but is not referenced by this page.
 
-**Accessibility boundary:** four Chromium viewport screenshots and offline DOM
-checks do not prove actual 200% browser zoom, keyboard order, screen-reader
-behavior, or hidden overflow. Indigo must independently test those before
-publication and return an exact-SHA verdict. Earlier mailto-only acceptance evidence
-cannot establish the new third-party contact form's privacy or delivery.
+**Accessibility boundary:** four Chromium screenshot widths and source tests
+are not human assistive-technology acceptance or verification of hosted CAPTCHA
+accessibility. Earlier mailto-only Chromium zoom and keyboard checks do not
+certify the new third-party form. Indigo must test form field labels/errors,
+consent, tab/focus, native browser 200% zoom, spoken VoiceOver/NVDA when a
+human tester is available, CAPTCHA/confirmation and failure/return flow.
+Unavailable checks must be reported NOT TESTED and kept as release gates.
 
 **Publication gates:** the founder additionally reviews any new form destination and consent/privacy behavior; Site #7 independent provider anti-abuse/delivery evidence and a fresh Vesper exact-SHA verdict are required. Indigo visual/mobile and accessibility acceptance; Mara service and
 consultation claims check; Prism independent exact-artifact publication review; Vesper
@@ -98,3 +126,44 @@ functionality; founder exact-PR source merge and separate publication approval; 
 verify real `https://bagdigital.tech/` and the contact experience. Customer logins and
 connected provider claims require independent Core release evidence. No design mockup
 or green CI is proof of customer availability.
+
+## Limited provider test plan — REQUEST FOR NEW FOUNDER APPROVAL, NOT AUTHORIZED
+
+A new, explicitly bounded founder decision is required before any further
+third-party request. The previous founder authorization covered one
+positive synthetic submission, not negative probes; the founder separately
+acknowledged intentionally sending two positive tests.
+
+Proposed **maximum three manual interactions total**, using only invented
+identities and a unique non-sensitive test marker. This is a suggested
+plan for independent review, **not** permission to execute:
+
+1. Observe the normal hosted CAPTCHA/confirmation/return behavior with
+   one benign synthetic form, stopping on errors and never bypassing CAPTCHA.
+2. Send one synthetic request with the reserved `_honey` field filled,
+   then independently check that no inquiry was delivered. This can
+   contribute negative-path evidence but not prove abuse resistance.
+3. Submit one synthetic direct-POST request without the browser consent
+   checkbox only if specifically founder-approved, to document whether
+   FormSubmit rejects it (rather than assuming a browser checkbox is
+   enforced server-side). Never attempt to evade CAPTCHA or other controls.
+
+No retries, load testing, rate-limit probes, secrets, real customers, or
+sensitive data. Stop immediately on unexpected provider behavior,
+activation requests, challenge failure, provider complaints or ambiguous
+results. Record sanitized request type, marker, time, page outcome and
+receipt/non-receipt only. Independent Vesper must judge whether evidence
+satisfies Site #7; positive localhost deliveries alone do not.
+
+## Human acceptance checklist — not yet executed for this form
+
+- Native browser 200% zoom, 320px reflow, complete Tab/Shift+Tab keyboard
+  access, required-field validation, invalid-email messages, consent focus.
+- Spoken VoiceOver/NVDA field labels, description, checkbox and invalid
+  status with OS/browser/reader versions; automatic AX tree is insufficient.
+- CAPTCHA keyboard/screen-reader handling, success/failed delivery page,
+  back navigation and copyable `jaime@bagdigital.tech` fallback.
+- Actual post-publication `https://bagdigital.tech/` HTTPS response
+  headers, canonical, redirects and provider return flow by Keel.
+- Record each item PASS, FAIL or NOT TESTED; never infer success from
+  screenshot CI, CSS or two localhost inbox receipts.
