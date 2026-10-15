@@ -6,6 +6,7 @@ on:
       - "index.html"
       - "styles.css"
       - "tests/production-homepage.test.mjs"
+      - "tests/production-browser-smoke.mjs"
       - ".github/workflows/public-website.yml"
       - "README.md"
       - "sitemap.xml"
@@ -25,6 +26,17 @@ jobs:
           persist-credentials: false
       - name: Run offline public-site content and security contracts
         run: node --test tests/production-homepage.test.mjs
+      - name: Run non-submitting local-HTTP Chromium form smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          if [[ -z "$BROWSER" ]]; then
+            echo "::error::Chrome/Chromium unavailable for browser smoke test"
+            exit 1
+          fi
+          export BROWSER
+          node tests/production-browser-smoke.mjs
       - name: Capture responsive site screenshots without deployment
         shell: bash
         run: |
