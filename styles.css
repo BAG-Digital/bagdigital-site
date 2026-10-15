@@ -50,11 +50,11 @@
     /* Original tile composition. These are illustrative concepts, not actual product screens. */
     .hero-tiles{min-height:420px;display:grid;grid-template-columns:1.16fr .84fr;grid-template-rows:1fr 1fr 76px;gap:10px}
     .hero-tile{position:relative;overflow:hidden;padding:23px;border-radius:9px}
-    .hero-tile strong{display:block;overflow-wrap:anywhere;font-size:clamp(23px,2.6vw,36px);line-height:1.12;letter-spacing:-.065em;font-weight:800}
+    .hero-tile strong{display:block;overflow-wrap:normal;font-size:clamp(20px,2vw,28px);line-height:1.12;letter-spacing:-.065em;font-weight:800}
     .hero-tile small{display:block;font-weight:750;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
     .hero-tile .mark{font-size:49px;line-height:1;position:absolute;right:17px;bottom:9px;opacity:.32;font-weight:300}
     .hero-tile:nth-child(1){grid-row:span 2;background:var(--green);color:white;display:flex;flex-direction:column;justify-content:flex-end}
-    .hero-tile:nth-child(1) strong{font-size:clamp(30px,3vw,43px);max-width:235px}
+    .hero-tile:nth-child(1) strong{font-size:clamp(26px,2.4vw,35px);max-width:235px}
     .hero-tile:nth-child(1)::before{content:"";position:absolute;top:24px;left:24px;width:48%;height:38%;border:1px solid #b1d1bc;border-radius:0 38% 35% 0;transform:rotate(-18deg);opacity:.7}
     .hero-tile:nth-child(2){background:var(--lime);color:#264738}
     .hero-tile:nth-child(3){background:var(--sand)}
@@ -111,6 +111,8 @@
     .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
     .footer a{text-underline-offset:4px}
     @media(max-width:1000px){
+      .hero-tile strong{font-size:20px}
+      .hero-tile:nth-child(1) strong{font-size:25px}
       .hero{grid-template-columns:1fr 360px;gap:28px}
       .hero-tiles{min-height:350px}
       .contact-panel{grid-template-columns:1fr;padding:45px}
@@ -142,8 +144,8 @@
       .hero h1{font-size:clamp(47px,11.8vw,66px)}
       .hero-actions .button{width:100%}
       .hero-tiles{min-height:270px}
-      .hero-tile strong{font-size:20px}
-      .hero-tile:nth-child(1) strong{font-size:26px}
+       .hero-tile strong{font-size:19px}
+      .hero-tile:nth-child(1) strong{font-size:24px}
       .hero-tile:nth-child(4) strong{font-size:13px}
       .tile-grid{grid-template-columns:1fr}
       .service{grid-column:span 1;min-height:265px;padding:23px}
@@ -154,11 +156,12 @@
       .contact-panel .button{width:100%;white-space:normal}
     }
     @media(max-width:360px){
+      .hero-tile strong{font-size:17px}
       .links a{font-size:11px;padding:9px 6px}
       .links .nav-contact{padding:8px}
       .hero h1{font-size:43px}
       .hero-tile{padding:15px}
-      .hero-tile:nth-child(1) strong{font-size:24px}
+      .hero-tile:nth-child(1) strong{font-size:22px}
       .service h3{font-size:28px}
     }
     @media(prefers-reduced-motion:reduce){
