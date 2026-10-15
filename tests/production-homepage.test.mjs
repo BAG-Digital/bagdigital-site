@@ -33,21 +33,32 @@ test("sales-first navigation and service cards link to real on-page sections", (
   }
 });
 
-test("consultation is user-initiated email, with no unverified form or account controls", () => {
-  assert.match(html, /href="mailto:jaime@bagdigital\.tech\?subject=BAGDigital%20consultation%20request"/);
-  assert.match(html, /nothing is submitted through this website/i);
-  assert.match(html, /<p class="contact-address">Or reach us at <a href="mailto:jaime@bagdigital\.tech">jaime@bagdigital\.tech<\/a><\/p>/);
-  assert.doesNotMatch(html, /jaime@bagdigital\.com/i);
-  assert.match(css, /\.contact-panel \.contact-address a\{text-underline-offset:3px;overflow-wrap:anywhere\}/);
-  assert.doesNotMatch(html, /<form\b|<script\b|<iframe\b|<input\b|<button\b|fetch\s*\(/i);
-  assert.doesNotMatch(html, /formsubmit|app\.js|analytics|tracking pixel|sign up|log in|password|field notes tile design concept|preview only|noindex/i);
-  assert.doesNotMatch(html, /live connected|automation active|customer metrics|approved integrations/i);
+test("contact is a small native HTML form with accessible validation and explicit provider disclosure", () => {
+  assert.match(html, /<form[^>]*class="contact-form"[^>]*method="post"[^>]*action="https:\/\/formsubmit\.co\/jaime@bagdigital\.tech"/);
+  assert.match(html, /name="name"[^>]*maxlength="100" required/);
+  assert.match(html, /name="email" type="email"[^>]*maxlength="254" required/);
+  assert.match(html, /name="business"[^>]*maxlength="150"/);
+  assert.match(html, /name="interest" required/);
+  assert.match(html, /name="message"[^>]*maxlength="3000"[^>]*required/);
+  assert.match(html, /name="processing_ack"[^>]*required/);
+  assert.match(html, /name="_honey"[^>]*tabindex="-1"/);
+  assert.doesNotMatch(html, /name="_captcha"\s+value="false"/i);
+  assert.match(html, /FormSubmit\.co to deliver my message/);
+  assert.match(html, /may open FormSubmit's CAPTCHA verification/i);
+  assert.match(html, /Please do not include passwords, API keys, customer records/i);
+  assert.match(html, /href="mailto:jaime@bagdigital\.tech"/);
+  assert.match(html, />jaime@bagdigital\.tech<\/a>/);
+  assert.match(css, /\.contact-form-grid\{display:grid/);
+  assert.match(css, /\.contact-consent input:focus-visible/);
+  assert.match(css, /\.contact-honeypot\{position:absolute/);
+  assert.doesNotMatch(html, /<script\b|<iframe\b|fetch\s*\(|_captcha=false|jaime@bagdigital\.com/i);
+  assert.doesNotMatch(html, /signup|sign up|log in|password field|tracking pixel|analytics|live connected|customer metrics/i);
 });
 
 test("static page has self-hosted CSS and a restrictive source-level browser policy", () => {
   assert.match(html, /rel="stylesheet" href="\.\/styles\.css"/);
   assert.match(html, /http-equiv="Content-Security-Policy"/);
-  for (const control of ["default-src 'none'", "script-src 'none'", "style-src 'self'", "connect-src 'none'", "form-action 'none'"]) {
+  for (const control of ["default-src 'none'", "script-src 'none'", "style-src 'self'", "connect-src 'none'", "form-action https://formsubmit.co"]) {
     assert.ok(html.includes(control), "Missing CSP directive " + control);
   }
   assert.doesNotMatch(html, /style="|<style\b|<script\b/i);
