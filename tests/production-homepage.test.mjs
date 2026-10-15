@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
+const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
 
 test("public homepage has crawlable, accurate canonical and plain BAGDigital identity", () => {
   assert.match(html, /<!doctype html>/i);
@@ -105,4 +106,34 @@ test("hero mosaic type preserves whole words at narrow and wide widths", () => {
   assert.match(css, /@media\(max-width:1000px\)\{[\s\S]*?\.hero-tile strong\{font-size:20px\}/);
   assert.match(css, /@media\(max-width:500px\)\{[\s\S]*?\.hero-tile strong\{font-size:19px\}/);
   assert.match(css, /@media\(max-width:360px\)\{[\s\S]*?\.hero-tile strong\{font-size:17px\}/);
+});
+
+test("visitor sees provider retention and privacy handling before the consent checkbox", () => {
+  const notice = html.indexOf('id="contact-data-note"');
+  const consent = html.indexOf('class="contact-consent"');
+  assert.ok(notice > 0 && consent > notice, "Data processor notice should precede consent");
+  assert.ok(html.includes("FormSubmit says it retains form submissions in its archive for 30 days"));
+  assert.ok(html.includes('href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer"'));
+  assert.ok(html.includes("FormSubmit's privacy terms (opens in a new tab)"));
+  assert.ok(html.includes("BAGDigital uses inquiries to consider and reply to your request"));
+  assert.ok(html.includes("Emails received by BAGDigital may be retained as business correspondence"));
+  assert.ok(html.includes("no separate deletion deadline is promised"));
+  assert.ok(html.includes('href="mailto:jaime@bagdigital.tech"'));
+  assert.ok(css.includes(".contact-form .contact-data-note{"));
+  assert.ok(css.includes(".contact-form .contact-data-note a{"));
+});
+
+test("form source and documentation do not overclaim server-side controls or delivered production", () => {
+  assert.ok(css.split("\n")[0].includes("inquiry form sends visitor-entered data to FormSubmit.co"));
+  assert.ok(!css.split("\n")[0].includes("no customer-data collection"));
+  assert.ok(html.includes('method="post" action="https://formsubmit.co/jaime@bagdigital.tech"'));
+  assert.ok(html.includes('name="processing_ack" type="checkbox" value="yes" required'));
+  assert.ok(!html.includes("<script"));
+  assert.ok(!html.includes('type="file"'));
+  assert.ok(readme.includes("two distinct synthetic submissions from localhost"));
+  assert.ok(readme.includes("not evidence of duplicate-provider behavior"));
+  assert.ok(readme.includes("not proof that the provider enforces consent"));
+  assert.ok(readme.includes("No additional"));
+  assert.ok(readme.includes("not yet executed for this form"));
+  assert.ok(readme.includes("No retries, load testing, rate-limit probes, secrets, real customers"));
 });
