@@ -111,6 +111,8 @@
     .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
     .footer a{text-underline-offset:4px}
     @media(max-width:1000px){
+      /* Decorative arrows must not collide with the smaller tile copy. */
+      .hero-tile .mark{display:none}
       .hero-tile strong{font-size:20px}
       .hero-tile:nth-child(1) strong{font-size:25px}
       .hero{grid-template-columns:1fr 360px;gap:28px}
