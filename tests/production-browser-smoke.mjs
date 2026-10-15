@@ -122,6 +122,25 @@ try {
     "c.checked=true;const complete=f.checkValidity();return {empty,invalid,unchecked,complete};"
   );
   assert.deepEqual(results, { empty: true, invalid: true, unchecked: true, complete: true });
+  // Check labels and actual Chromium keyboard order without submitting anything.
+  const labels = await inspect(
+    "return ['contact-name','contact-email','contact-business','contact-service'," +
+    "'contact-details','contact-consent'].map(id => {" +
+    "const element=document.getElementById(id);" +
+    "return !!element && element.labels.length>0 && element.labels[0].textContent.trim().length>0;" +
+    "});"
+  );
+  assert.ok(labels.every(Boolean), "Contact inputs need corresponding accessible labels");
+  await inspect("document.querySelector('#contact-name').focus();return true;");
+  await send("Input.dispatchKeyEvent", {
+    type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9
+  });
+  await send("Input.dispatchKeyEvent", {
+    type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9
+  });
+  assert.equal(await inspect("return document.activeElement.id;"), "contact-email",
+    "Tab after the name field should focus the email input");
+
   assert.ok(requests.every(u => u.startsWith(origin) || u === "about:blank"),
     "Unexpected outgoing request: " + JSON.stringify(requests));
   console.log("PASS local HTTP Chromium smoke: source CSP, notice ordering, four viewport widths, native validation.");
