@@ -225,7 +225,7 @@ export class FakeAtomicStore {
     this.limits={sourceLimit,globalLimit,sourceConcurrency,globalConcurrency,maxSourceKeys};
     this.rate=new Map();this.tokens=new Map();this.logical=new Map();
     this.inflight=new Map();this.globalInflight=0;this.epoch=null;
-    this.offline=false;this.failAtomic=false;this.activeKeyVersion=1;this.maxGlobalObserved=0;
+    this.offline=false;this.failAtomic=false;this.failMidTransaction=false;this.activeKeyVersion=1;this.maxGlobalObserved=0;
   }
   admit({stage,keyVersion,rateKey,tokenKey,now}) {
     if(this.offline || this.failAtomic || keyVersion!==this.activeKeyVersion) throw new Error('store-unavailable');
@@ -242,6 +242,9 @@ export class FakeAtomicStore {
        (this.inflight.get(rateKey)??0)>=limits.sourceConcurrency||
        (fromSource===0&&distinct>=limits.maxSourceKeys)) return {ok:false,reason:'limit'};
     const next=new Map(previous);next.set('__global__',aggregate+1);next.set(rateKey,fromSource+1);
+    // Simulate an error after staging one or both speculative bucket writes,
+    // but BEFORE the one atomic commit. No durable map/state is modified.
+    if(this.failMidTransaction) throw new Error('synthetic transaction rollback');
     // Atomic commit point in fake; no await or partial writes.
     this.rate=next;this.epoch=epoch;
     this.globalInflight++;this.inflight.set(rateKey,(this.inflight.get(rateKey)??0)+1);
