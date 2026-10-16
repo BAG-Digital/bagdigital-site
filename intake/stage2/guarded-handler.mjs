@@ -21,24 +21,48 @@ const offline=(origin)=>answer(503,'UNAVAILABLE','The form is unavailable. Pleas
 const uncertain=(origin)=>answer(409,'POSSIBLY_SENT','We cannot confirm delivery. Please contact us directly if urgent.',origin);
 
 export class Oversize extends Error {}
+export class BodyDeadline extends Error {}
 
-export async function readBody(request){
+/**
+ * A SINGLE wall-clock deadline covers the complete untrusted upload, including
+ * a stalled first chunk and slow trickles. The injected deadline is ONLY for
+ * deterministic offline tests, never sourced from a visitor request.
+ *
+ * Do not await cancellation of an attacker-controlled stream: a non-cooperative
+ * cancel promise could hang. Cancellation is best-effort; the handler MUST
+ * return within the configured request-body deadline. Keel separately needs
+ * edge request/WAF cost controls before enabling a host.
+ */
+export async function readBody(request,{timeoutMs=3000,deadline}={}){
   const declared=request.headers.get('content-length');
   if(declared!==null&&(!/^\d+$/.test(declared)||Number(declared)>MAX_BODY))throw new Oversize();
   if(!request.body?.getReader)throw Error('body');
+  if(!Number.isSafeInteger(timeoutMs)||timeoutMs<1||timeoutMs>3000)throw Error('body-timeout-config');
   const chunks=[];let count=0;const reader=request.body.getReader();
+  let timer,abandon=false,doneReading=false;
+  // One budget from the instant the reader is acquired; it is never reset by
+  // incoming chunks, so slow trickles cannot extend the admission deadline.
+  const timeout=new Promise((_,reject)=>{
+    timer=setTimeout(()=>{abandon=true;reject(new BodyDeadline())},timeoutMs);
+  });
+  const injected=deadline===undefined?new Promise(()=>{}):
+    Promise.resolve(deadline).then(()=>{abandon=true;throw new BodyDeadline()});
   try{
     while(true){
-      const {done,value}=await reader.read();
-      if(done)break;
+      const {done,value}=await Promise.race([reader.read(),timeout,injected]);
+      if(done){doneReading=true;break}
       if(!(value instanceof Uint8Array))throw Error('body');
       count+=value.byteLength;
-      if(count>MAX_BODY)throw new Oversize();
+      if(count>MAX_BODY){abandon=true;throw new Oversize()}
       chunks.push(value);
     }
   }finally{
-    if(count>MAX_BODY)try{await reader.cancel()}catch{}
-    reader.releaseLock();
+    clearTimeout(timer);
+    // Do not wait for a malicious stream's cancellation/abort to settle.
+    if(abandon||!doneReading){
+      try{void Promise.resolve(reader.cancel('discard')).catch(()=>{})}catch{}
+    }
+    try{reader.releaseLock()}catch{}
   }
   const all=new Uint8Array(count);let offset=0;
   for(const part of chunks){all.set(part,offset);offset+=part.byteLength}
@@ -106,7 +130,7 @@ export async function hmac(secret,namespace,value){
   return [...new Uint8Array(sig)].map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-export function createStage2Handler({store,verifier,sender,config,clock=()=>Date.now(),logger=()=>{}}){
+export function createStage2Handler({store,verifier,sender,config,clock=()=>Date.now(),logger=()=>{},bodyDeadline}){
   return async function handle(request,ingress){
     // Security controls are server-owned, not inferred from browser validation.
     const origin=config?.allowedOrigin;
@@ -122,8 +146,9 @@ export function createStage2Handler({store,verifier,sender,config,clock=()=>Date
     if(request.headers.get('origin')!==origin)return response(403,'ORIGIN','Origin not permitted.');
     if(ingress?.verified!==true||typeof ingress.source!=='string'||!/^[a-z0-9:.]{3,64}$/i.test(ingress.source))return offline(origin);
     let input;
-    try{input=normalizeInput(strictFlatJson(await readBody(request)))}
-    catch(error){return error instanceof Oversize?response(413,'PAYLOAD_TOO_LARGE','The form content is too large.'):bad(origin)}
+    try{input=normalizeInput(strictFlatJson(await readBody(request,{deadline:bodyDeadline})))}
+    catch(error){return error instanceof Oversize?response(413,'PAYLOAD_TOO_LARGE','The form content is too large.'):
+      error instanceof BodyDeadline?response(408,'BODY_TIMEOUT','Request body timed out. Please try again.'):bad(origin)}
     let lease=null,logicalClaim=null;
     try{
       const rateKey=await hmac(config.rateSecret,config.stage+':rate:v'+config.keyVersion,ingress.source);
@@ -163,7 +188,9 @@ export function createStage2Handler({store,verifier,sender,config,clock=()=>Date
         if(await store.deliveryState(logicalClaim,'SENDING',next)!==true)return response(502,'DELIVERY_UNKNOWN','Delivery could not be confirmed.');
       }catch{return response(502,'DELIVERY_UNKNOWN','Delivery could not be confirmed.')}
       if(delivered?.accepted!==true)return offline(origin);
-      logger({category:'relay_accepted'}); // No payload, token, or IP.
+      // Telemetry is best-effort. A logger failure must NEVER rewrite a
+      // committed ACCEPTED delivery into a false 503 or prompt a duplicate.
+      try{void Promise.resolve(logger({category:'relay_accepted'})).catch(()=>{})}catch{}
       return response(202,'RELAY_ACCEPTED','The mail service accepted your inquiry; inbox delivery is not guaranteed.');
     }catch{return offline(origin)}
     finally{if(lease!==null)try{await store.finish(lease,'CLOSED')}catch{}}
