@@ -1,0 +1,36 @@
+name: Site 23 offline mock intake contracts
+
+on:
+  pull_request:
+    paths:
+      - "intake/mock-contract.mjs"
+      - "tests/site23-mock.test.mjs"
+      - ".github/workflows/site23-mock.yml"
+      - "docs/site23/README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-mock-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Checkout source with pinned action and no persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned
+        with:
+          persist-credentials: false
+      - name: Execute deterministic no-network Node contracts
+        run: node --test tests/site23-mock.test.mjs
+      - name: Verify mock code has no live service glue
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e api
+          test ! -e functions
+          test ! -e wrangler.toml
+          test ! -e .env
+          test ! -e intake/server.mjs
+          ! grep -E '(https?://|process[.]env|fetch[(]|listen[(]|nodemailer|@cloudflare/|@resend/)' intake/mock-contract.mjs
+          echo "No live adapter, network destination, runtime environment access or deployment config in intake mock source"
