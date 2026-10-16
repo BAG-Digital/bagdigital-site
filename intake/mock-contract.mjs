@@ -33,7 +33,7 @@ const hasLoneSurrogate = text => /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800
  */
 export function parseStrictFlatJson(raw) {
   let i = 0;
-  const white = () => { while (/\s/.test(raw[i] ?? '') && i < raw.length) i++; };
+  const white = () => { while (i < raw.length && /[ \t\r\n]/.test(raw[i])) i++; };
   const expect = char => { white(); if (raw[i] !== char) throw new Error('json'); i++; };
   const stringLiteral = () => {
     white();
@@ -75,8 +75,9 @@ export function parseStrictFlatJson(raw) {
   return out;
 }
 
+class PayloadTooLargeError extends Error {}
 async function boundedBody(body, headerLength) {
-  if (headerLength !== undefined && (!/^\d+$/.test(String(headerLength)) || Number(headerLength) > MAX_BODY_BYTES)) throw new Error('size');
+  if (headerLength !== undefined && (!/^\d+$/.test(String(headerLength)) || Number(headerLength) > MAX_BODY_BYTES)) throw new PayloadTooLargeError('size');
   let count = 0;
   const parts = [];
   let iterator;
@@ -86,7 +87,7 @@ async function boundedBody(body, headerLength) {
   for await (const piece of iterator) {
     if (!(piece instanceof Uint8Array)) throw new Error('body');
     count += piece.byteLength;
-    if (count > MAX_BODY_BYTES) throw new Error('size');
+    if (count > MAX_BODY_BYTES) throw new PayloadTooLargeError('size');
     parts.push(piece);
   }
   const merged = new Uint8Array(count);
@@ -146,7 +147,25 @@ function configReady(config) {
  * separately. Only a future independently reviewed server adapter can provide
  * a trusted ingress identity or real secrets.
  */
-export function createMockHandler({ store, verifier, sender, config, clock = () => Date.now(), logger = () => {} }) {
+
+/**
+ * No real provider logic. Handler clocks are used ONLY to check the mocked
+ * provider challenge timestamp; store time is entirely independent.
+ * verifierDeadline is an optional deterministic promise for offline tests.
+ */
+async function verifyWithDeadline(verifier, token, deadline) {
+  let timer;
+  const limit = deadline
+    ? Promise.resolve(deadline).then(() => { throw new Error('verification deadline'); })
+    : new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('verification deadline')), 3000); });
+  try { return await Promise.race([Promise.resolve().then(() => verifier.verify(token)), limit]); }
+  finally { if (timer !== undefined) clearTimeout(timer); }
+}
+
+export function createMockHandler({
+  store, verifier, sender, config, clock = () => Date.now(),
+  verifierDeadline, logger = () => {}
+}) {
   return async function handle(wire, trustedIngress) {
     if (!configReady(config)) return unavailable;
     if (wire?.method !== 'POST') return answer(405,'METHOD','POST required.');
@@ -154,128 +173,196 @@ export function createMockHandler({ store, verifier, sender, config, clock = () 
     if (wire.origin !== undefined && wire.origin !== 'http://localhost') return answer(403,'ORIGIN','Origin not permitted.');
     if (typeof trustedIngress?.source !== 'string' || !/^[a-z0-9:.]{3,64}$/i.test(trustedIngress.source) || trustedIngress.verified !== true) return unavailable;
     let normalized;
-    try { normalized = normalizeInput(parseStrictFlatJson(await boundedBody(wire.body, wire.contentLength))); }
-    catch { return noSend; }
-    const now = clock();
+    try {
+      normalized = normalizeInput(parseStrictFlatJson(await boundedBody(wire.body, wire.contentLength)));
+    } catch (error) {
+      return error instanceof PayloadTooLargeError ? answer(413,'PAYLOAD_TOO_LARGE','The form content is too large.') : noSend;
+    }
     const rateKey = digest(config.rateSecret, config.stage + ':source:v' + config.keyVersion, trustedIngress.source);
     const tokenKey = digest(config.tokenSecret, config.stage + ':token:v' + config.keyVersion, normalized.token);
     let lease = null;
     try {
-      const admission = await store.admit({ stage:config.stage, keyVersion:config.keyVersion, rateKey, tokenKey, now });
-      if (!admission.ok) return admission.reason === 'limit' ? answer(429,'THROTTLED','Please try again later.') :
-        admission.reason === 'replay' ? forbidden : unavailable;
+      // No caller/handler time is sent to storage.
+      const admission = await store.admit({stage:config.stage,keyVersion:config.keyVersion,rateKey,tokenKey});
+      if (!admission.ok) return admission.reason === 'limit'
+        ? answer(429,'THROTTLED','Please try again later.')
+        : admission.reason === 'replay' ? forbidden : unavailable;
       lease = admission.lease;
-      let verified = false;
       try {
-        const outcome = await verifier.verify(normalized.token);
-        const age = now - outcome?.challengeTs;
-        if (!outcome || outcome.success !== true || outcome.hostname !== config.expectedHostname ||
+        const outcome = await verifyWithDeadline(verifier,normalized.token,verifierDeadline);
+        // This is a synthetic verifier contract. A real adapter must parse
+        // provider timestamps deliberately, never rely on JS coercion.
+        const wellTyped = outcome && typeof outcome === 'object' && !Array.isArray(outcome) &&
+          typeof outcome.success === 'boolean' && typeof outcome.hostname === 'string' &&
+          typeof outcome.action === 'string' && typeof outcome.challengeTs === 'number' &&
+          Number.isFinite(outcome.challengeTs) &&
+          JSON.stringify(outcome).length <= 8192;
+        const age = wellTyped ? clock() - outcome.challengeTs : NaN;
+        if (!wellTyped || outcome.success !== true || outcome.hostname !== config.expectedHostname ||
             outcome.action !== config.expectedAction || !Number.isFinite(age) || age < -5000 || age > 300000) {
           await store.finish(lease, 'FAILED');
           lease = null;
           return forbidden;
         }
-        verified = true;
+        // A stale/expired verifier owner cannot advance to delivery.
         await store.finish(lease, 'VERIFIED');
         lease = null;
       } catch {
-        // Uncertain provider outcome: retain replay tombstone, never retry Siteverify.
-        try { await store.finish(lease, 'CLOSED'); lease = null; } catch {}
+        if (lease !== null) { try { await store.finish(lease,'CLOSED'); } catch {} }
+        lease = null;
         return unavailable;
       }
-      if (!verified) return forbidden;
-      const logicalKey = digest(config.deliverySecret,config.stage + ':canonical:v1:' + config.keyVersion,canonicalFields(normalized));
-      let claim;
-      try { claim = await store.claimDelivery({logicalKey,now}); } catch { return unavailable; }
-      if (!claim.ok) return uncertain;
+      const logicalKey = digest(config.deliverySecret,
+        config.stage + ':canonical:v1:' + config.keyVersion,canonicalFields(normalized));
+      let reservation;
+      try { reservation = await store.claimDelivery({logicalKey}); } catch { return unavailable; }
+      if (!reservation.ok) return uncertain;
+      const claim = reservation.claim;
       try {
-        await store.deliveryState(logicalKey, 'SENDING');
-        // Only structured fixed routing and a plain-text mock; never visitor-controlled To/From.
-        const accepted = await sender.send({
-          to:config.to, from:config.from,
-          replyTo:normalized.email,
-          text:[normalized.name, normalized.email, normalized.business, normalized.service, normalized.message].join('\n')
+        // Atomic compare-and-swap to SENDING must succeed BEFORE sender call.
+        await store.deliveryState(claim,'RESERVED','SENDING');
+      } catch { return unavailable; }
+      let accepted;
+      try {
+        accepted = await sender.send({
+          to:config.to,from:config.from,replyTo:normalized.email,
+          text:[normalized.name,normalized.email,normalized.business,normalized.service,normalized.message].join('\n')
         });
-        if (accepted?.accepted !== true) {
-          await store.deliveryState(logicalKey, 'FAILED');
-          return unavailable;
-        }
-        await store.deliveryState(logicalKey, 'ACCEPTED');
-        logger({category:'accepted',correlation:'mock'}); // No raw fields, IP, token or message.
-        return answer(202,'RELAY_ACCEPTED','The mail service accepted your request; inbox delivery is not guaranteed.');
       } catch {
-        // Includes accepted-but-response-lost, worker failure and ambiguous send.
-        try { await store.deliveryState(logicalKey, 'UNKNOWN'); } catch {}
+        try { await store.deliveryState(claim,'SENDING','UNKNOWN'); } catch {}
         return answer(502,'DELIVERY_UNKNOWN','We could not confirm delivery. Your inquiry might have been sent; please contact us directly if urgent.');
       }
+      try {
+        await store.deliveryState(claim,'SENDING',accepted?.accepted === true ? 'ACCEPTED' : 'FAILED');
+      } catch {
+        // Provider may have accepted already. Never retry the sender.
+        return answer(502,'DELIVERY_UNKNOWN','We could not confirm delivery. Your inquiry might have been sent; please contact us directly if urgent.');
+      }
+      if (accepted?.accepted !== true) return unavailable;
+      logger({category:'accepted',correlation:'mock'}); // No visitor data.
+      return answer(202,'RELAY_ACCEPTED','The mail service accepted your request; inbox delivery is not guaranteed.');
     } catch { return unavailable; }
-    finally { if (lease !== null) { try { await store.finish(lease,'CLOSED'); } catch {} } }
+    finally {
+      if (lease !== null) { try { await store.finish(lease,'CLOSED'); } catch {} }
+    }
   };
 }
 
 /**
- * A deterministic synchronous single-process stand-in for a serializable
- * Durable Object transaction. NOT persistent, distributed or deployable.
- * All test "instances" share this one store; service deliberately injects it.
+ * A single-process fake for deterministic tests of proposed serializable
+ * operations. Methods are synchronous with no await between checks + commits.
+ * It is NOT a persistent/remote store. Simulated "instances" share this object.
  */
+export const VERIFIER_LEASE_MS = 5000;
 export class FakeAtomicStore {
-  constructor({ clock = () => Date.now(), sourceLimit=5, globalLimit=120,
-    sourceConcurrency=2, globalConcurrency=8, maxSourceKeys=256 } = {}) {
-    this.clock=clock;
-    this.limits={sourceLimit,globalLimit,sourceConcurrency,globalConcurrency,maxSourceKeys};
-    this.rate=new Map();this.tokens=new Map();this.logical=new Map();
-    this.inflight=new Map();this.globalInflight=0;this.epoch=null;
-    this.offline=false;this.failAtomic=false;this.failMidTransaction=false;this.activeKeyVersion=1;this.maxGlobalObserved=0;
+  constructor({clock=()=>Date.now(),sourceLimit=5,globalLimit=120,
+    sourceConcurrency=2,globalConcurrency=8,maxSourceKeys=256}={}) {
+    this.clock=clock; this.limits={sourceLimit,globalLimit,sourceConcurrency,globalConcurrency,maxSourceKeys};
+    this.rate=new Map(); this.tokens=new Map(); this.logical=new Map();
+    this.permits=new Map(); this.inflight=new Map(); this.globalInflight=0; this.epoch=null;
+    this.offline=false; this.failAtomic=false; this.failMidTransaction=false; this.activeKeyVersion=1;
+    this.maxGlobalObserved=0; this.nextClaimId=0; this.stage=null;
   }
-  admit({stage,keyVersion,rateKey,tokenKey,now}) {
-    if(this.offline || this.failAtomic || keyVersion!==this.activeKeyVersion) throw new Error('store-unavailable');
+  #now() {
+    const value=this.clock();
+    if(!Number.isSafeInteger(value)||value<0) throw new Error('invalid-store-time');
+    return value;
+  }
+  #releasePermit(permit) {
+    if(!this.permits.delete(permit.claimId)) throw new Error('permit-not-active');
+    this.globalInflight--;
+    const left=(this.inflight.get(permit.rateKey)??0)-1;
+    if(left<0 || this.globalInflight<0) throw new Error('permit-underflow');
+    if(left) this.inflight.set(permit.rateKey,left); else this.inflight.delete(permit.rateKey);
+  }
+  // On every store operation: expire leases using STORE time and retain
+  // CLOSED token tombstones until their full replay TTL. Bounded TTL cleanup
+  // drops expired tokens/delivery digests without needing a background job.
+  sweep() {
+    if(this.offline) throw new Error('store-unavailable');
+    const now=this.#now();
+    for(const [id,permit] of this.permits) {
+      if(permit.deadline<=now) {
+        const token=this.tokens.get(permit.tokenKey);
+        if(token && token.ownerId===id && token.status==='PENDING') token.status='CLOSED';
+        this.#releasePermit(permit);
+      }
+    }
+    for(const [key,token] of this.tokens) if(token.expiresAt<=now && !this.permits.has(token.ownerId)) this.tokens.delete(key);
+    for(const [key,delivery] of this.logical) if(delivery.expiresAt<=now) this.logical.delete(key);
+    return now;
+  }
+  admit({stage,keyVersion,rateKey,tokenKey}) {
+    if(this.offline||this.failAtomic||keyVersion!==this.activeKeyVersion||typeof stage!=='string') throw new Error('store-unavailable');
+    const now=this.sweep();
+    if(this.stage!==null && this.stage!==stage) throw new Error('stage-boundary');
     const epoch=Math.floor(now/900000);
-    // Compute prospective transaction state without mutating. Commit all at once.
     const previous=this.epoch===epoch?this.rate:new Map();
     const aggregate=previous.get('__global__')??0;
     const fromSource=previous.get(rateKey)??0;
     const distinct=[...previous.keys()].filter(k=>k!=='__global__').length;
-    if(this.tokens.get(tokenKey)?.expiresAt>now) return {ok:false,reason:'replay'};
-    const limits=this.limits;
-    if(aggregate>=limits.globalLimit||fromSource>=limits.sourceLimit||
-       this.globalInflight>=limits.globalConcurrency||
-       (this.inflight.get(rateKey)??0)>=limits.sourceConcurrency||
-       (fromSource===0&&distinct>=limits.maxSourceKeys)) return {ok:false,reason:'limit'};
+    if(this.tokens.has(tokenKey)) return {ok:false,reason:'replay'};
+    const l=this.limits;
+    if(aggregate>=l.globalLimit||fromSource>=l.sourceLimit||
+       this.globalInflight>=l.globalConcurrency||
+       (this.inflight.get(rateKey)??0)>=l.sourceConcurrency||
+       (fromSource===0&&distinct>=l.maxSourceKeys)) return {ok:false,reason:'limit'};
+    // Stage the WHOLE admission; synthetic exception before commit
+    // cannot mutate quota, permit or replay-claim data.
     const next=new Map(previous);next.set('__global__',aggregate+1);next.set(rateKey,fromSource+1);
-    // Simulate an error after staging one or both speculative bucket writes,
-    // but BEFORE the one atomic commit. No durable map/state is modified.
     if(this.failMidTransaction) throw new Error('synthetic transaction rollback');
-    // Atomic commit point in fake; no await or partial writes.
-    this.rate=next;this.epoch=epoch;
-    this.globalInflight++;this.inflight.set(rateKey,(this.inflight.get(rateKey)??0)+1);
-    this.tokens.set(tokenKey,{expiresAt:now+TOKEN_TOMBSTONE_MS,status:'PENDING'});
+    const claimId=++this.nextClaimId;
+    const lease=Object.freeze({claimId,stage,keyVersion,rateKey,tokenKey});
+    const permit={claimId,rateKey,tokenKey,deadline:now+VERIFIER_LEASE_MS};
+    this.rate=next;this.epoch=epoch;this.stage=stage;
+    this.tokens.set(tokenKey,{ownerId:claimId,keyVersion,stage,status:'PENDING',expiresAt:now+TOKEN_TOMBSTONE_MS});
+    this.permits.set(claimId,permit);
+    this.globalInflight++;
+    this.inflight.set(rateKey,(this.inflight.get(rateKey)??0)+1);
     this.maxGlobalObserved=Math.max(this.maxGlobalObserved,aggregate+1);
-    return {ok:true,lease:{rateKey,tokenKey,closed:false}};
+    return {ok:true,lease};
   }
   finish(lease,status) {
     if(this.offline) throw new Error('store-unavailable');
-    if(lease.closed) throw new Error('double-release');
-    lease.closed=true;
-    const previous=this.tokens.get(lease.tokenKey);
-    if(previous) previous.status=status;
-    this.globalInflight--;
-    const left=(this.inflight.get(lease.rateKey)??1)-1;
-    if(left) this.inflight.set(lease.rateKey,left); else this.inflight.delete(lease.rateKey);
+    const now=this.sweep();
+    if(!['VERIFIED','FAILED','CLOSED'].includes(status)||!lease||
+      !Number.isSafeInteger(lease.claimId)||!Object.isFrozen(lease)) throw new Error('invalid-lease');
+    const permit=this.permits.get(lease.claimId);
+    const token=this.tokens.get(lease.tokenKey);
+    if(!permit||permit.deadline<=now||permit.tokenKey!==lease.tokenKey||
+      permit.rateKey!==lease.rateKey||token?.ownerId!==lease.claimId||
+      token?.stage!==lease.stage||token?.keyVersion!==lease.keyVersion||token.status!=='PENDING')
+      throw new Error('stale-lease-or-state');
+    token.status=status;
+    this.#releasePermit(permit);
+    return true;
   }
-  claimDelivery({logicalKey,now}) {
+  claimDelivery({logicalKey}) {
     if(this.offline) throw new Error('store-unavailable');
-    if((this.logical.get(logicalKey)?.expiresAt??0)>now) return {ok:false};
-    this.logical.set(logicalKey,{status:'RESERVED',expiresAt:now+LOGICAL_DEDUPE_MS});
-    return {ok:true};
+    const now=this.sweep();
+    if(this.logical.has(logicalKey)) return {ok:false};
+    const ownerId=++this.nextClaimId;
+    const claim=Object.freeze({ownerId,logicalKey});
+    this.logical.set(logicalKey,{ownerId,status:'RESERVED',expiresAt:now+LOGICAL_DEDUPE_MS});
+    return {ok:true,claim};
   }
-  deliveryState(logicalKey,status) {
+  deliveryState(claim,expected,next) {
     if(this.offline) throw new Error('store-unavailable');
-    const previous=this.logical.get(logicalKey);
-    if(!previous) throw new Error('missing-claim');
-    previous.status=status;
+    this.sweep();
+    const valid=(expected==='RESERVED'&&next==='SENDING')||
+      (expected==='SENDING'&&['ACCEPTED','FAILED','UNKNOWN'].includes(next));
+    const record=claim&&this.logical.get(claim.logicalKey);
+    if(!valid||!Object.isFrozen(claim)||!record||
+      record.ownerId!==claim.ownerId||record.status!==expected)
+      throw new Error('stale-delivery-owner-or-transition');
+    record.status=next;
+    return true;
   }
-  snapshot() { return { attempts:this.rate.get('__global__')??0, tokens:this.tokens.size,
-      logical:[...this.logical.values()].map(x=>x.status), inFlight:this.globalInflight }; }
+  snapshot() {
+    return {attempts:this.rate.get('__global__')??0,tokens:this.tokens.size,
+      logical:[...this.logical.values()].map(v=>v.status),inFlight:this.globalInflight,
+      permits:this.permits.size,stage:this.stage};
+  }
 }
 
 export function syntheticPayload(patch={}) {
