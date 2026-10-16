@@ -24,19 +24,22 @@ export class IntakeCoordinator extends DurableObject {
   async deliveryState(claim,expected,status){return this.store.deliveryState(claim,expected,status)}
 }
 
-const noStore=new Response('Inquiry service disabled.',{
-  status:503,headers:{'Content-Type':'text/plain; charset=utf-8',
-    'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}
-});
+function disabledResponse(){
+  // A new Response per request: never reuse a consumed body stream.
+  return new Response('Inquiry service disabled.',{
+    status:503,headers:{'Content-Type':'text/plain; charset=utf-8',
+      'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}
+  });
+}
 
 export default {
   async fetch(request,env){
     // Default-off and synthetic-preview-only until a NEW independently
     // reviewed source/config and founder release decision exist.
-    if(env?.INTAKE_ENABLED!=='true'||env?.STAGE!=='stage-preview')return noStore;
+    if(env?.INTAKE_ENABLED!=='true'||env?.STAGE!=='stage-preview')return disabledResponse();
     if(!env?.INTAKE_COORDINATOR || !env?.TURNSTILE_SECRET ||
        !env?.SEND_API_KEY || !env?.TOKEN_HMAC_SECRET ||
-       !env?.RATE_HMAC_SECRET || !env?.DELIVERY_HMAC_SECRET)return noStore;
+       !env?.RATE_HMAC_SECRET || !env?.DELIVERY_HMAC_SECRET)return disabledResponse();
     const origin=env.ALLOWED_ORIGIN;
     // This is a browser convenience, never a trust/authentication boundary.
     if(request.method==='OPTIONS'&&new URL(request.url).pathname==='/inquiry'&&
