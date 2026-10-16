@@ -30,12 +30,12 @@
     base-uri 'self';
     object-src 'none';
     frame-ancestors 'none';
-    form-action 'self' mailto: https://formsubmit.co;
+    form-action 'none';
     script-src 'self' 'sha256-pQDtQ1iVQdiSan8Yb+Wu419ZQXUI7CxOhR96jOYdKJY=';
     style-src 'self';
     img-src 'self' data:;
     font-src 'self';
-    connect-src 'self' https://formsubmit.co;
+    connect-src 'self';
     upgrade-insecure-requests;
     block-all-mixed-content;
   " />
@@ -355,73 +355,14 @@
         </div>
 
         <div class="form-card">
-          <form
-            id="quoteForm"
-            action="https://formsubmit.co/f28d9379c3ea08498a2e16e20d2ed1a7"
-            data-ajax-action="https://formsubmit.co/ajax/f28d9379c3ea08498a2e16e20d2ed1a7"
-            method="post"
-            autocomplete="on"
-            novalidate
-          >
-            <input type="hidden" name="_subject" value="New BAGDigital inquiry" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value="https://bagdigital.tech/#contact" />
-
-            <div class="honeypot" aria-hidden="true">
-              <label>Leave this field empty <input name="company_site" tabindex="-1" autocomplete="off" /></label>
-            </div>
-
-            <div class="form-row">
-              <div class="field">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" required autocomplete="name" />
-                <span class="field-error">Please enter your name.</span>
-              </div>
-              <div class="field">
-                <label for="business">Business</label>
-                <input id="business" name="business" type="text" autocomplete="organization" />
-              </div>
-            </div>
-
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" />
-              <span class="field-error">Please enter a valid email.</span>
-            </div>
-
-            <div class="field">
-              <label for="need">What best describes the problem?</label>
-              <select id="need" name="need">
-                <option>I enter the same information in multiple places</option>
-                <option>I have to check several systems to answer simple questions</option>
-                <option>Follow-up or tasks are getting missed</option>
-                <option>I want to automate repetitive office work</option>
-                <option>I want to discuss an integration or partnership</option>
-                <option>Something else</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="details">Which software do you use, and what takes too much manual work?</label>
-              <textarea
-                id="details"
-                name="details"
-                rows="6"
-                required
-                placeholder="Example: We use QuickBooks, Gmail and Google Drive. I spend every Friday checking who still owes us documents."
-              ></textarea>
-              <span class="field-error">Please add a short description.</span>
-            </div>
-
+          <div class="contact-form-paused" role="region" aria-labelledby="intake-paused-heading">
+            <h3 id="intake-paused-heading">Get in touch</h3>
+            <p>Our website inquiry form is temporarily unavailable while we verify its security protections. You can still request a free initial consultation by emailing BAGDigital directly.</p>
             <div class="form-actions">
-              <button class="button button-primary" type="submit">Send inquiry</button>
-              <a id="emailDirectBtn" class="button button-secondary" href="#" rel="nofollow">Email directly</a>
+              <a class="button button-primary" href="mailto:jaime@bagdigital.tech?subject=BAGDigital%20consultation%20request">Email BAGDigital</a>
             </div>
-
-            <div id="formStatus" class="form-status" role="status" aria-live="polite"></div>
-            <p class="form-privacy">By submitting, you agree BAGDigital can contact you about this request. No mailing-list signup.</p>
-          </form>
+            <p class="form-privacy">Please don't include passwords, API keys, customer records, payment information or other sensitive data in your email.</p>
+          </div>
         </div>
       </div>
     </section>
