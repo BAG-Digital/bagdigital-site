@@ -30,10 +30,13 @@ jobs:
           set -euo pipefail
           node --check intake/stage2/provider-adapters.mjs
           node --check intake/stage2/sql-coordinator.mjs
+          node --check intake/stage2/guarded-handler.mjs
+          node --check intake/stage2/cloudflare-worker.mjs
           node --check tests/site26-adapters.test.mjs
           node --check tests/site26-sql.test.mjs
+          node --check tests/site26-handler.test.mjs
       - name: Execute synthetic provider adapter tests
-        run: node --test tests/site26-adapters.test.mjs tests/site26-sql.test.mjs
+        run: node --test tests/site26-adapters.test.mjs tests/site26-sql.test.mjs tests/site26-handler.test.mjs
       - name: Confirm no live site or deployment files in this PR
         run: |
           set -euo pipefail
