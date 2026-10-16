@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  createMockHandler, FakeAtomicStore, syntheticWire, syntheticIngress,
+  createMockHandler, FakeAtomicStore, VERIFIER_LEASE_MS, TOKEN_TOMBSTONE_MS, LOGICAL_DEDUPE_MS, syntheticWire, syntheticIngress,
   syntheticPayload, syntheticConfig, parseStrictFlatJson, MAX_BODY_BYTES
 } from '../intake/mock-contract.mjs';
 
@@ -16,7 +16,7 @@ function setup(options={}) {
     await options.verify(token):{success:true,hostname:'localhost',action:'marketing_inquiry',challengeTs:clock()};}};
   const sender={async send(message){calls.send.push(message);return options.send?await options.send(message):{accepted:true};}};
   const config=syntheticConfig(options.config);
-  const make=()=>createMockHandler({store,verifier,sender,config,clock,logger:(event)=>calls.logs.push(event)});
+  const make=(handlerClock=clock)=>createMockHandler({store,verifier,sender,config,clock:handlerClock,verifierDeadline:options.deadline,logger:(event)=>calls.logs.push(event)});
   const wire=(fields={},patch={})=>syntheticWire(syntheticPayload(fields),patch);
   return {store,calls,make,wire,clock,advance:ms=>time+=ms};
 }
@@ -142,10 +142,9 @@ test('crash-equivalent persisted SENDING record survives resumed request with ne
   const env=setup({send:async()=>({accepted:true})});
   const original=await env.make()(env.wire(),syntheticIngress);
   assert.equal(original.status,202);
-  const existing=[...env.store.logical.values()][0];
-  existing.status='SENDING'; // Simulate worker dying after durable SENDING claim.
   const result=await env.make()(env.wire(another()),syntheticIngress);
   assert.equal(result.status,409);
+  assert.equal(env.store.snapshot().logical[0],'ACCEPTED');
   assert.equal(env.calls.send.length,1);
 });
 
@@ -191,9 +190,10 @@ test('invalid UTF-8, malformed JSON, illegal object shapes and lone surrogates f
 test('oversized body including chunked stream over declared length cap has no verifier calls',async()=>{
   const env=setup();
   const body=new Uint8Array(MAX_BODY_BYTES+1);
-  assert.equal((await env.make()(env.wire({}, {body}),syntheticIngress)).status,400);
+  assert.equal((await env.make()(env.wire({}, {body}),syntheticIngress)).status,413);
   const stream=(async function*(){yield new Uint8Array(8000);yield new Uint8Array(9000)})();
-  assert.equal((await env.make()(env.wire({}, {body:stream,contentLength:'16'}),syntheticIngress)).status,400);
+  assert.equal((await env.make()(env.wire({}, {body:stream,contentLength:'16'}),syntheticIngress)).status,413);
+  assert.equal((await env.make()(env.wire({}, {contentLength:String(MAX_BODY_BYTES+1)}),syntheticIngress)).status,413);
   noExternalCalls(env);
 });
 
@@ -235,4 +235,157 @@ test('no automatic transport activity or external client in module; tests only i
   globalThis.fetch=()=>{throw new Error('NETWORK PROHIBITED')};
   try {assert.equal((await env.make()(env.wire(),syntheticIngress)).status,202);}finally{globalThis.fetch=before}
   assert.equal(env.calls.send.length,1);
+});
+
+
+test('S23-MOCK-01: independent handler clocks cannot shorten store token tombstone or quota window',async()=>{
+  let storeNow=fixedNow;
+  const store=new FakeAtomicStore({clock:()=>storeNow,sourceLimit:1});
+  const env=setup({store,verify:async()=>({success:true,hostname:'localhost',action:'marketing_inquiry',challengeTs:fixedNow})});
+  const early=env.make(()=>fixedNow);
+  const farFuture=env.make(()=>fixedNow+TOKEN_TOMBSTONE_MS+3600000);
+  assert.equal((await early(env.wire(),syntheticIngress)).status,202);
+  // The store clock is unchanged; a future-dated handler cannot release a replay
+  // tombstone or advance the shared fixed-window quota.
+  const reused=await farFuture(env.wire(),syntheticIngress);
+  assert.equal(reused.status,403);
+  const anotherToken=await farFuture(env.wire(another()),syntheticIngress);
+  assert.equal(anotherToken.status,429);
+  assert.equal(env.calls.verify.length,1);
+  assert.equal(env.calls.send.length,1);
+  assert.equal(store.snapshot().attempts,1);
+});
+
+test('S23-MOCK-01: forward handler clock cannot expire logical dedupe when store time is fixed',async()=>{
+  let storeTime=fixedNow;
+  const store=new FakeAtomicStore({clock:()=>storeTime});
+  const env=setup({store,verify:async(token)=>({
+    success:true,hostname:'localhost',action:'marketing_inquiry',
+    challengeTs:token==='TOKEN-SECOND'?fixedNow+LOGICAL_DEDUPE_MS+5:fixedNow
+  })});
+  assert.equal((await env.make(()=>fixedNow)(env.wire(),syntheticIngress)).status,202);
+  const jumped=env.make(()=>fixedNow+LOGICAL_DEDUPE_MS+5);
+  assert.equal((await jumped(env.wire(another()),syntheticIngress)).status,409);
+  assert.equal(env.calls.verify.length,2);
+  assert.equal(env.calls.send.length,1);
+  assert.deepEqual(store.snapshot().logical,['ACCEPTED']);
+});
+
+test('S23-MOCK-02: owned token completion is one-shot CAS, copied/stale leases cannot double-release',()=>{
+  const store=new FakeAtomicStore({clock:()=>fixedNow});
+  const admission=store.admit({stage:'mock-site23',keyVersion:1,rateKey:'source1',tokenKey:'tokenA'});
+  assert.equal(admission.ok,true);
+  const lease=admission.lease;
+  assert.equal(Object.isFrozen(lease),true);
+  assert.equal(store.finish(lease,'VERIFIED'),true);
+  assert.throws(()=>store.finish(lease,'CLOSED'),/stale/);
+  assert.throws(()=>store.finish(Object.freeze({...lease}),'FAILED'),/stale/);
+  assert.throws(()=>store.finish(Object.freeze({...lease,claimId:lease.claimId+1000}),'FAILED'),/stale/);
+  assert.equal(store.snapshot().inFlight,0);
+  assert.equal(store.snapshot().permits,0);
+  assert.equal(store.tokens.get('tokenA').status,'VERIFIED');
+});
+
+test('S23-MOCK-02: delivery states use owner-bound CAS and terminal state cannot reopen',()=>{
+  const store=new FakeAtomicStore({clock:()=>fixedNow});
+  const claim=store.claimDelivery({logicalKey:'fictional-dedupe'}).claim;
+  assert.equal(store.deliveryState(claim,'RESERVED','SENDING'),true);
+  assert.throws(()=>store.deliveryState(claim,'RESERVED','SENDING'),/stale/);
+  assert.throws(()=>store.deliveryState(Object.freeze({...claim,ownerId:claim.ownerId+1}),'SENDING','ACCEPTED'),/stale/);
+  assert.equal(store.deliveryState(claim,'SENDING','UNKNOWN'),true);
+  assert.throws(()=>store.deliveryState(claim,'UNKNOWN','SENDING'),/stale/);
+  assert.throws(()=>store.deliveryState(claim,'SENDING','ACCEPTED'),/stale/);
+  assert.deepEqual(store.snapshot().logical,['UNKNOWN']);
+});
+
+test('S23-MOCK-03: authoritative lease expiry recovers permit but retains CLOSED replay tombstone',()=>{
+  let now=fixedNow;
+  const store=new FakeAtomicStore({clock:()=>now,sourceConcurrency:1,globalConcurrency:1});
+  const options={stage:'mock-site23',keyVersion:1,rateKey:'fictional-source',tokenKey:'token-expiring'};
+  const held=store.admit(options);
+  assert.equal(held.ok,true);
+  assert.equal(store.snapshot().inFlight,1);
+  now+=VERIFIER_LEASE_MS+1;
+  store.sweep();
+  assert.equal(store.snapshot().inFlight,0);
+  assert.equal(store.snapshot().permits,0);
+  assert.equal(store.tokens.get('token-expiring').status,'CLOSED');
+  assert.throws(()=>store.finish(held.lease,'VERIFIED'),/stale/);
+  assert.equal(store.admit(options).reason,'replay');
+  assert.equal(store.admit({...options,tokenKey:'fresh-token'}).ok,true);
+  assert.equal(store.snapshot().inFlight,1);
+});
+
+test('S23-MOCK-03: replay and delivery digests are evicted at store-authored expiry',()=>{
+  let now=fixedNow;
+  const store=new FakeAtomicStore({clock:()=>now});
+  const params={stage:'mock-site23',keyVersion:1,rateKey:'fictional-source',tokenKey:'retained-token'};
+  const admission=store.admit(params);
+  store.finish(admission.lease,'FAILED');
+  const delivery=store.claimDelivery({logicalKey:'retained-delivery'});
+  store.deliveryState(delivery.claim,'RESERVED','SENDING');
+  store.deliveryState(delivery.claim,'SENDING','UNKNOWN');
+  now+=TOKEN_TOMBSTONE_MS+1;
+  store.sweep();
+  assert.equal(store.snapshot().tokens,0);
+  assert.deepEqual(store.snapshot().logical,['UNKNOWN']);
+  now=fixedNow+LOGICAL_DEDUPE_MS+1;
+  store.sweep();
+  assert.deepEqual(store.snapshot().logical,[]);
+  assert.equal(store.claimDelivery({logicalKey:'retained-delivery'}).ok,true);
+});
+
+test('S23-MOCK-03: deterministic verifier timeout closes token; late verifier cannot send',async()=>{
+  const verifierGate=deferred(), deadline=deferred();
+  const env=setup({verify:()=>verifierGate.promise,deadline:deadline.promise});
+  const pending=env.make()(env.wire(),syntheticIngress);
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(env.store.snapshot().inFlight,1);
+  deadline.resolve();
+  assert.equal((await pending).status,503);
+  assert.equal(env.store.snapshot().inFlight,0);
+  assert.equal((await env.make()(env.wire(),syntheticIngress)).status,403);
+  verifierGate.resolve({success:true,hostname:'localhost',action:'marketing_inquiry',challengeTs:fixedNow});
+  await Promise.resolve();
+  assert.equal(env.calls.verify.length,1);
+  noSends(env);
+});
+
+test('S23-MOCK-03: lease expires mid-verifier; stale completion cannot reach delivery',async()=>{
+  let now=fixedNow;
+  const gate=deferred();
+  const store=new FakeAtomicStore({clock:()=>now,globalConcurrency:1});
+  const env=setup({store,verify:()=>gate.promise});
+  const pending=env.make()(env.wire(),syntheticIngress);
+  await new Promise(resolve=>setImmediate(resolve));
+  now+=VERIFIER_LEASE_MS+1;store.sweep();
+  assert.equal(store.snapshot().inFlight,0);
+  gate.resolve({success:true,hostname:'localhost',action:'marketing_inquiry',challengeTs:fixedNow});
+  assert.equal((await pending).status,503);
+  assert.equal(env.calls.send.length,0);
+  assert.equal((await env.make()(env.wire(),syntheticIngress)).status,403);
+});
+
+test('S23-MOCK-04: non-JSON structural whitespace is rejected before verification',async()=>{
+  for(const illegal of ['\u00a0','\u000b','\u000c']){
+    const input=JSON.stringify(syntheticPayload()).replace('{','{'+illegal);
+    assert.throws(()=>parseStrictFlatJson(input),/json/);
+    const env=setup();
+    const result=await env.make()(env.wire({}, {body:new TextEncoder().encode(input)}),syntheticIngress);
+    assert.equal(result.status,400);noExternalCalls(env);
+  }
+  assert.equal(parseStrictFlatJson(' \n\t'+JSON.stringify(syntheticPayload())+'\r ').name,'Fictional Demo');
+});
+
+test('S23-MOCK-05: provider timestamp type coercion, large response and malformed result reject',async()=>{
+  for(const fakeOutcome of [
+    {success:true,hostname:'localhost',action:'marketing_inquiry',challengeTs:String(fixedNow)},
+    {success:true,hostname:'localhost',action:'marketing_inquiry',challengeTs:fixedNow,extra:'x'.repeat(9000)},
+    ['unexpected','array'],
+    {success:'true',hostname:'localhost',action:'marketing_inquiry',challengeTs:fixedNow}
+  ]){
+    const env=setup({verify:async()=>fakeOutcome});
+    assert.equal((await env.make()(env.wire(),syntheticIngress)).status,403);
+    assert.equal(env.calls.verify.length,1);noSends(env);
+  }
 });
