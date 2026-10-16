@@ -138,14 +138,20 @@ test('accepted relay then lost reply: UNKNOWN prevents same and NEW CAPTCHA repe
   assert.equal(env.calls.send.length,1);
 });
 
-test('crash-equivalent persisted SENDING record survives resumed request with new token',async()=>{
-  const env=setup({send:async()=>({accepted:true})});
-  const original=await env.make()(env.wire(),syntheticIngress);
-  assert.equal(original.status,202);
-  const result=await env.make()(env.wire(another()),syntheticIngress);
-  assert.equal(result.status,409);
-  assert.equal(env.store.snapshot().logical[0],'ACCEPTED');
+test('crash-equivalent pending SENDING record blocks a restarted handler with new token',async()=>{
+  const gate=deferred();
+  const env=setup({send:()=>gate.promise});
+  // The first handler is paused inside its sender; treat this as the crash
+  // boundary after the durable SENDING transition, without editing store data.
+  const pending=env.make()(env.wire(),syntheticIngress);
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.deepEqual(env.store.snapshot().logical,['SENDING']);
+  // Independent/new handler with the same fake store cannot send twice.
+  const restarted=await env.make()(env.wire(another()),syntheticIngress);
+  assert.equal(restarted.status,409);
   assert.equal(env.calls.send.length,1);
+  gate.resolve({accepted:true}); // let the synthetic test exit cleanly
+  assert.equal((await pending).status,202);
 });
 
 test('definitive relay failure never silently retries during 24-hour dedupe window',async()=>{
