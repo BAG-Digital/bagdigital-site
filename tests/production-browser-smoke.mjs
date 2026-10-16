@@ -12,6 +12,7 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 const root = new URL("../", import.meta.url);
 const files = new Map([
   ["/", ["index.html", "text/html; charset=utf-8"]],
+  ["/index.html", ["index.html", "text/html; charset=utf-8"]],
   ["/styles.css", ["styles.css", "text/css; charset=utf-8"]],
   ["/privacy.html", ["privacy.html", "text/html; charset=utf-8"]]
 ]);
@@ -142,9 +143,58 @@ try {
   assert.equal(await inspect("return document.activeElement.id;"), "contact-email",
     "Tab after the name field should focus the email input");
 
+  // Exercise the *actual* static privacy-to-contact route in a browser.
+  // It must work from privacy.html even though the marketing page is index.html.
   const privacyResponse = await fetch(origin + "privacy.html");
   assert.equal(privacyResponse.status, 200, "First-party privacy notice must resolve on HTTP");
   assert.match(await privacyResponse.text(), /<h1>Inquiry Privacy Notice<\/h1>/);
+  const indexResponse = await fetch(origin + "index.html");
+  assert.equal(indexResponse.status, 200, "Privacy return destination /index.html must resolve");
+  assert.match(await indexResponse.text(), /id="contact"/);
+
+  const privacyNav = await send("Page.navigate", { url: origin + "privacy.html" });
+  assert.ok(!privacyNav.errorText, "Browser cannot navigate to privacy page");
+  let privacyLoaded = false;
+  for (let n = 0; n < 80; n++) {
+    privacyLoaded = await inspect(
+      "return document.readyState==='complete' && location.pathname==='/privacy.html' && " +
+      "!!document.querySelector('a[href=\"./index.html#contact\"]');"
+    );
+    if (privacyLoaded) break;
+    await wait(100);
+  }
+  assert.ok(privacyLoaded, "Privacy page did not load with its return link");
+  const privacyState = await inspect(
+    "const a=document.querySelector('a[href=\"./index.html#contact\"]');" +
+    "return {href:a.href,scripts:document.scripts.length,title:document.title};"
+  );
+  assert.equal(privacyState.href, origin + "index.html#contact");
+  assert.equal(privacyState.scripts, 0, "Privacy page should stay scriptless");
+  assert.match(privacyState.title, /Inquiry Privacy Notice/);
+
+  await inspect(
+    "document.querySelector('a[href=\"./index.html#contact\"]').click();return true;"
+  );
+  let returned = false;
+  for (let n = 0; n < 80; n++) {
+    returned = await inspect(
+      "return document.readyState==='complete' && location.pathname==='/index.html' && " +
+      "location.hash==='#contact' && !!document.querySelector('#contact .contact-form');"
+    );
+    if (returned) break;
+    await wait(100);
+  }
+  assert.ok(returned, "Privacy return link failed to reach /index.html#contact");
+  const returnState = await inspect(
+    "const field=document.querySelector('#contact-name');" +
+    "return {nameValue:field.value,focused:document.activeElement.id," +
+    "visible:!!document.querySelector('#contact').getClientRects().length};"
+  );
+  assert.ok(returnState.visible, "Return destination does not show the contact section");
+  console.log("Privacy -> contact browser round-trip: /privacy.html -> /index.html#contact PASS.");
+  // A same-tab navigation is allowed to clear an unsent draft. Record rather than
+  // claiming browser-dependent form restoration/focus behavior is guaranteed.
+  console.log("Observed browser return state:", JSON.stringify(returnState));
   assert.ok(requests.every(u => u.startsWith(origin) || u === "about:blank"),
     "Unexpected outgoing request: " + JSON.stringify(requests));
   console.log("PASS local HTTP Chromium smoke: source CSP, notice ordering, four viewport widths, native validation.");
