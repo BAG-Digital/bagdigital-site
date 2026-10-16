@@ -67,7 +67,13 @@ provider enforces consent, content limits or anti-abuse rules.
 
 **First-party Inquiry Privacy Notice:** `privacy.html` is linked directly from
 the form's pre-acknowledgment processor disclosure and the global footer, and
-uses the same Field Notes styling and strict scriptless meta CSP. It explains
+uses the same Field Notes styling and strict scriptless meta CSP. The form-side
+privacy link opens in a labeled new tab to keep the unsent inquiry visible in
+the original tab. Footer/privacy-page links are ordinary same-tab navigation.
+The local browser fixture exercises `/privacy.html` → `/index.html#contact`.
+A same-tab return was observed to leave the name field empty and no field
+focused; **do not claim automatic draft recovery**. The visitor can return
+to the original form tab when opening the privacy notice from the form. It explains
 the precise requested fields, FormSubmit delivery/30-day documented archive,
 BAGDigital inquiry-only use and possible business-email retention, limits of
 deletion promises, and contact options. The shorter three-paragraph form notice
