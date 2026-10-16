@@ -4,7 +4,7 @@
  * independently reviewed host ingress/DO/Turnstile/relay integration is required.
  */
 const MAX_BODY=16*1024;
-const SERVICES=new Set(['website','workflow-planning','integration-planning','support']);
+const SERVICES=new Set(['website','workflow-planning','integration-planning','support','unsure']);
 const FIELDS=new Set(['name','email','business','service','message','processing_ack','challenge_token','request_id']);
 const uuid4=/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const encoder=new TextEncoder();
