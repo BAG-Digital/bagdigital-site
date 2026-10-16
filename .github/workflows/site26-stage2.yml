@@ -1,0 +1,37 @@
+name: Site 26 Stage 2 adapter pre-review
+
+on:
+  pull_request:
+    paths:
+      - "intake/stage2/**"
+      - "tests/site26-*.test.mjs"
+      - "docs/site26/**"
+      - ".github/workflows/site26-stage2.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  pre-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout source (read only)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Verify syntax
+        run: |
+          set -euo pipefail
+          node --check intake/stage2/provider-adapters.mjs
+          node --check tests/site26-adapters.test.mjs
+      - name: Execute synthetic provider adapter tests
+        run: node --test tests/site26-adapters.test.mjs
+      - name: Confirm no live site or deployment files in this PR
+        run: |
+          set -euo pipefail
+          changed="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" || true)"
+          if printf '%s\n' "$changed" | grep -E '^(index.html|app.js|privacy.html|CNAME|wrangler\.(toml|json|jsonc)|\.github/workflows/deploy)' ; then
+            echo "Public website or release configuration changed in adapter pre-review PR"
+            exit 1
+          fi
