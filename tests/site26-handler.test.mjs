@@ -24,7 +24,7 @@ const config={
   from:'sender@example.invalid',to:'inbox@example.invalid'
 };
 const ingress={verified:true,source:'203.0.113.42'};
-function fixture({verify,send}={}){
+function fixture({verify,send,logger,bodyDeadline}={}){
   const db=new DatabaseSync(':memory:');
   const sql={exec(text,...params){
     const stmt=db.prepare(text);
@@ -42,7 +42,7 @@ function fixture({verify,send}={}){
       action:'marketing_inquiry',challengeTs:NOW}
   }};
   const sender={send:async args=>{sends++;return send?await send(args):{accepted:true}}};
-  const handler=createStage2Handler({store,verifier,sender,config,clock:()=>NOW});
+  const handler=createStage2Handler({store,verifier,sender,config,clock:()=>NOW,logger,bodyDeadline});
   return {handler,store,get sends(){return sends},get checks(){return checks}};
 }
 async function body(r){return {status:r.status,...await r.json()};}
@@ -132,4 +132,89 @@ test('two handler calls racing on one token never trigger more than one verifier
   const results=await Promise.all([x.handler(request(),ingress),x.handler(request(),ingress)]);
   assert.deepEqual(results.map(r=>r.status).sort(),[202,403]);
   assert.equal(x.checks,1);assert.equal(x.sends,1);
+});
+
+
+test('S26-03: stalled first chunk fails 408 within injected total deadline and attempts cancellation',async()=>{
+  let cancelled=false, controller;
+  const stall=new ReadableStream({
+    start(c){controller=c},
+    pull(){return new Promise(()=>{})},
+    cancel(){cancelled=true}
+  });
+  const gate={};
+  gate.promise=new Promise(resolve=>{gate.resolve=resolve});
+  const x=fixture({bodyDeadline:gate.promise});
+  const req=new Request('https://intake.example.invalid/inquiry',{
+    method:'POST',headers:{'content-type':'application/json',origin},
+    body:stall,duplex:'half'
+  });
+  const result=x.handler(req,ingress);
+  await new Promise(resolve=>setImmediate(resolve));
+  gate.resolve();
+  const response=await result;
+  assert.equal(response.status,408);
+  assert.equal(response.headers.get('cache-control'),'no-store');
+  assert.equal(x.checks,0);assert.equal(x.sends,0);
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(cancelled,true);
+  assert.ok(controller);
+});
+
+test('S26-03: trickled body chunks never reset overall request-body deadline',async()=>{
+  let cancelled=false,pushed=false;
+  const stream=new ReadableStream({
+    pull(controller){
+      if(!pushed){pushed=true;controller.enqueue(new TextEncoder().encode('{"name":'))}
+      return new Promise(()=>{}); // adversarial stalled next chunk
+    },
+    cancel(){cancelled=true}
+  });
+  let fireDeadline;
+  const deadline=new Promise(resolve=>{fireDeadline=resolve});
+  const x=fixture({bodyDeadline:deadline});
+  const req=new Request('https://intake.example.invalid/inquiry',{
+    method:'POST',headers:{'content-type':'application/json',origin},
+    body:stream,duplex:'half'
+  });
+  const task=x.handler(req,ingress);
+  await new Promise(resolve=>setImmediate(resolve));
+  fireDeadline();
+  assert.equal((await task).status,408);
+  assert.equal(x.checks,0);assert.equal(x.sends,0);
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(cancelled,true);
+});
+
+test('S26-03: oversize streamed body still returns 413 before Siteverify',async()=>{
+  const x=fixture();
+  const stream=new ReadableStream({start(c){
+    c.enqueue(new Uint8Array(8000));c.enqueue(new Uint8Array(9000));c.close();
+  }});
+  const req=new Request('https://intake.example.invalid/inquiry',{
+    method:'POST',headers:{'content-type':'application/json',origin},
+    body:stream,duplex:'half'
+  });
+  assert.equal((await x.handler(req,ingress)).status,413);
+  assert.equal(x.checks,0);assert.equal(x.sends,0);
+});
+
+test('S26-04: logger synchronous exception cannot change committed ACCEPTED response',async()=>{
+  const x=fixture({logger:()=>{throw Error('injected synthetic log sink failure')}});
+  const result=await body(await x.handler(request(),ingress));
+  assert.equal(result.status,202);
+  assert.equal(result.code,'RELAY_ACCEPTED');
+  assert.equal(x.sends,1);
+  assert.equal((await x.handler(request({...payload(),challenge_token:'new-token'}),ingress)).status,409);
+  assert.equal(x.sends,1);
+});
+
+test('S26-04: logger asynchronously rejects but accepted delivery stays 202',async()=>{
+  const x=fixture({logger:async()=>{throw Error('injected async log sink failure')}});
+  const result=await body(await x.handler(request(),ingress));
+  assert.equal(result.status,202);
+  await Promise.resolve();
+  assert.equal(x.sends,1);
+  assert.equal((await x.handler(request({...payload(),challenge_token:'fresh-token'}),ingress)).status,409);
+  assert.equal(x.sends,1);
 });
