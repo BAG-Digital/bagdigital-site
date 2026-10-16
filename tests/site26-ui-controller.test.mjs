@@ -25,19 +25,21 @@ test("all four service choices map exactly",()=>{
     "Website or redesign":"website",
     "Workflow improvement":"workflow-planning",
     "Integration planning":"integration-planning",
-    "Technical support":"support"
+    "Technical support":"support",
+    "Not sure yet":"unsure"
   };
   for(const [interest,service] of Object.entries(expected)){
     assert.equal(validateInquiryDraft({...valid(),interest}).values.service,service);
   }
 });
 
-test("selected source has an unresolved Not sure yet option and never maps silently",()=>{
-  // This is a known UX/backend contract mismatch for Indigo/Prism/Rook to
-  // resolve before final integration, never an invitation to mislabel users.
-  const result=validateInquiryDraft({...valid(),interest:"Not sure yet"});
-  assert.equal(result.valid,false);
-  assert.match(result.fields.interest,/four listed services/);
+test("undecided preference stays undecided and unknown values are rejected",()=>{
+  const undecided=validateInquiryDraft({...valid(),interest:"Not sure yet"});
+  assert.equal(undecided.valid,true);
+  assert.equal(undecided.values.service,"unsure");
+  const unknown=validateInquiryDraft({...valid(),interest:"Autonomous AI Agents"});
+  assert.equal(unknown.valid,false);
+  assert.match(unknown.fields.interest,/listed service/);
 });
 
 test("consent, message bounds and header injection fail before submit",()=>{
