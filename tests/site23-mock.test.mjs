@@ -78,7 +78,7 @@ test('source quota, cardinality and verifier in-flight ceilings block new verifi
 });
 
 test('atomic transaction failure and store outage do not partially reserve or verify',async()=>{
-  for(const property of ['offline','failAtomic']) {
+  for(const property of ['offline','failAtomic','failMidTransaction']) {
     const env=setup();env.store[property]=true;
     const before=env.store.snapshot();
     assert.equal((await env.make()(env.wire(),syntheticIngress)).status,503);
