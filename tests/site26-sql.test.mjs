@@ -49,7 +49,7 @@ test('source and global quotas count admitted tokens atomically',async()=>{
   assert.equal((await admit(s,'c','b')).ok,true);
   assert.deepEqual(await admit(s,'d','b'),{ok:false,reason:'limit'});
   assert.equal((await admit(s,'e','f')).ok,true);
-  assert.deepEqual(await admit(s,'f','g'),{ok:false,reason:'limit'});
+  assert.deepEqual(await admit(s,'f','1'),{ok:false,reason:'limit'});
 });
 
 test('atomic transaction rolls back a mid-write exception',()=>{
