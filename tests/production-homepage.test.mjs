@@ -113,7 +113,7 @@ test("visitor sees linked BAGDigital privacy notice and readable provider disclo
   const notice = html.indexOf('id="contact-data-note"');
   const consent = html.indexOf('class="contact-consent"');
   assert.ok(notice > 0 && consent > notice, "Processor notice precedes required acknowledgment");
-  assert.match(html, /href="\.\/privacy\.html">Inquiry Privacy Notice<\/a>/);
+  assert.match(html, /href="\.\/privacy\.html" target="_blank" rel="noopener noreferrer">Inquiry Privacy Notice \(opens in a new tab\)<\/a>/);
   assert.equal((html.match(/href="\.\/privacy\.html"/g) || []).length, 2, "Privacy linked from form and footer");
   assert.match(html, /FormSubmit says it keeps form submissions in its archive for 30 days/);
   assert.match(html, /href="https:\/\/formsubmit\.co\/privacy\.pdf" target="_blank" rel="noopener noreferrer"/);
