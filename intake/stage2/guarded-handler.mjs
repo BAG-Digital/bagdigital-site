@@ -13,6 +13,7 @@ const size=s=>encoder.encode(s).byteLength;
 const answer=(status,code,message,origin)=>new Response(JSON.stringify({code,message}),{
   status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',
     'X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'none'; frame-ancestors 'none'",
+    ...(status===405?{'Allow':'POST'}:{}),
     ...(origin?{'Access-Control-Allow-Origin':origin,'Vary':'Origin'}:{})}
 });
 const bad=(origin)=>answer(400,'INVALID_INPUT','Check the form fields and try again.',origin);
