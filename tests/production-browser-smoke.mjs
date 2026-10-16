@@ -102,6 +102,16 @@ try {
   assert.ok(source.style !== "none" && source.disclosed);
   assert.ok(source.csp.includes("connect-src 'none'"));
   assert.ok(source.csp.includes("form-action https://formsubmit.co"));
+  const privacyLink = await inspect(
+    "const a=document.querySelector('#contact-data-note a[href=\"./privacy.html\"]');" +
+    "return {exists:!!a,target:a?.target,rel:a?.rel,href:a?.href};"
+  );
+  assert.ok(privacyLink.exists, "The form needs a linked first-party privacy notice");
+  assert.equal(privacyLink.target, "_blank",
+    "The in-form privacy link must not navigate away from unfinished entries");
+  assert.ok(privacyLink.rel.split(/\s+/).includes("noopener"));
+  assert.ok(privacyLink.rel.split(/\s+/).includes("noreferrer"));
+  assert.equal(privacyLink.href, origin + "privacy.html");
   for (const width of [320, 375, 768, 1440]) {
     await send("Emulation.setDeviceMetricsOverride", { width, height: 900, deviceScaleFactor: 1, mobile: false });
     await wait(120);
