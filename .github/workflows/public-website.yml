@@ -1,0 +1,72 @@
+name: Public Field Notes site candidate checks
+
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "privacy.html"
+      - "styles.css"
+      - "tests/production-homepage.test.mjs"
+      - "tests/production-browser-smoke.mjs"
+      - ".github/workflows/public-website.yml"
+      - "README.md"
+      - "sitemap.xml"
+      - "robots.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pinned checkout
+        with:
+          persist-credentials: false
+      - name: Run offline public-site content and security contracts
+        run: node --test tests/production-homepage.test.mjs
+      - name: Run non-submitting local-HTTP Chromium form smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          if [[ -z "$BROWSER" ]]; then
+            echo "::error::Chrome/Chromium unavailable for browser smoke test"
+            exit 1
+          fi
+          export BROWSER
+          node tests/production-browser-smoke.mjs
+      - name: Capture responsive site screenshots without deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          if [[ -z "$BROWSER" ]]; then
+            echo "::error::Chrome/Chromium unavailable for static screenshot checks"
+            exit 1
+          fi
+          mkdir -p public-site-screenshots
+          for width in 320 375 768 1440; do
+            "$BROWSER" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars \
+              --window-size="${width},1000" \
+              --screenshot="public-site-screenshots/homepage-${width}.png" \
+              "file://${PWD}/index.html" >/tmp/bagdigital-website-chromium.log 2>&1 || {
+                cat /tmp/bagdigital-website-chromium.log
+                exit 1
+              }
+            test -s "public-site-screenshots/homepage-${width}.png"
+          done
+      - name: Store screenshots for Indigo, Prism and founder review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: bagdigital-public-homepage-responsive
+          # Include exact public source alongside visual captures for repeatable local UX checks.
+          path: |
+            public-site-screenshots/*.png
+            index.html
+            privacy.html
+            styles.css
+          if-no-files-found: error
+          retention-days: 14
