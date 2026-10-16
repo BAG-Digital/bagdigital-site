@@ -53,14 +53,22 @@ async function oneBoundedFetch(fetchImpl, url, init, timeoutMs, maxResponseBytes
   if (typeof fetchImpl !== 'function') throw new AdapterFailure('fetch-not-configured');
   if (!Number.isInteger(timeoutMs) || timeoutMs < 100 || timeoutMs > 10000) throw new AdapterFailure('invalid-deadline');
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(),timeoutMs);
+  let timer;
+  const deadline = new Promise((_,reject) => {
+    timer = setTimeout(() => {
+      controller.abort();
+      reject(new AdapterFailure('timeout'));
+    }, timeoutMs);
+  });
   try {
-    // Deadline covers request AND response-stream reading. No retries.
-    const response = await fetchImpl(url,{...init,signal:controller.signal,redirect:'error'});
-    const body = await readBoundedJson(response,maxResponseBytes);
-    return {status:response.status,body};
+    // Bound the ENTIRE fetch + response read, even if a test transport ignores abort.
+    const operation = (async () => {
+      const response = await fetchImpl(url,{...init,signal:controller.signal,redirect:'error'});
+      const body = await readBoundedJson(response,maxResponseBytes);
+      return {status:response.status,body};
+    })();
+    return await Promise.race([operation,deadline]);
   } catch (error) {
-    if (controller.signal.aborted) throw new AdapterFailure('timeout');
     if (error instanceof AdapterFailure) throw error;
     throw new AdapterFailure('network-or-response');
   } finally { clearTimeout(timer); }
