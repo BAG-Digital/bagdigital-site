@@ -53,6 +53,25 @@ test('strict JSON scanner rejects duplicate escaped aliases and illegal structur
   assert.throws(()=>strictFlatJson('{"name":null}'));
 });
 
+test('explicit undecided service is accepted without relabeling as support',async()=>{
+  const x=fixture({send:async envelope=>{
+    assert.match(envelope.text,/\nunsure\n/);
+    return {accepted:true};
+  }});
+  const r=await body(await x.handler(request({...payload(),service:'unsure'}),ingress));
+  assert.equal(r.status,202);
+  assert.equal(x.sends,1);
+  assert.equal(x.checks,1);
+});
+
+test('unknown invented service still rejects before Siteverify or relay',async()=>{
+  const x=fixture();
+  const r=await body(await x.handler(request({...payload(),service:'autonomous-ai-agent'}),ingress));
+  assert.equal(r.status,400);
+  assert.equal(x.checks,0);
+  assert.equal(x.sends,0);
+});
+
 test('accepted synthetic inquiry consumes one challenge and one bounded mail attempt',async()=>{
   const x=fixture();
   const r=await body(await x.handler(request(),ingress));
