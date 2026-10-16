@@ -8,6 +8,7 @@ import {DurableObject} from 'cloudflare:workers';
 import {SqliteStageCoordinator} from './sql-coordinator.mjs';
 import {createStage2Handler} from './guarded-handler.mjs';
 import {createTurnstileVerifier,createFixedRelay} from './provider-adapters.mjs';
+import {createWorkerEntrypoint} from './worker-entrypoint.mjs';
 
 export class IntakeCoordinator extends DurableObject {
   constructor(ctx,env){
@@ -24,61 +25,20 @@ export class IntakeCoordinator extends DurableObject {
   async deliveryState(claim,expected,status){return this.store.deliveryState(claim,expected,status)}
 }
 
-function disabledResponse(){
-  // A new Response per request: never reuse a consumed body stream.
-  return new Response('Inquiry service disabled.',{
-    status:503,headers:{'Content-Type':'text/plain; charset=utf-8',
-      'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}
-  });
-}
-
-export default {
-  async fetch(request,env){
-    // Default-off and synthetic-preview-only until a NEW independently
-    // reviewed source/config and founder release decision exist.
-    if(env?.INTAKE_ENABLED!=='true'||env?.STAGE!=='stage-preview')return disabledResponse();
-    if(!env?.INTAKE_COORDINATOR || !env?.TURNSTILE_SECRET ||
-       !env?.SEND_API_KEY || !env?.TOKEN_HMAC_SECRET ||
-       !env?.RATE_HMAC_SECRET || !env?.DELIVERY_HMAC_SECRET)return disabledResponse();
-    const origin=env.ALLOWED_ORIGIN;
-    // This is a browser convenience, never a trust/authentication boundary.
-    if(request.method==='OPTIONS'&&new URL(request.url).pathname==='/inquiry'&&
-       request.headers.get('origin')===origin&&
-       request.headers.get('access-control-request-method')==='POST'){
-      return new Response(null,{status:204,headers:{
-        'Access-Control-Allow-Origin':origin,
-        'Access-Control-Allow-Methods':'POST, OPTIONS',
-        'Access-Control-Allow-Headers':'content-type',
-        'Access-Control-Max-Age':'300','Vary':'Origin',
-        'Cache-Control':'no-store'}});
-    }
-    try{
-      // Only one Durable Object per stage. Never shard global quotas.
-      const stageStore=env.INTAKE_COORDINATOR.getByName('one-state-'+env.STAGE);
-      const verifier=createTurnstileVerifier({
-        fetchImpl:fetch,secret:env.TURNSTILE_SECRET,timeoutMs:3000
-      });
-      const sender=createFixedRelay({
-        fetchImpl:fetch,apiKey:env.SEND_API_KEY,
-        from:env.VERIFIED_SENDER,to:env.FIXED_INBOX,timeoutMs:3000
-      });
-      const config={
-        enabled:true,stage:env.STAGE,keyVersion:Number(env.KEY_VERSION),
-        expectedHostname:env.EXPECTED_HOSTNAME,expectedAction:'marketing_inquiry',
-        allowedOrigin:origin,from:env.VERIFIED_SENDER,to:env.FIXED_INBOX,
-        rateSecret:env.RATE_HMAC_SECRET,tokenSecret:env.TOKEN_HMAC_SECRET,
-        deliverySecret:env.DELIVERY_HMAC_SECRET
-      };
-      // The presence of request.cf is NOT proof of an authenticated ingress
-      // topology. Keel must verify direct-zone routing, proxy header overwrite
-      // semantics and all other request paths BEFORE enabling a preview.
-      const verifiedIngress=Boolean(request.cf)&&
-        typeof request.headers.get('cf-connecting-ip')==='string';
-      const handle=createStage2Handler({
-        store:stageStore,verifier,sender,config
-      });
-      return await handle(request,{verified:verifiedIngress,
-        source:verifiedIngress?request.headers.get('cf-connecting-ip'):undefined});
-    }catch{return noStore}
-  }
-};
+/**
+ * There is intentionally NO trusted-ingress resolver in this concrete Worker.
+ * Cloudflare request.cf, CF-Connecting-IP, X-Real-IP and other caller-influenced
+ * metadata cannot attest source identity. Consequently the Worker remains
+ * fail-closed even if someone mistakenly configures INTAKE_ENABLED=true.
+ *
+ * Keel must first verify Cloudflare zone binding, ingress source attribution,
+ * same-zone Worker-to-Worker bypass paths, edge/WAF and host access. Only a
+ * subsequent independently reviewed, founder-authorized source change may
+ * supply a trusted ingress resolver and enable any reachable staging.
+ */
+export default createWorkerEntrypoint({
+  createHandler:createStage2Handler,
+  createVerifier:createTurnstileVerifier,
+  createSender:createFixedRelay,
+  fetchImpl:(...args)=>fetch(...args)
+});
