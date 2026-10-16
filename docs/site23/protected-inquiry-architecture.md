@@ -19,10 +19,10 @@ Architecture, with topology/provider selections **proposed, not enrolled or depl
     NEW, ISOLATED marketing intake service (host/domain TBD, OFF by default)
        | 1. Kill switch, method/type/body cap and allowlisted Origin hint
        | 2. Server-owned schema/consent normalization, no extras
-       | 3. SHARED durable abuse quota acquisition, fail closed
-       | 4. Server-to-server challenge verification and expected host/action
-       | 5. Durable token/replay + submission idempotency reservation
-       | 6. Fixed sender/recipient, structured text-only email delivery
+       | 3. ONE durable atomic admission: source/global quotas + concurrency + token-HMAC-only PENDING claim
+       | 4. ONE bounded server-side Siteverify, exact host/action/expiry, terminal token state
+       | 5. Separate durable canonical-content logical delivery claim after verified challenge
+       | 6. One fixed sender/recipient, structured text-only email delivery
        v
     Approved outbound email relay (provider TBD) --> fixed BAGDigital inbox
 
