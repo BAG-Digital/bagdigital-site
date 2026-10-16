@@ -196,7 +196,7 @@ export function createMockHandler({
           typeof outcome.success === 'boolean' && typeof outcome.hostname === 'string' &&
           typeof outcome.action === 'string' && typeof outcome.challengeTs === 'number' &&
           Number.isFinite(outcome.challengeTs) &&
-          JSON.stringify(outcome).length <= 8192;
+          bytes(JSON.stringify(outcome)) <= 8192;
         const age = wellTyped ? clock() - outcome.challengeTs : NaN;
         if (!wellTyped || outcome.success !== true || outcome.hostname !== config.expectedHostname ||
             outcome.action !== config.expectedAction || !Number.isFinite(age) || age < -5000 || age > 300000) {
