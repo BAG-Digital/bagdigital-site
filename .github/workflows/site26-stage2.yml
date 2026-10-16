@@ -21,13 +21,19 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Use reviewed Node 22 runtime for built-in SQLite simulation
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
       - name: Verify syntax
         run: |
           set -euo pipefail
           node --check intake/stage2/provider-adapters.mjs
+          node --check intake/stage2/sql-coordinator.mjs
           node --check tests/site26-adapters.test.mjs
+          node --check tests/site26-sql.test.mjs
       - name: Execute synthetic provider adapter tests
-        run: node --test tests/site26-adapters.test.mjs
+        run: node --test tests/site26-adapters.test.mjs tests/site26-sql.test.mjs
       - name: Confirm no live site or deployment files in this PR
         run: |
           set -euo pipefail
