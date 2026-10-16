@@ -13,7 +13,8 @@ const SERVICES = Object.freeze({
   "Website or redesign": "website",
   "Workflow improvement": "workflow-planning",
   "Integration planning": "integration-planning",
-  "Technical support": "support"
+  "Technical support": "support",
+  "Not sure yet": "unsure"
 });
 
 const CONTROL = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u;
@@ -40,7 +41,7 @@ export function validateInquiryDraft(raw) {
       HEADER_CONTROL.test(business))
     fields.business = "Business names must be 100 characters or fewer.";
   if (!service) fields.interest =
-    "Please choose one of the four listed services before sending.";
+    "Please choose a listed service before sending.";
   if (cp(message) < 20 || cp(message) > 2000 || bytes(message) > 8000 ||
       CONTROL.test(message))
     fields.message = "Please write between 20 and 2,000 characters.";
