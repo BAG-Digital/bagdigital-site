@@ -115,8 +115,8 @@ try {
   );
   assert.ok(privacyLink.exists);
   assert.equal(privacyLink.target,"_blank");
-  assert.ok(privacyLink.rel.split(/\\s+/).includes("noopener"));
-  assert.ok(privacyLink.rel.split(/\\s+/).includes("noreferrer"));
+  assert.ok(privacyLink.rel.split(' ').includes("noopener"));
+  assert.ok(privacyLink.rel.split(' ').includes("noreferrer"));
   assert.equal(privacyLink.href,origin+"privacy.html");
 
   // A script-disabled or missing-import website must retain zero native
