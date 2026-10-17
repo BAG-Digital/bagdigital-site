@@ -1,4 +1,4 @@
-// Synthetic browser verification only. NEVER submits the form or contacts FormSubmit.co.
+// Synthetic inactive-preview browser verification. NEVER submits or calls any external provider.
 // Launched by read-only PR CI, against local HTTP. Independent human a11y remains separate.
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
@@ -89,69 +89,55 @@ try {
   }
   assert.ok(loaded, "Contact form did not load");
   const source = await inspect(
-    "const f=document.querySelector('.contact-form');" +
     "const d=document.querySelector('#contact-data-note');" +
-    "const c=document.querySelector('.contact-consent');" +
-    "return {action:f.action,method:f.method,scripts:document.scripts.length," +
-    "style:getComputedStyle(f).display,disclosed:!!d&&!!c&&!!(d.compareDocumentPosition(c)&4)," +
-    "csp:document.querySelector('meta[http-equiv=\"Content-Security-Policy\"]').content};"
+    "const group=document.querySelector('.contact-form');" +
+    "const controls=[...document.querySelectorAll('.contact-form input,.contact-form textarea,.contact-form select,.contact-form button')];" +
+    "return {kind:group.tagName,role:group.getAttribute('role')," +
+    "disabled:controls.every(x=>x.disabled),controlCount:controls.length," +
+    "nativeForms:document.forms.length,scripts:document.scripts.length," +
+    "live:document.querySelector('#protected-preview-notice')?.getAttribute('aria-live')," +
+    "notice:!!d,href:document.querySelector('#protected-preview-notice a')?.href," +
+    "csp:document.querySelector('meta[http-equiv=\\\"Content-Security-Policy\\\"]').content};"
   );
-  assert.equal(source.action, "https://formsubmit.co/jaime@bagdigital.tech");
-  assert.equal(source.method, "post");
-  assert.equal(source.scripts, 0);
-  assert.ok(source.style !== "none" && source.disclosed);
+  assert.equal(source.kind, "DIV");
+  assert.equal(source.role, "group");
+  assert.equal(source.nativeForms,0,"No form element may submit natively when JS is absent");
+  assert.equal(source.scripts,0);
+  assert.ok(source.disabled && source.controlCount>=6,"All draft input controls must be disabled");
+  assert.equal(source.live,"polite");
+  assert.ok(source.notice);
+  assert.equal(source.href,"mailto:jaime@bagdigital.tech");
+  assert.ok(source.csp.includes("form-action 'none'"));
   assert.ok(source.csp.includes("connect-src 'none'"));
-  assert.ok(source.csp.includes("form-action https://formsubmit.co"));
   const privacyLink = await inspect(
-    "const a=document.querySelector('#contact-data-note a[href=\"./privacy.html\"]');" +
+    "const a=document.querySelector('#contact-data-note a[href=\\\"./privacy.html\\\"]');" +
     "return {exists:!!a,target:a?.target,rel:a?.rel,href:a?.href};"
   );
-  assert.ok(privacyLink.exists, "The form needs a linked first-party privacy notice");
-  assert.equal(privacyLink.target, "_blank",
-    "The in-form privacy link must not navigate away from unfinished entries");
-  assert.ok(privacyLink.rel.split(/\s+/).includes("noopener"));
-  assert.ok(privacyLink.rel.split(/\s+/).includes("noreferrer"));
-  assert.equal(privacyLink.href, origin + "privacy.html");
-  for (const width of [320, 375, 768, 1440]) {
-    await send("Emulation.setDeviceMetricsOverride", { width, height: 900, deviceScaleFactor: 1, mobile: false });
+  assert.ok(privacyLink.exists);
+  assert.equal(privacyLink.target,"_blank");
+  assert.ok(privacyLink.rel.split(/\\s+/).includes("noopener"));
+  assert.ok(privacyLink.rel.split(/\\s+/).includes("noreferrer"));
+  assert.equal(privacyLink.href,origin+"privacy.html");
+
+  // A script-disabled or missing-import website must retain zero native
+  // submission controls and still display direct email as the only path.
+  for (const width of [320,375,768,1440]) {
+    await send("Emulation.setDeviceMetricsOverride",{width,height:900,deviceScaleFactor:1,mobile:false});
     await wait(120);
-    const reflow = await inspect(
+    const reflow=await inspect(
       "return {view:document.documentElement.clientWidth,full:document.documentElement.scrollWidth," +
-      "visible:!!document.querySelector('.contact-form').getClientRects().length};"
+      "visible:!!document.querySelector('.contact-form').getClientRects().length," +
+      "forms:document.forms.length,disabled:[...document.querySelectorAll('.contact-form input,.contact-form textarea,.contact-form select,.contact-form button')].every(x=>x.disabled)};"
     );
-    assert.ok(reflow.visible, "Form hidden at " + width);
-    assert.ok(reflow.full <= reflow.view + 1, "Horizontal overflow at " + width + ": " + JSON.stringify(reflow));
+    assert.ok(reflow.visible && reflow.disabled && reflow.forms===0,"Inactive controls unsafe at "+width);
+    assert.ok(reflow.full<=reflow.view+1,"Horizontal overflow at "+width+": "+JSON.stringify(reflow));
   }
   await send("Emulation.clearDeviceMetricsOverride");
-  const results = await inspect(
-    "const f=document.querySelector('.contact-form');" +
-    "const n=f.elements.namedItem('name'),e=f.elements.namedItem('email')," +
-    "s=f.elements.namedItem('interest'),m=f.elements.namedItem('message'),c=f.elements.namedItem('processing_ack');" +
-    "const empty=!f.checkValidity();n.value='Synthetic QA';e.value='bad-email';" +
-    "const invalid=e.validity.typeMismatch;e.value='qa@example.com';" +
-    "s.value='Not sure yet';m.value='No data submitted; local test only';" +
-    "const unchecked=!f.checkValidity()&&c.validity.valueMissing;" +
-    "c.checked=true;const complete=f.checkValidity();return {empty,invalid,unchecked,complete};"
+  const labels=await inspect(
+    "return ['contact-name','contact-email','contact-business','contact-service','contact-details'].map(id=>{" +
+    "const el=document.getElementById(id);return !!el && el.labels.length>0 && !!el.labels[0].textContent.trim();});"
   );
-  assert.deepEqual(results, { empty: true, invalid: true, unchecked: true, complete: true });
-  // Check labels and actual Chromium keyboard order without submitting anything.
-  const labels = await inspect(
-    "return ['contact-name','contact-email','contact-business','contact-service'," +
-    "'contact-details','contact-consent'].map(id => {" +
-    "const element=document.getElementById(id);" +
-    "return !!element && element.labels.length>0 && element.labels[0].textContent.trim().length>0;" +
-    "});"
-  );
-  assert.ok(labels.every(Boolean), "Contact inputs need corresponding accessible labels");
-  await inspect("document.querySelector('#contact-name').focus();return true;");
-  await send("Input.dispatchKeyEvent", {
-    type: "keyDown", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9
-  });
-  await send("Input.dispatchKeyEvent", {
-    type: "keyUp", key: "Tab", code: "Tab", windowsVirtualKeyCode: 9
-  });
-  assert.equal(await inspect("return document.activeElement.id;"), "contact-email",
-    "Tab after the name field should focus the email input");
+  assert.ok(labels.every(Boolean),"Disabled preview controls must have accessible labels");
 
   // Exercise the *actual* static privacy-to-contact route in a browser.
   // It must work from privacy.html even though the marketing page is index.html.
@@ -208,7 +194,7 @@ try {
   assert.ok(requests.every(u => u.startsWith(origin) || u === "about:blank"),
     "Unexpected outgoing request: " + JSON.stringify(requests));
   console.log("PASS local HTTP Chromium smoke: source CSP, notice ordering, four viewport widths, native validation.");
-  console.log("No form submission attempted. CAPTCHA, human screen reader and public host remain NOT TESTED.");
+  console.log("No form exists; safe inactive preview, external providers and human screen reader remain NOT TESTED.");
 } finally {
   ws?.close();
   const exited = once(chrome, "exit").catch(() => undefined);
