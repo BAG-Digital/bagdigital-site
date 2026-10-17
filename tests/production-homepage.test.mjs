@@ -35,35 +35,24 @@ test("sales-first navigation and service cards link to real on-page sections", (
   }
 });
 
-test("contact is a small native HTML form with accessible validation and explicit provider disclosure", () => {
-  assert.match(html, /<form[^>]*class="contact-form"[^>]*method="post"[^>]*action="https:\/\/formsubmit\.co\/jaime@bagdigital\.tech"/);
-  assert.match(html, /name="name"[^>]*maxlength="100" required/);
-  assert.match(html, /name="email" type="email"[^>]*maxlength="254" required/);
-  assert.match(html, /name="business"[^>]*maxlength="150"/);
-  assert.match(html, /name="interest" required/);
-  assert.match(html, /name="message"[^>]*maxlength="3000"[^>]*required/);
-  assert.match(html, /name="processing_ack"[^>]*required/);
-  assert.match(html, /name="_honey"[^>]*tabindex="-1"/);
-  assert.doesNotMatch(html, /name="_captcha"\s+value="false"/i);
-  assert.match(html, /submitting this form sends my information to FormSubmit\.co/);
-  assert.match(html, /may open FormSubmit's CAPTCHA verification/i);
-  assert.match(html, /Please do not include passwords, API keys, customer records/i);
+test("protected inquiry source preview has no active or native submission path", () => {
+  assert.doesNotMatch(html, /<form\b|<\/form>|formsubmit\.co|_captcha|_honey|\baction\s*=|\bmethod\s*=/i);
+  assert.match(html, /class="contact-form"[^>]*role="group"/);
+  assert.match(html, /Online submissions are unavailable in this preview/);
+  assert.match(html, /id="protected-preview-notice" role="status" aria-live="polite"/);
+  assert.match(html, /type="button" disabled/);
+  for (const id of ["contact-name","contact-email","contact-business","contact-service","contact-details"])
+    assert.match(html,new RegExp('id="'+id+'"[^>]*disabled'));
   assert.match(html, /href="mailto:jaime@bagdigital\.tech"/);
-  assert.match(html, />jaime@bagdigital\.tech<\/a>/);
+  assert.doesNotMatch(html, /<script\b|<iframe\b|fetch\s*\(/i);
   assert.match(css, /\.contact-form-grid\{display:grid/);
-  assert.match(css, /\.contact-consent input:focus-visible/);
-  assert.match(css, /\.contact-honeypot\{position:absolute/);
-  assert.doesNotMatch(html, /<script\b|<iframe\b|fetch\s*\(|_captcha=false|jaime@bagdigital\.com/i);
-  assert.doesNotMatch(html, /signup|sign up|log in|password field|tracking pixel|analytics|live connected|customer metrics/i);
 });
 
-test("static page has self-hosted CSS and a restrictive source-level browser policy", () => {
+test("source-only disabled preview has restrictive no-post browser policy", () => {
   assert.match(html, /rel="stylesheet" href="\.\/styles\.css"/);
-  assert.match(html, /http-equiv="Content-Security-Policy"/);
-  for (const control of ["default-src 'none'", "script-src 'none'", "style-src 'self'", "connect-src 'none'", "form-action https://formsubmit.co"]) {
-    assert.ok(html.includes(control), "Missing CSP directive " + control);
-  }
-  assert.doesNotMatch(html, /style="|<style\b|<script\b/i);
+  for (const csp of ["default-src 'none'","script-src 'none'","style-src 'self'","connect-src 'none'","form-action 'none'"])
+    assert.ok(html.includes(csp),"Missing browser CSP: "+csp);
+  assert.doesNotMatch(html, /<script\b|<style\b|style="/i);
   assert.doesNotMatch(css, /@import\b|url\(\s*['"]?https?:/i);
 });
 
@@ -109,55 +98,36 @@ test("hero mosaic type preserves whole words at narrow and wide widths", () => {
   assert.match(css, /@media\(max-width:360px\)\{[\s\S]*?\.hero-tile strong\{font-size:17px\}/);
 });
 
-test("visitor sees linked BAGDigital privacy notice and readable provider disclosure before consent", () => {
-  const notice = html.indexOf('id="contact-data-note"');
-  const consent = html.indexOf('class="contact-consent"');
-  assert.ok(notice > 0 && consent > notice, "Processor notice precedes required acknowledgment");
-  assert.match(html, /href="\.\/privacy\.html" target="_blank" rel="noopener noreferrer">Inquiry Privacy Notice \(opens in a new tab\)<\/a>/);
-  assert.equal((html.match(/href="\.\/privacy\.html"/g) || []).length, 2, "Privacy linked from form and footer");
-  assert.match(html, /FormSubmit says it keeps form submissions in its archive for 30 days/);
-  assert.match(html, /href="https:\/\/formsubmit\.co\/privacy\.pdf" target="_blank" rel="noopener noreferrer"/);
-  assert.match(html, /BAGDigital may retain the emailed copy as business correspondence/);
-  assert.match(html, /submitting this form sends my information to FormSubmit\.co for delivery to BAGDigital/);
-  assert.match(html, /<input id="contact-consent" name="processing_ack" type="checkbox" value="yes" required>/);
-  assert.match(css, /\.contact-form \.contact-data-note\{font-size:14px/);
-  assert.match(css, /\.contact-form \.contact-data-note p\{margin:0 0 12px\}/);
-  assert.match(html, /FormSubmit privacy terms \(opens in a new tab\)/);
+test("disabled preview provides honest processor notice before any consent or send controls", () => {
+  const notice=html.indexOf('id="contact-data-note"');
+  assert.ok(notice>=0);
+  assert.doesNotMatch(html,/FormSubmit|name="processing_ack"|type="submit"/i);
+  assert.match(html,/role="status" aria-live="polite"/);
+  assert.match(html,/href="\.\/privacy\.html" target="_blank" rel="noopener noreferrer"/);
+  assert.match(html,/No information entered here is submitted or stored by this webpage/);
+  assert.match(html,/email provider's and BAGDigital's normal handling practices/);
+  assert.match(html,/href="mailto:jaime@bagdigital\.tech"/);
 });
 
-test("first-party inquiry privacy notice is an actual scriptless same-origin page with truthful handling", () => {
-  assert.match(privacy, /<html lang="en">/);
+test("inactive preview privacy notice truthfully describes direct email, not unselected providers", () => {
   assert.match(privacy, /<title>Inquiry Privacy Notice \| BAGDigital<\/title>/);
-  assert.match(privacy, /href="https:\/\/bagdigital\.tech\/privacy\.html"/);
-  assert.match(privacy, /href="\.\/styles\.css"/);
-  assert.match(privacy, /script-src 'none'; style-src 'self'/);
-  assert.match(privacy, /form-action 'none'/);
-  assert.match(privacy, /id="main"/);
-  for (const title of ["What information you provide", "How your inquiry is delivered", "How we use inquiries", "Retention and other providers", "Contact and requests"]) {
-    assert.ok(privacy.includes(title), "Missing privacy section: " + title);
-  }
-  assert.match(privacy, /documentation \(opens in a new tab\)/);
-  assert.match(privacy, /30 days/);
-  assert.match(privacy, /BAGDigital may retain inquiries received by email as business correspondence/);
-  assert.match(privacy, /does not subscribe you to a marketing mailing list/);
-  assert.match(privacy, /request that we review, correct or delete information/);
-  assert.match(privacy, /request is not a promise of immediate or complete deletion/);
-  assert.match(privacy, /href="mailto:jaime@bagdigital\.tech"/);
-  assert.match(privacy, /href="\.\/index\.html#contact"/);
-  assert.doesNotMatch(privacy, /<form\b|<script\b|<iframe\b|<input\b|<button\b|_captcha=false|guaranteed deletion/i);
+  assert.match(privacy,/href="\.\/styles\.css"/);
+  assert.match(privacy,/script-src 'none'; style-src 'self'/);
+  assert.match(privacy,/form-action 'none'/);
+  assert.match(privacy,/id="main"/);
+  assert.match(privacy,/online inquiry form disabled/i);
+  assert.match(privacy,/your own email application/);
+  assert.match(privacy,/future working online form will receive updated provider/i);
+  assert.doesNotMatch(privacy, /FormSubmit|<form\b|<script\b|<iframe\b|<input\b|<button\b/i);
+  assert.match(privacy,/mailto:jaime@bagdigital\.tech/);
+  assert.match(privacy,/href="\.\/index\.html#contact"/);
 });
 
-test("form source and documentation do not overclaim server-side controls or delivered production", () => {
-  assert.ok(css.split("\n")[0].includes("inquiry form sends visitor-entered data to FormSubmit.co"));
-  assert.ok(!css.split("\n")[0].includes("no customer-data collection"));
-  assert.ok(html.includes('method="post" action="https://formsubmit.co/jaime@bagdigital.tech"'));
-  assert.ok(html.includes('name="processing_ack" type="checkbox" value="yes" required'));
-  assert.ok(!html.includes("<script"));
-  assert.ok(!html.includes('type="file"'));
-  assert.ok(readme.includes("two distinct synthetic submissions from localhost"));
-  assert.ok(readme.includes("not evidence of duplicate-provider behavior"));
-  assert.ok(readme.includes("browser usability aids") && readme.includes("provider enforces consent"));
-  assert.ok(readme.includes("No additional"));
-  assert.ok(readme.includes("not yet executed for this form"));
-  assert.ok(readme.includes("No retries, load testing, rate-limit probes, secrets, real customers"));
+test("preview documentation and CSS do not claim a working protected endpoint", () => {
+  assert.match(css.split("\\n")[0], /online intake is disabled/);
+  assert.match(readme,/Site #26 source-only safety integration, NOT PUBLISHED/);
+  assert.match(readme,/not a functioning protected contact form/i);
+  assert.match(readme,/Site #7 remains OPEN/);
+  assert.match(html,/Online submissions are unavailable in this preview/);
+  assert.doesNotMatch(html, /FormSubmit|<form\\b|<script\\b/);
 });

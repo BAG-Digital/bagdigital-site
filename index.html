@@ -15,7 +15,7 @@
   <meta property="og:description" content="Practical websites, smoother workflows, thoughtful integration planning and support for small businesses.">
   <meta property="og:url" content="https://bagdigital.tech/">
   <meta name="twitter:card" content="summary">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action https://formsubmit.co; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; upgrade-insecure-requests">
   <title>BAGDigital | Websites, Workflows & Technology Support</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
@@ -103,30 +103,25 @@
           <p>Tell us a little about your business and what you'd like to improve. We'll discuss whether BAGDigital is a good fit during a free initial consultation.</p>
           <p class="contact-address">Prefer to write directly? <a href="mailto:jaime@bagdigital.tech">jaime@bagdigital.tech</a></p>
         </div>
-        <form class="contact-form" id="project-inquiry" method="post" action="https://formsubmit.co/jaime@bagdigital.tech" autocomplete="on" aria-label="Project inquiry form">
-          <input type="hidden" name="_subject" value="New BAGDigital website inquiry">
-          <input type="hidden" name="_template" value="table">
-          <div class="contact-honeypot" aria-hidden="true">
-            <label for="contact-website-check">Leave this field empty</label>
-            <input id="contact-website-check" type="text" name="_honey" tabindex="-1" autocomplete="off">
-          </div>
+        <div class="contact-form" id="project-inquiry" role="group" aria-label="Protected inquiry form — currently unavailable">
+          <p class="contact-privacy" id="protected-preview-notice" role="status" aria-live="polite">Our protected in-page inquiry service is being prepared. Online submissions are unavailable in this preview. Please email <a href="mailto:jaime@bagdigital.tech">jaime@bagdigital.tech</a> to contact us directly.</p>
           <div class="contact-form-grid">
             <div class="contact-field">
-              <label for="contact-name">Your name <span aria-hidden="true">*</span></label>
-              <input id="contact-name" name="name" type="text" autocomplete="name" maxlength="100" required>
+              <label for="contact-name">Your name</label>
+              <input id="contact-name" name="name" type="text" autocomplete="name" maxlength="100" disabled>
             </div>
             <div class="contact-field">
-              <label for="contact-email">Your email <span aria-hidden="true">*</span></label>
-              <input id="contact-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required>
+              <label for="contact-email">Your email</label>
+              <input id="contact-email" name="email" type="email" autocomplete="email" maxlength="254" disabled>
             </div>
           </div>
           <div class="contact-field">
-            <label for="contact-business">Business name <span class="optional">(optional)</span></label>
-            <input id="contact-business" name="business" type="text" autocomplete="organization" maxlength="150">
+            <label for="contact-business">Business name (optional)</label>
+            <input id="contact-business" name="business" type="text" maxlength="100" disabled>
           </div>
           <div class="contact-field">
-            <label for="contact-service">What can we help with? <span aria-hidden="true">*</span></label>
-            <select id="contact-service" name="interest" required>
+            <label for="contact-service">What can we help with?</label>
+            <select id="contact-service" name="interest" disabled>
               <option value="" selected>Choose a service</option>
               <option value="Website or redesign">Website or redesign</option>
               <option value="Workflow improvement">Workflow improvement</option>
@@ -136,22 +131,17 @@
             </select>
           </div>
           <div class="contact-field">
-            <label for="contact-details">Tell us about the project <span aria-hidden="true">*</span></label>
-            <textarea id="contact-details" name="message" rows="5" maxlength="3000" aria-describedby="contact-details-help" required placeholder="What are you trying to accomplish, and what's getting in the way?"></textarea>
-            <p id="contact-details-help" class="contact-help">Please do not include passwords, API keys, customer records, payment details, health information, or other sensitive data.</p>
+            <label for="contact-details">Tell us about the project</label>
+            <textarea id="contact-details" name="message" rows="5" maxlength="2000" disabled aria-describedby="contact-details-help"></textarea>
+            <p id="contact-details-help" class="contact-help">Please do not provide passwords, customer records or other sensitive data by email.</p>
           </div>
           <div class="contact-data-note" id="contact-data-note">
-            <p>When you submit this form, your information goes to <strong>FormSubmit.co</strong>, which forwards your inquiry to BAGDigital. FormSubmit says it keeps form submissions in its archive for 30 days.</p>
-            <p>BAGDigital may retain the emailed copy as business correspondence without a promised fixed deletion date. Read our <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Inquiry Privacy Notice (opens in a new tab)</a> and <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit privacy terms (opens in a new tab)</a>.</p>
-            <p>Please do not include passwords, financial or health records, customer data or other sensitive information.</p>
+            <p>Online inquiries are disabled until the protected service and its providers have been independently reviewed. No information entered here is submitted or stored by this webpage.</p>
+            <p>Read our <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Inquiry Privacy Notice (opens in a new tab)</a>. Direct email follows your email provider's and BAGDigital's normal handling practices.</p>
           </div>
-          <label class="contact-consent" for="contact-consent">
-            <input id="contact-consent" name="processing_ack" type="checkbox" value="yes" required>
-            <span>I understand that submitting this form sends my information to FormSubmit.co for delivery to BAGDigital. BAGDigital may contact me about my inquiry. <span aria-hidden="true">*</span></span>
-          </label>
-          <button class="button button-primary" type="submit">Send my inquiry <span aria-hidden="true">↗</span></button>
-          <p class="contact-privacy">Required fields are marked *. Submission may open FormSubmit's CAPTCHA verification and confirmation page. Do not assume your message was received until the submission finishes. No account or mail app is needed.</p>
-        </form>
+          <button class="button button-primary" type="button" disabled aria-describedby="protected-preview-notice">Online form unavailable</button>
+          <p class="contact-privacy">No third-party form submission, CAPTCHA widget or background request is enabled in this source preview.</p>
+        </div>
       </div>
     </section>
   </main>
