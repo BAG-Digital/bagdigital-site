@@ -1,5 +1,7 @@
 # BAGDigital Website
 
+> **Site #26 source-only safety integration, NOT PUBLISHED:** This child draft removes the native FormSubmit HTML action and its processor language and replaces the form with explicitly disabled controls and direct-email contact. The offline privacy page describes the disabled preview. There is no native `<form>`, network request, CAPTCHA widget, trusted ingress resolver, or connected provider. This is an inactive safety proof, **not a functioning protected contact form**. Parent website candidate PR #21 and live `main` still have the old FormSubmit form; Site #7 remains OPEN. Before any public release, assemble a working independently reviewed protected endpoint/Turnstile UI with accurate processor and retention notice. The historical Field Notes/FormSubmit details below describe the **earlier** PR #21 candidate and do not describe this child branch.
+
 Public website source for [bagdigital.tech](https://bagdigital.tech/). Hosted with GitHub Pages.
 
 ## About this repository
