@@ -20,7 +20,7 @@ test("valid draft maps approved public service to backend enum only",()=>{
   assert.equal(r.values.processing_ack,"yes");
 });
 
-test("all four service choices map exactly",()=>{
+test("all five service choices map exactly",()=>{
   const expected={
     "Website or redesign":"website",
     "Workflow improvement":"workflow-planning",
@@ -105,6 +105,7 @@ function fakeUI(draft=valid()){
       const controller=attachProtectedInquiry({form,status,
         submit:async()=>{submitCount++;return {status:202,code:"RELAY_ACCEPTED"}},
         getChallengeToken:async()=>"fake-test-token",
+        resetChallenge:async()=>true,
         requestId:()=>UUID,...overrides});
       return controller;
     }
@@ -160,5 +161,47 @@ test("bad token prevents even a single send",async()=>{
     assert.equal(ui.submitCount,0);
     assert.notEqual(ui.form.wasReset,true);
     assert.match(ui.status.textContent,/unavailable/);
+  }finally{ui.cleanup()}
+});
+
+test("UI28-02: reset in progress keeps lock, disabled button and single submission",async()=>{
+  const ui=fakeUI();
+  let releaseReset;
+  const resetPending=new Promise(resolve=>{releaseReset=resolve});
+  try {
+    ui.bind({resetChallenge:()=>resetPending});
+    const first=ui.fire();
+    // Allow the synthetic relay acceptance to arrive before the delayed
+    // challenge reset; duplicate user intent must never start another send.
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(ui.submitCount,1);
+    assert.equal(ui.button.disabled,true);
+    await ui.fire();
+    assert.equal(ui.submitCount,1);
+    releaseReset(true);
+    await first;
+    assert.equal(ui.button.disabled,false);
+  }finally{ui.cleanup()}
+});
+
+test("UI28-02: missing or failing challenge reset remains disabled, no second send",async()=>{
+  for(const reset of [async()=>false,async()=>undefined,async()=>{throw Error("widget failed")}]) {
+    const ui=fakeUI();
+    try {
+      ui.bind({resetChallenge:reset});
+      await ui.fire();
+      assert.equal(ui.submitCount,1);
+      assert.equal(ui.button.disabled,true);
+      assert.match(ui.status.textContent,/Further submissions are unavailable/);
+      await ui.fire();
+      assert.equal(ui.submitCount,1);
+    }finally{ui.cleanup()}
+  }
+});
+
+test("UI28-02: reset is mandatory at initialization, before wiring events",()=>{
+  const ui=fakeUI();
+  try{
+    assert.throws(()=>ui.bind({resetChallenge:undefined}),/not configured/);
   }finally{ui.cleanup()}
 });
