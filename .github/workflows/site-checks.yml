@@ -25,5 +25,18 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Use stable Node 22 for Chromium protocol smoke
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # pinned v4.4.0
+        with:
+          node-version: "22"
       - name: Check public inquiry contract
         run: node --test tests/contact-form-contract.test.mjs
+      - name: Check native form in local-only Chromium (never submit)
+        shell: bash
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$BROWSER"
+          export BROWSER
+          node --check tests/formsubmit-browser-smoke.mjs
+          node tests/formsubmit-browser-smoke.mjs
