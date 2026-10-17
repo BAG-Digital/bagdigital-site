@@ -43,3 +43,9 @@ test("privacy notice describes the relay and potential CAPTCHA redirect", () => 
   assert.match(privacy, /CAPTCHA/);
   assert.match(html, /anti-spam verification/);
 });
+
+test("mailto links must function without JavaScript", () => {
+  assert.match(html, /id="emailLink"[^>]+href="mailto:jaime@bagdigital\.tech"/);
+  assert.match(html, /id="emailDirectBtn"[^>]+href="mailto:jaime@bagdigital\.tech"/);
+  assert.doesNotMatch(script, /submit[^\n]*fetch\s*\(/i);
+});
