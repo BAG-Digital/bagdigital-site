@@ -92,6 +92,7 @@ export function attachProtectedInquiry({
       /formsubmit\.co/i.test(form.action || "") ||
       typeof submit !== "function" ||
       typeof getChallengeToken !== "function" ||
+      typeof resetChallenge !== "function" ||
       typeof requestId !== "function" || !status) {
     throw new Error("Protected inquiry is not configured; leave fallback contact visible.");
   }
@@ -130,9 +131,19 @@ export function attachProtectedInquiry({
     } catch {
       status.textContent = "We cannot confirm delivery. Please email BAGDigital directly if urgent. Do not resubmit without checking.";
     } finally {
-      busy = false;
-      if (button) button.disabled = false;
-      try { await resetChallenge?.() } catch {} // Does not rewrite outcome.
+      // Remain locked until the widget confirms that a FRESH single-use
+      // token is ready. resetChallenge() must return true only at that point;
+      // initiating a reset, or an undefined return, is NOT sufficient.
+      // A failed/stalled reset fails closed rather than permitting stale-token
+      // replay or misleading visitors about a pending submission.
+      let freshChallenge = false;
+      try { freshChallenge = (await resetChallenge()) === true; } catch {}
+      if (freshChallenge) {
+        busy = false;
+        if (button) button.disabled = false;
+      } else {
+        status.textContent += " Further submissions are unavailable until verification is restored. You can contact BAGDigital directly by email.";
+      }
     }
   };
   form.addEventListener("submit",handler);
