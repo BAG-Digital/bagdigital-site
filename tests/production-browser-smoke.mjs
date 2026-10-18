@@ -1,4 +1,4 @@
-// Synthetic browser verification only. NEVER submits the form or contacts FormSubmit.co.
+// Synthetic browser verification only. NEVER submits the form or contacts Formspree.
 // Launched by read-only PR CI, against local HTTP. Independent human a11y remains separate.
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
@@ -96,12 +96,22 @@ try {
     "style:getComputedStyle(f).display,disclosed:!!d&&!!c&&!!(d.compareDocumentPosition(c)&4)," +
     "csp:document.querySelector('meta[http-equiv=\"Content-Security-Policy\"]').content};"
   );
-  assert.equal(source.action, "https://formsubmit.co/jaime@bagdigital.tech");
+  assert.equal(source.action, "https://formspree.io/f/xjygzpzk");
   assert.equal(source.method, "post");
   assert.equal(source.scripts, 0);
   assert.ok(source.style !== "none" && source.disclosed);
   assert.ok(source.csp.includes("connect-src 'none'"));
-  assert.ok(source.csp.includes("form-action https://formsubmit.co"));
+  assert.ok(source.csp.includes("form-action https://formspree.io"));
+  const fields = await inspect(
+    "const f=document.querySelector('.contact-form');" +
+    "return {gotcha:!!f.elements.namedItem('_gotcha')," +
+    "legacy:!!f.elements.namedItem('_honey')," +
+    "subject:f.elements.namedItem('subject')?.value," +
+    "ack:f.elements.namedItem('processing_ack')?.value};"
+  );
+  assert.deepEqual(fields, {
+    gotcha: true, legacy: false, subject: "New BAGDigital website inquiry", ack: "yes"
+  });
   const privacyLink = await inspect(
     "const a=document.querySelector('#contact-data-note a[href=\"./privacy.html\"]');" +
     "return {exists:!!a,target:a?.target,rel:a?.rel,href:a?.href};"
