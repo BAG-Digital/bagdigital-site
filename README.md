@@ -75,7 +75,7 @@ The root `privacy.html` now documents Formspree, and a compact processor
 notice remains before the visible checkbox. Publish only after founder-provided
 dashboard evidence, independent Prism/Vesper exact-SHA review, bounded authorized
 non-sensitive provider verification, and a distinct controlled merge/deploy.
-Never exercise the provider in PR CI or include any customer's PII or API secrets.
+No provider POST was performed in this migration preparation. Never exercise the provider in PR CI or include any customer's PII or API secrets.
 
 Vendor source references:
 - https://help.formspree.io/articles/building-your-form/honeypot-spam-filtering
