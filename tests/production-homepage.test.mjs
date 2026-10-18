@@ -109,20 +109,23 @@ test("hero mosaic type preserves whole words at narrow and wide widths", () => {
   assert.match(css, /@media\(max-width:360px\)\{[\s\S]*?\.hero-tile strong\{font-size:17px\}/);
 });
 
-test("visitor sees linked BAGDigital privacy notice and readable provider disclosure before consent", () => {
+test("visitor sees a compact linked privacy note and required provider acknowledgment", () => {
   const notice = html.indexOf('id="contact-data-note"');
   const consent = html.indexOf('class="contact-consent"');
-  assert.ok(notice > 0 && consent > notice, "Processor notice precedes required acknowledgment");
-  assert.match(html, /href="\.\/privacy\.html" target="_blank" rel="noopener noreferrer">Inquiry Privacy Notice \(opens in a new tab\)<\/a>/);
-  assert.equal((html.match(/href="\.\/privacy\.html"/g) || []).length, 2, "Privacy linked from form and footer");
-  assert.match(html, /FormSubmit says it keeps form submissions in its archive for 30 days/);
-  assert.match(html, /href="https:\/\/formsubmit\.co\/privacy\.pdf" target="_blank" rel="noopener noreferrer"/);
-  assert.match(html, /BAGDigital may retain the emailed copy as business correspondence/);
+  assert.ok(notice > 0 && consent > notice, "Brief processor notice precedes acknowledgment");
+  assert.match(html, /<p class="contact-data-note" id="contact-data-note">FormSubmit\.co delivers your inquiry to BAGDigital\./);
+  assert.match(html, /href="\.\/privacy\.html" target="_blank" rel="noopener noreferrer">Privacy notice \(opens in a new tab\)<\/a>/);
+  assert.equal((html.match(/href="\.\/privacy\.html"/g) || []).length, 2,
+    "Privacy linked from form and footer");
   assert.match(html, /submitting this form sends my information to FormSubmit\.co for delivery to BAGDigital/);
   assert.match(html, /<input id="contact-consent" name="processing_ack" type="checkbox" value="yes" required>/);
   assert.match(css, /\.contact-form \.contact-data-note\{font-size:14px/);
-  assert.match(css, /\.contact-form \.contact-data-note p\{margin:0 0 12px\}/);
-  assert.match(html, /FormSubmit privacy terms \(opens in a new tab\)/);
+  assert.doesNotMatch(html, /FormSubmit says it keeps form submissions in its archive for 30 days/);
+  assert.doesNotMatch(html, /BAGDigital may retain the emailed copy as business correspondence/);
+  assert.doesNotMatch(html, /FormSubmit privacy terms \(opens in a new tab\)/);
+  // Retention/provider details still exist in the separate first-party notice.
+  assert.match(privacy, /30 days/);
+  assert.match(privacy, /FormSubmit's privacy terms \(opens in a new tab\)/);
 });
 
 test("first-party inquiry privacy notice is an actual scriptless same-origin page with truthful handling", () => {
