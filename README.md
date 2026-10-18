@@ -35,7 +35,63 @@ Before merging website changes:
 - keep customer-facing claims accurate and understandable.
 
 
-## Field Notes publication candidate (source-only; release requires approval)
+## Current Formspree integration candidate — NOT YET PUBLISHED
+
+This branch changes the existing **GitHub Pages / static Basic HTML** inquiry form
+to the user-created Formspree public endpoint `https://formspree.io/f/xjygzpzk`.
+It keeps the founder-selected Field Notes layout, native method=POST, browser
+validity checks, visible unchecked consent checkbox, and scriptless site.
+There is **no new AJAX, React, CDN, app login, or third-party JavaScript**.
+The fixed email subject uses Formspree's special `subject` input; the
+provider honeypot is `_gotcha` (not FormSubmit's `_honey`).
+There is no legacy FormSubmit fallback or live handler in this candidate.
+
+**Server-side settings are not yet verified.** The founder must configure and
+confirm them in the matching Formspree dashboard before any live cutover:
+- Form Settings > Spam protection: CAPTCHA **enabled**. Use Formspree-managed
+  default CAPTCHA and confirmation. Do not silently add custom site/secret keys.
+- Project Settings > Restrict to Domain: `bagdigital.tech` (no scheme/www).
+  Formspree says this relies on browser Referer headers, not authenticated
+  origin proof; strict-origin-when-cross-origin is set in the HTML meta referrer.
+  Browsers that suppress Referer (notably Brave) may be falsely marked spam.
+- Form Workflow > Validation: use the **exact** names `name` (Text, required,
+  maximum 100), `email` (Email, required, maximum 254), `interest` (Text,
+  required), `message` (Text, required), and `processing_ack` (Text,
+  required). `business` is optional (Text, maximum 150). Formspree's documented
+  Text validation can require presence but does **not itself prove exact
+  `processing_ack=yes`**, nor a complete immutable enumeration or arbitrary
+  field-length protection. That residual needs independent Vesper assessment.
+- Workflow > Actions: delivery notification to `jaime@bagdigital.tech` and
+  verified sender/recipient. No marketing or third-party lead integrations.
+- Plan/retention: Formspree documents Free 50 submissions/month and 30 days
+  of submission history, **not** a guarantee about deletion or backups.
+  Confirm actual plan/limits before sending visitor data.
+
+**Cutover/security hold:** Static source CI and non-submitting browser checks
+cannot verify the account-level rules, Formspree CAPTCHA/honeypot rejection,
+consent omission, provider receipt, inbox routing, actual mobile/screen-reader
+CAPTCHA experience, or retirement of the old active FormSubmit endpoint.
+The root `privacy.html` now documents Formspree, and a compact processor
+notice remains before the visible checkbox. Publish only after founder-provided
+dashboard evidence, independent Prism/Vesper exact-SHA review, bounded authorized
+non-sensitive provider verification, and a distinct controlled merge/deploy.
+Never exercise the provider in PR CI or include any customer's PII or API secrets.
+
+Vendor source references:
+- https://help.formspree.io/articles/building-your-form/honeypot-spam-filtering
+- https://help.formspree.io/articles/form-and-project-settings/recaptcha-settings/
+- https://help.formspree.io/articles/form-and-project-settings/restrict-to-domain/
+- https://help.formspree.io/articles/building-your-form/getting-started-with-workflow/
+- https://help.formspree.io/articles/account-management/account-limits/
+- https://formspree.io/legal/privacy-policy/
+
+## Historical FormSubmit website review record (2026-10-15)
+
+The audit/approval and historical source instructions below describe the **old
+FormSubmit implementation**, not the current Formspree candidate or live release
+authorization. They are retained to preserve the security review trail.
+
+### Legacy: Field Notes publication candidate (source-only; release requires approval)
 
 Site #18's selected **Field Notes / Metro-inspired tiles** direction is implemented in the root
 `index.html` and `styles.css` on its isolated draft PR branch. The original design reference
