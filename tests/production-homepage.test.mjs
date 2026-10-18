@@ -141,7 +141,7 @@ test("first-party inquiry privacy notice is an actual scriptless same-origin pag
   }
   assert.match(privacy, /plan documentation \(opens in a new tab\)/);
   assert.match(privacy, /30 days/);
-  assert.match(privacy, /BAGDigital may retain inquiries received by email as business correspondence/);
+  assert.match(privacy, /BAGDigital may also retain inquiries received by email as business correspondence/);
   assert.match(privacy, /does not subscribe you to a marketing mailing list/);
   assert.match(privacy, /request that we review, correct or delete information/);
   assert.match(privacy, /request is not a promise of immediate or complete deletion/);
