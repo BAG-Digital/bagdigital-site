@@ -158,6 +158,6 @@ test("Formspree migration is scriptless and avoids unsupported server-side claim
   assert.ok(!html.includes('type="file"'));
   assert.ok(!html.includes("formsubmit.co"));
   assert.match(readme, /Formspree xjygzpzk integration/);
-  assert.match(readme, /dashboard security configuration is not verifiable from static source/);
-  assert.match(readme, /server-side validation requires matching Workflow settings/);
+  assert.match(readme, /dashboard security configuration is not verifiable from static source/i);
+  assert.match(readme, /server-side validation requires matching Workflow settings/i);
 });
