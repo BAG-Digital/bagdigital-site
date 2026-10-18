@@ -45,9 +45,9 @@ test("contact is a small native HTML form with accessible validation and explici
   assert.match(html, /name="processing_ack"[^>]*required/);
   assert.match(html, /name="_gotcha"[^>]*tabindex="-1"/);
   assert.match(html, /name="subject" value="New BAGDigital website inquiry"/);
-  assert.doesNotMatch(html, /formsubmit\\.co|name="_honey"|name="_template"|name="_subject"/i);
+  assert.doesNotMatch(html, /formsubmit\.co|name="_honey"|name="_template"|name="_subject"/i);
   assert.doesNotMatch(html, /name="_captcha"\s+value="false"/i);
-  assert.match(html, /submitting this form sends my information to FormSubmit\.co/);
+  assert.match(html, /submitting this form sends my information to Formspree for BAGDigital to review/);
   assert.match(html, /may show a CAPTCHA or confirmation page/i);
   assert.match(html, /Please do not include passwords, API keys, customer records/i);
   assert.match(html, /href="mailto:jaime@bagdigital\.tech"/);
