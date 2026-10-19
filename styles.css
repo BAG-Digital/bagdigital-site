@@ -1,4 +1,4 @@
-/* Field Notes public website: responsive design with no remote visual assets or active JavaScript; inquiry form sends visitor-entered data to Formspree only on submission. */
+/* Field Notes public website: responsive design with no remote visual assets or active JavaScript; inquiry form sends visitor-entered data to FormSubmit.co after user submission. */
     :root {
       color-scheme: light;
       --paper:#f8f7f1;
