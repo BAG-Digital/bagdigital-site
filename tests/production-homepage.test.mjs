@@ -161,3 +161,36 @@ test("Formspree migration is scriptless and avoids unsupported server-side claim
   assert.match(readme, /dashboard security configuration is not verifiable from static source/i);
   assert.match(readme, /server-side validation requires matching Workflow settings/i);
 });
+
+
+test("approved standalone services prices are discoverable and never imply product checkout", () => {
+  const prices = readFileSync(new URL("../pricing.html", import.meta.url), "utf8");
+  const priceStyles = readFileSync(new URL("../pricing.css", import.meta.url), "utf8");
+  const sitemap = readFileSync(new URL("../sitemap.xml", import.meta.url), "utf8");
+  assert.match(html, /href="\.\/pricing\.html">Pricing<\/a>/);
+  assert.match(prices, /<html lang="en">/);
+  assert.match(prices, /rel="canonical" href="https:\/\/bagdigital\.tech\/pricing\.html"/);
+  assert.match(prices, /script-src 'none'/);
+  assert.match(prices, /form-action 'none'/);
+  assert.match(prices, /aria-current="page"/);
+  assert.match(prices, /href="\.\/index\.html#contact"/);
+  assert.match(sitemap, /https:\/\/bagdigital\.tech\/pricing\.html/);
+  assert.equal((prices.match(/class="price-card(?: price-feature)?"/g) || []).length, 6);
+  for (const [service, cost] of [
+    ["One-Page Business Website", "$1,295"],
+    ["Business Website", "$2,795"],
+    ["Workflow Improvement Review", "$595"],
+    ["Software Integration Planning", "$695"],
+    ["Website Care", "$129"],
+    ["Technical Support", "$299"]
+  ]) {
+    assert.ok(prices.includes(service), "Missing approved service: " + service);
+    assert.ok(prices.includes(cost), "Missing approved rate: " + cost);
+  }
+  assert.match(prices, /Additional approved work starts at \$110\/hour/);
+  assert.match(prices, /third-party services are separate/);
+  assert.match(prices, /not included in these standard packages/);
+  assert.match(prices, /No account or online payment is needed to request a quote/);
+  assert.match(priceStyles, /@media\(max-width:560px\)/);
+  assert.doesNotMatch(prices, /<script\b|<form\b|stripe\.com|type="password"|unlimited integrations/i);
+});

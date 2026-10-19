@@ -14,7 +14,9 @@ const files = new Map([
   ["/", ["index.html", "text/html; charset=utf-8"]],
   ["/index.html", ["index.html", "text/html; charset=utf-8"]],
   ["/styles.css", ["styles.css", "text/css; charset=utf-8"]],
-  ["/privacy.html", ["privacy.html", "text/html; charset=utf-8"]]
+  ["/privacy.html", ["privacy.html", "text/html; charset=utf-8"]],
+  ["/pricing.html", ["pricing.html", "text/html; charset=utf-8"]],
+  ["/pricing.css", ["pricing.css", "text/css; charset=utf-8"]]
 ]);
 const server = createServer((req, res) => {
   const entry = files.get(req.url);
@@ -154,6 +156,32 @@ try {
   });
   assert.equal(await inspect("return document.activeElement.id;"), "contact-email",
     "Tab after the name field should focus the email input");
+
+  // Price page is a same-origin scriptless services menu, not a functioning checkout.
+  const pricePageResponse = await fetch(origin + "pricing.html");
+  assert.equal(pricePageResponse.status, 200, "Pricing page must be reachable");
+  const pricePageHtml = await pricePageResponse.text();
+  assert.match(pricePageHtml, /One-Page Business Website/);
+  assert.match(pricePageHtml, /No account or online payment is needed to request a quote/);
+  assert.equal((await fetch(origin + "pricing.css")).status, 200);
+  const priceNav = await send("Page.navigate", {url: origin + "pricing.html"});
+  assert.ok(!priceNav.errorText, "Pricing navigation failed");
+  let pricingLoaded = false;
+  for (let n = 0; n < 80; n++) {
+    pricingLoaded = await inspect("return document.readyState==='complete' && !!document.querySelector('.pricing-grid');");
+    if (pricingLoaded) break;
+    await wait(100);
+  }
+  assert.ok(pricingLoaded, "Pricing cards did not render");
+  for (const width of [320, 375, 768, 1440]) {
+    await send("Emulation.setDeviceMetricsOverride", {width, height: 900, deviceScaleFactor: 1, mobile: false});
+    await wait(120);
+    const state = await inspect("return {width:document.documentElement.clientWidth,content:document.documentElement.scrollWidth,cards:document.querySelectorAll('.price-card').length,forms:document.forms.length};");
+    assert.ok(state.content <= state.width + 1, "Pricing horizontal overflow at " + width + ": " + JSON.stringify(state));
+    assert.equal(state.cards, 6);
+    assert.equal(state.forms, 0, "Pricing must not mimic real checkout");
+  }
+  await send("Emulation.clearDeviceMetricsOverride");
 
   // Exercise the *actual* static privacy-to-contact route in a browser.
   // It must work from privacy.html even though the marketing page is index.html.

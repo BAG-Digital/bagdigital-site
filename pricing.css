@@ -1,0 +1,29 @@
+/* BAGDigital services-only pricing page; no scripts, checkout, or remote assets. */
+.pricing-page{min-width:0}
+.pricing-hero{padding:84px 0 74px}
+.pricing-hero h1{font-size:clamp(44px,6.8vw,92px);line-height:1;letter-spacing:-.07em;margin:19px 0 24px}
+.pricing-hero>p{font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:660px;line-height:1.7}
+.pricing-hero .button{margin-top:10px}
+.pricing-offers{padding-bottom:85px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.price-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--edge);background:var(--white);border-radius:13px;padding:27px;box-shadow:0 7px 21px rgba(33,60,49,.04)}
+.price-feature{background:var(--mint);border-color:#8fb09c}
+.price-type{font-weight:800;color:var(--green);text-transform:uppercase;font-size:11px;letter-spacing:.1em}
+.price-card h3{font-size:clamp(21px,2vw,28px);line-height:1.15;letter-spacing:-.05em;margin:17px 0 10px}
+.price-amount{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px;font-size:clamp(29px,3vw,38px);font-weight:850;letter-spacing:-.055em;line-height:1.3;margin:0 0 21px}
+.price-amount span,.price-amount small{font-size:12px;font-weight:750;letter-spacing:0;color:var(--muted)}
+.price-amount small{margin-left:2px}
+.price-card>p:not(.price-amount){font-size:15px;line-height:1.65;margin:0 0 14px}
+.price-card .price-scope{font-size:13px!important;color:var(--muted);margin-bottom:22px!important}
+.price-link{margin-top:auto;min-height:44px;display:inline-flex;align-items:center;align-self:flex-start;color:var(--deep);font-size:14px;font-weight:800;text-underline-offset:4px}
+.price-link:hover{text-decoration-thickness:2px}
+.pricing-notes{margin-top:26px;padding:28px;background:#ecf1e9;border:1px solid var(--edge);border-radius:12px}
+.pricing-notes h2{font-size:26px;letter-spacing:-.04em;margin:0 0 12px}
+.pricing-notes p{max-width:950px;font-size:14px;line-height:1.7;color:var(--muted);margin:0 0 9px}
+.pricing-notes strong{color:var(--ink)}
+.pricing-process{background:#e8eee6;border-top:1px solid var(--edge);padding:72px 0 84px}
+.pricing-process h2{font-size:clamp(30px,4.2vw,50px);letter-spacing:-.055em;line-height:1.1;margin:14px 0 25px}
+.pricing-process ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding-left:24px;max-width:980px;margin:0 0 28px}
+.pricing-process li{padding:5px 14px 5px 2px;line-height:1.6}
+@media(max-width:890px){.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.price-card{padding:23px}}
+@media(max-width:560px){.pricing-hero{padding:55px 0}.pricing-grid,.pricing-process ol{grid-template-columns:1fr}.pricing-notes{padding:21px}.pricing-hero .button,.pricing-process .button{width:100%}.price-card{padding:22px}.pricing-offers{padding-bottom:60px}}
