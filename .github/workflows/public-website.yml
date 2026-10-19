@@ -5,6 +5,8 @@ on:
     paths:
       - "index.html"
       - "privacy.html"
+      - "pricing.html"
+      - "pricing.css"
       - "styles.css"
       - "tests/production-homepage.test.mjs"
       - "tests/production-browser-smoke.mjs"
@@ -57,6 +59,14 @@ jobs:
                 exit 1
               }
             test -s "public-site-screenshots/homepage-${width}.png"
+            "$BROWSER" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars \
+              --window-size="${width},1000" \
+              --screenshot="public-site-screenshots/pricing-${width}.png" \
+              "file://${PWD}/pricing.html" >/tmp/bagdigital-pricing-chromium.log 2>&1 || {
+                cat /tmp/bagdigital-pricing-chromium.log
+                exit 1
+              }
+            test -s "public-site-screenshots/pricing-${width}.png"
           done
       - name: Store screenshots for Indigo, Prism and founder review
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -67,6 +77,8 @@ jobs:
             public-site-screenshots/*.png
             index.html
             privacy.html
+            pricing.html
+            pricing.css
             styles.css
           if-no-files-found: error
           retention-days: 14
