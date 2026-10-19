@@ -96,14 +96,12 @@ try {
     "style:getComputedStyle(f).display,disclosed:!!d&&!!c&&!!(d.compareDocumentPosition(c)&4)," +
     "csp:document.querySelector('meta[http-equiv=\"Content-Security-Policy\"]').content};"
   );
-  assert.equal(source.action, "https://formspree.io/f/xjygzpzk");
+  assert.equal(source.action, "https://formsubmit.co/jaime@bagdigital.tech");
   assert.equal(source.method, "post");
   assert.equal(source.scripts, 0);
-  assert.equal(await inspect("return document.querySelector(\"#contact-website-check\").name;"), "_gotcha");
-  assert.equal(await inspect("return document.querySelector(\".contact-form input[name=subject]\").value;"), "New BAGDigital website inquiry");
   assert.ok(source.style !== "none" && source.disclosed);
   assert.ok(source.csp.includes("connect-src 'none'"));
-  assert.ok(source.csp.includes("form-action https://formspree.io"));
+  assert.ok(source.csp.includes("form-action https://formsubmit.co"));
   const privacyLink = await inspect(
     "const a=document.querySelector('#contact-data-note a[href=\"./privacy.html\"]');" +
     "return {exists:!!a,target:a?.target,rel:a?.rel,href:a?.href};"

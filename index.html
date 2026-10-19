@@ -15,7 +15,7 @@
   <meta property="og:description" content="Practical websites, smoother workflows, thoughtful integration planning and support for small businesses.">
   <meta property="og:url" content="https://bagdigital.tech/">
   <meta name="twitter:card" content="summary">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action https://formspree.io; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action https://formsubmit.co; upgrade-insecure-requests">
   <title>BAGDigital | Websites, Workflows & Technology Support</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
@@ -103,11 +103,12 @@
           <p>Tell us a little about your business and what you'd like to improve. We'll discuss whether BAGDigital is a good fit during a free initial consultation.</p>
           <p class="contact-address">Prefer to write directly? <a href="mailto:jaime@bagdigital.tech">jaime@bagdigital.tech</a></p>
         </div>
-        <form class="contact-form" id="project-inquiry" method="post" action="https://formspree.io/f/xjygzpzk" autocomplete="on" aria-label="Project inquiry form">
-          <input type="hidden" name="subject" value="New BAGDigital website inquiry">
+        <form class="contact-form" id="project-inquiry" method="post" action="https://formsubmit.co/jaime@bagdigital.tech" autocomplete="on" aria-label="Project inquiry form">
+          <input type="hidden" name="_subject" value="New BAGDigital website inquiry">
+          <input type="hidden" name="_template" value="table">
           <div class="contact-honeypot" aria-hidden="true">
             <label for="contact-website-check">Leave this field empty</label>
-            <input id="contact-website-check" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+            <input id="contact-website-check" type="text" name="_honey" tabindex="-1" autocomplete="off">
           </div>
           <div class="contact-form-grid">
             <div class="contact-field">
@@ -139,13 +140,13 @@
             <textarea id="contact-details" name="message" rows="5" maxlength="3000" aria-describedby="contact-details-help" required placeholder="What are you trying to accomplish, and what's getting in the way?"></textarea>
             <p id="contact-details-help" class="contact-help">Please do not include passwords, API keys, customer records, payment details, health information, or other sensitive data.</p>
           </div>
-          <p class="contact-data-note" id="contact-data-note">Formspree receives your inquiry for BAGDigital. <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Privacy notice (opens in a new tab)</a>.</p>
+          <p class="contact-data-note" id="contact-data-note">FormSubmit.co delivers your inquiry to BAGDigital. <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Privacy notice (opens in a new tab)</a>.</p>
           <label class="contact-consent" for="contact-consent">
             <input id="contact-consent" name="processing_ack" type="checkbox" value="yes" required>
-            <span>I understand that submitting this form sends my information to Formspree for BAGDigital to review. BAGDigital may contact me about my inquiry. <span aria-hidden="true">*</span></span>
+            <span>I understand that submitting this form sends my information to FormSubmit.co for delivery to BAGDigital. BAGDigital may contact me about my inquiry. <span aria-hidden="true">*</span></span>
           </label>
           <button class="button button-primary" type="submit">Send my inquiry <span aria-hidden="true">↗</span></button>
-          <p class="contact-privacy">Required fields are marked *. After submission, Formspree may show a CAPTCHA or confirmation page. Do not assume your message was received until the submission finishes. No account or mail app is needed.</p>
+          <p class="contact-privacy">Required fields are marked *. Submission may open FormSubmit's CAPTCHA verification and confirmation page. Do not assume your message was received until the submission finishes. No account or mail app is needed.</p>
         </form>
       </div>
     </section>
