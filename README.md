@@ -35,9 +35,23 @@ Before merging website changes:
 - keep customer-facing claims accurate and understandable.
 
 
+## Current public service pricing — 19 Oct 2026
+
+The independently reviewed [Site PR #37](https://github.com/BAG-Digital/bagdigital-site/pull/37) was merged as `41f251d593559d7e08ffc0bcdcbc99ada1bacb62`; GitHub Pages run `39337237826` completed successfully. Keel's public-origin verification confirms `/pricing.html`, `/pricing.css`, the homepage **Pricing** link, all six approved rates and the unchanged Formspree contact route.
+
+- One-page business website — starting at **$1,295**.
+- Business website — starting at **$2,795**.
+- Workflow improvement review — **$595**.
+- Software integration planning — starting at **$695** (planning only).
+- Website care — **$129/month** (one scheduled hour).
+- Technical support — **$299/month** (three scheduled hours).
+- Additional approved work starting at **$110/hour**; hosting, domains, paid software and third-party services separate.
+
+This is an inquiry/quoted professional-services offering, **not** a customer Core subscription, working SaaS signup, Stripe checkout, HCP integration, customer AI agent, or live automation dashboard. Pricing calls to action navigate to the existing first-party `index.html#contact` inquiry. The standalone pricing page is scriptless, form-free and uses `form-action 'none'` CSP. All new business work requires written scope confirmation before kickoff. See Company #21 for approved commercial terms and open market validation.
+
 ## Formspree xjygzpzk integration — 2026-10-18
 
-**Current migration PR source, pending release review.** BAGDigital uses static GitHub Pages and plain native HTML POST (no JavaScript/AJAX/React SDK). The public consultation form in `index.html` is configured to post to the founder-supplied **public** Formspree endpoint `https://formspree.io/f/xjygzpzk`. The Formspree form ID is intentionally public, **not** an API secret.
+**Deployed production source.** The permanent Formspree cutover was independently approved in [PR #36](https://github.com/BAG-Digital/bagdigital-site/pull/36) and merged as `b88ba0fefaea43147eaaf29794c21193e79f4e00`; Pages run `39284788545` and public homepage/privacy readback passed. This documents the published form, not a pending migration. **Site #7 stays open for the old remote FormSubmit endpoint's separately authorized retirement** and explicitly bounded hosted-provider accessibility/quota follow-ups. BAGDigital uses static GitHub Pages and plain native HTML POST (no JavaScript/AJAX/React SDK). The public consultation form in `index.html` is configured to post to the founder-supplied **public** Formspree endpoint `https://formspree.io/f/xjygzpzk`. The Formspree form ID is intentionally public, **not** an API secret.
 
 - Fields: `name` (required, max 100), `email` (required email, max 254), optional `business` (max 150), `interest` (required select), `message` (required, max 3000), unchecked `processing_ack` (required in the browser), hidden `subject` and hidden `_gotcha` honeypot.
 - Formspree special names are **`subject`** and **`_gotcha`**; legacy FormSubmit-specific `_subject`, `_template`, `_honey` and `_captcha=false` must never be sent.
@@ -45,7 +59,7 @@ Before merging website changes:
 - The compact pre-consent note and the detailed first-party `privacy.html` disclose the **new provider** and its published Free-plan 30-day submission *history*, not a guarantee of complete deletion. Privacy policy: https://formspree.io/legal/privacy-policy .
 - The old FormSubmit endpoint must be explicitly disabled/retired in the prior provider account after the new form has been accepted; removing it from HTML does not revoke the old address.
 
-**Dashboard security configuration is not verifiable from static source.** Before publication the founder/Keel must verify the actual form **xjygzpzk** has:
+**Ongoing private-provider configuration and regression checklist.** These settings are not independently provable merely by reading website source. The approved PR #36 release used documented bounded positive, negative and founder accessibility evidence; for future material provider configuration changes the founder/Keel must reconfirm the actual form **xjygzpzk** has:
 
 1. Form-level **Spam protection / reCAPTCHA ENABLED**, server side, and optional built-in `_gotcha` trap. Confirm a normal accessible challenge/return in browser.
 2. Project **Restrict to Domain = `bagdigital.tech`** (without https or www), understanding this relies on Referer and some privacy browsers may cause false-positive spam. Site's `strict-origin-when-cross-origin` referrer policy supports it. This is an additional spam filter, **not authentication**.
@@ -53,11 +67,11 @@ Before merging website changes:
 4. Correct *target notification email* and Enabled workflow email action, with verified inbox delivery. Account/plan quota confirmed: Free is **50 processed submissions/month**, 30 days submission history; over-limit notification emails may be held. Avoid test traffic until owner-approved low-volume safe cases.
 5. Independent Vesper exact-source/actual account-configuration review, Prism copy/privacy review and founder site publication approval, plus post-deploy first-party HTTPS/canonical/privacy, CAPTCHA, and correct recipient confirmation.
 
-This PR's CI is intentionally **non-submitting** and confirms only the browser form, syntax, valid/invalid field behavior, accessibility labels, CSP and local privacy navigation. It cannot inspect a private Formspree dashboard, verify live recipient, vendor CAPTCHA settings, negative server acceptance, retirement of FormSubmit, or legal compliance. No new Cloudflare/AWS project or credentials required for this managed form.
+Public website CI is intentionally **non-submitting** and confirms only the browser form, syntax, valid/invalid field behavior, accessibility labels, CSP and local privacy navigation. It cannot inspect a private Formspree dashboard, verify live recipient, vendor CAPTCHA settings, negative server acceptance, retirement of FormSubmit, or legal compliance. No new Cloudflare/AWS project or credentials required for this managed form.
 
 ## Archived previous Field Notes/FormSubmit review history (not current integration)
 
-**The following older publication-candidate notes describe historical prepublication FormSubmit behavior and are retained for audit reference. They are not current BAGDigital website instructions.** The above Formspree integration is authoritative for this PR's present source/configuration.
+**The following older publication-candidate notes describe historical prepublication FormSubmit behavior and are retained for audit reference. They are not current BAGDigital website instructions.** The above deployed Formspree integration is authoritative for current production source/configuration.
 
 ### Field Notes publication candidate (source-only; release requires approval)
 
