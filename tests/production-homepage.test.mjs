@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles.css", import.meta.url), "utf8");
@@ -193,4 +193,15 @@ test("approved standalone services prices are discoverable and never imply produ
   assert.match(prices, /No account or online payment is needed to request a quote/);
   assert.match(priceStyles, /@media\(max-width:560px\)/);
   assert.doesNotMatch(prices, /<script\b|<form\b|stripe\.com|type="password"|unlimited integrations/i);
+});
+
+test("legacy AJAX contact controller is retired and active pages remain native-scriptless", () => {
+  assert.equal(existsSync(new URL("../app.js", import.meta.url)), false,
+    "Obsolete root app.js must not be present in public deployment source");
+  const pricing = readFileSync(new URL("../pricing.html", import.meta.url), "utf8");
+  for (const page of [html, privacy, pricing]) {
+    assert.doesNotMatch(page, /<script\b|src=["'][^"']*app\.js|data-ajax-action|id="quoteForm"/i);
+  }
+  assert.match(html, /method="post" action="https:\/\/formspree\.io\/f\/xjygzpzk"/);
+  assert.match(html, /script-src 'none'/);
 });
