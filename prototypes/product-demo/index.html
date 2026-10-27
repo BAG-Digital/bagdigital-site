@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#0c0d0b">
+  <meta name="description" content="A fully simulated, interactive BAGDigital workflow demonstration. No live connections or customer information.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'; connect-src 'none'; img-src 'none'; object-src 'none'">
+  <title>BAGDigital | Interactive Workflow Demo</title>
+  <link rel="stylesheet" href="./demo.css">
+  <script src="./demo.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to demonstration</a>
+  <div class="demo-notice" role="note">
+    <span class="notice-dot" aria-hidden="true"></span>
+    <strong>DEMONSTRATION ONLY</strong>
+    <span>All names, requests, and results are fictional. Nothing is connected or sent.</span>
+  </div>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <div class="brand" aria-label="BAGDigital">
+        <span class="brand-symbol" aria-hidden="true">BAG</span>
+        <span class="brand-type"><strong>BAG<span>Digital</span></strong><small>WORKFLOW EXPLORER / 01</small></span>
+      </div>
+      <div class="header-side"><span class="header-marker">A BETTER WAY TO WORK</span><span class="status-mark">● NO LIVE DATA</span></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="shell introduction" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <p class="eyebrow"><span>01</span> / THE IDEA</p>
+        <h1 id="page-title">Less busywork.<br><em>More forward motion.</em></h1>
+        <p class="intro-lead">See how an everyday customer request could move from a scattered message to an organized next step—with your team making the final call.</p>
+        <p class="subline">Choose a business example. Walk through the steps. Every action stays inside this demo.</p>
+      </div>
+      <div class="intro-art" aria-hidden="true">
+        <div class="art-top"><span>INFORMATION</span><span>PEOPLE</span><span>DECISIONS</span></div>
+        <div class="art-track">
+          <span class="art-node start"></span><span class="art-line"></span><span class="art-node middle"></span><span class="art-line"></span><span class="art-node end"></span>
+        </div>
+        <div class="art-core">B<span>→</span>G</div>
+        <div class="art-bottom"><span>One request</span><span>One clear next step</span></div>
+      </div>
+    </section>
+
+    <section class="shell choice-section" aria-labelledby="choice-title">
+      <div class="section-row">
+        <div><p class="eyebrow"><span>02</span> / PICK A WORKFLOW</p><h2 id="choice-title">What kind of work are we looking at?</h2></div>
+        <p class="small-aside">These are proposed use cases, not a list of features currently connected to external software.</p>
+      </div>
+      <div class="scenario-grid" role="group" aria-label="Choose example workflow">
+        <button type="button" id="serviceBtn" class="scenario-choice selected" aria-pressed="true" data-scenario="service">
+          <span class="scenario-number">EXAMPLE A <span aria-hidden="true">↗</span></span>
+          <span class="scenario-name">Service business</span>
+          <span class="scenario-detail">From an incoming job question to an owner-reviewed follow-up.</span>
+          <span class="scenario-footer">CUSTOMER INQUIRIES <span aria-hidden="true">↗</span></span>
+        </button>
+        <button type="button" id="marketingBtn" class="scenario-choice" aria-pressed="false" data-scenario="marketing">
+          <span class="scenario-number">EXAMPLE B <span aria-hidden="true">↗</span></span>
+          <span class="scenario-name">Marketing agency</span>
+          <span class="scenario-detail">From a social media inquiry to a clear creative brief and draft reply.</span>
+          <span class="scenario-footer">CLIENT DISCOVERY <span aria-hidden="true">↗</span></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="shell walkthrough" aria-labelledby="walkthrough-title">
+      <div class="section-row walkthrough-heading">
+        <div><p class="eyebrow"><span>03</span> / SEE THE FLOW</p><h2 id="walkthrough-title">From request to next step.</h2></div>
+        <span class="mini-label"><span class="live-dot"></span> SIMULATED WALKTHROUGH</span>
+      </div>
+
+      <div class="workspace">
+        <section class="workspace-panel incoming" aria-labelledby="incoming-title">
+          <div class="panel-top"><span>01 / INCOMING</span><span class="panel-stamp">FICTIONAL</span></div>
+          <div class="incoming-header">
+            <span class="message-icon" aria-hidden="true">↙</span>
+            <div><h3 id="incoming-title">New customer request</h3><p id="sourceLabel">Website inquiry · simulated</p></div>
+          </div>
+          <blockquote class="incoming-message"><p id="incomingMessage">Hi! We need someone to take a look at a leak near our skylight. Can you tell us how scheduling works?</p></blockquote>
+          <dl class="fact-list" aria-label="Example inquiry details">
+            <div><dt>Example business</dt><dd id="businessName">Harbor Service Co.</dd></div>
+            <div><dt>Contact</dt><dd id="contactName">Alex · fictional</dd></div>
+            <div><dt>Request type</dt><dd id="requestType">Service appointment</dd></div>
+          </dl>
+          <div class="source-disclaimer">For illustration only. This request did not come from a connected inbox.</div>
+        </section>
+
+        <section class="workspace-panel progression" aria-labelledby="progression-title">
+          <div class="panel-top"><span>02 / THE WORK</span><span>STEP BY STEP</span></div>
+          <h3 id="progression-title">What happens next?</h3>
+          <ol class="steps" aria-label="Example workflow progress">
+            <li data-step="0" class="current"><span class="step-icon" aria-hidden="true">01</span><div><strong>Receive request</strong><small>Start with the customer's message</small></div><span class="step-status">CURRENT</span></li>
+            <li data-step="1"><span class="step-icon" aria-hidden="true">02</span><div><strong>Organize details</strong><small>Gather what matters</small></div><span class="step-status">NEXT</span></li>
+            <li data-step="2"><span class="step-icon" aria-hidden="true">03</span><div><strong>Prepare a reply</strong><small>Draft, don't send</small></div><span class="step-status">WAITING</span></li>
+            <li data-step="3"><span class="step-icon" aria-hidden="true">04</span><div><strong>Review & approve</strong><small>The owner makes the call</small></div><span class="step-status">WAITING</span></li>
+          </ol>
+          <div class="step-callout" role="status" aria-live="polite" aria-atomic="true">
+            <span class="callout-kicker" id="stepEyebrow">STEP 1 OF 4</span>
+            <strong id="stepTitle">A request comes in.</strong>
+            <p id="stepDescription">The original message stays visible. No reply has been prepared or sent.</p>
+          </div>
+        </section>
+
+        <section class="workspace-panel outcome" aria-labelledby="outcome-title">
+          <div class="panel-top"><span>03 / NEXT ACTION</span><span class="approval-pill" id="approvalPill">NOT REVIEWED</span></div>
+          <h3 id="outcome-title">A clearer next step.</h3>
+          <div class="draft-card">
+            <div class="draft-heading"><span>EXAMPLE REPLY</span><span id="draftIndicator">NOT PREPARED</span></div>
+            <p class="draft-greeting" id="draftGreeting">Not ready yet</p>
+            <p class="draft-content" id="draftContent">Organize the request and prepare a draft to see how the response could look.</p>
+          </div>
+          <div class="review-label"><span aria-hidden="true">◈</span><p id="reviewReminder">Nothing is sent automatically. The example reply is waiting for a person to review it.</p></div>
+          <div class="action-area">
+            <button type="button" class="action-primary" id="advanceBtn">Organize this request <span aria-hidden="true">→</span></button>
+            <button type="button" class="action-secondary" id="resetBtn">Start this example over <span aria-hidden="true">↺</span></button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="shell takeaway" aria-labelledby="takeaway-title">
+      <div class="takeaway-label">WHAT THIS COULD CHANGE <span aria-hidden="true">↗</span></div>
+      <h2 id="takeaway-title">Less chasing information.<br><em>More time for the actual work.</em></h2>
+      <div class="takeaway-grid">
+        <article><span class="takeaway-num">01</span><h3>Fewer handoffs</h3><p>Relevant details are easier to find in one place.</p></article>
+        <article><span class="takeaway-num">02</span><h3>Clearer follow-up</h3><p>Someone knows what needs attention next.</p></article>
+        <article><span class="takeaway-num">03</span><h3>People stay in charge</h3><p>Messages and important changes require the right approval.</p></article>
+      </div>
+      <div class="bottom-cta">
+        <div><strong>Have a task like this in your business?</strong><p>Tell us the software you use and the work that's slowing you down.</p></div>
+        <a href="mailto:jaime@bagdigital.tech?subject=BAGDigital%20workflow%20discussion">Let's talk about it <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+  <footer class="page-footer"><div class="shell"><strong>BAGDigital</strong><span>This demonstration does not connect to software, read customer records, generate AI responses, or send messages.</span></div></footer>
+</body>
+</html>
