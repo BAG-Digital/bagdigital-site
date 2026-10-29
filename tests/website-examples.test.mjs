@@ -38,12 +38,12 @@ test("all seven demonstration pages are static, crawl-blocked, and non-submittin
     assert.match(html, /img-src 'self'/,page);
     // Verify actual image URL attributes are relative to this site, rather than
     // checking for one provider's hostname substring in arbitrary HTML text.
-    const imageSources = [...html.matchAll(/<img\\b[^>]*\\bsrc="([^"]+)"/gi)];
+    const imageSources = [...html.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/gi)];
     for (const [, imageSource] of imageSources) {
-      assert.match(imageSource, /^(?:\\.\\/|\\.\\.\\/)[a-z0-9_\\/-]+\\.(?:webp|svg)$/i,
+      assert.match(imageSource, /^(?:\.\/|\.\.\/)[a-z0-9_/-]+\.(?:webp|svg)$/i,
         page + " must load only first-party images");
     }
-    assert.doesNotMatch(html, /<link\\b[^>]*\\bhref="https?:\\/\\//i,
+    assert.doesNotMatch(html, /<link\b[^>]*\bhref="https?:\/\//i,
       page + " must not load external stylesheets or fonts");
     assert.match(html, /Fictional BAGDigital concept|Fictional Lowcountry businesses/i,page);
     assert.doesNotMatch(html, /<script\b|<iframe\b|<form\b|<style\b|style="/i,page);
