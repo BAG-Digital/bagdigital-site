@@ -35,7 +35,8 @@ test("all seven demonstration pages are static, crawl-blocked, and non-submittin
     assert.match(html, /script-src 'none'/,page);
     assert.match(html, /connect-src 'none'/,page);
     assert.match(html, /form-action 'none'/,page);
-    assert.match(html, /img-src 'self' https:\/\/images\.pexels\.com/,page);
+    assert.match(html, /img-src 'self'/,page);
+    assert.doesNotMatch(html, /images\\.pexels\\.com|https?:\\/\\/images\\./,page);
     assert.match(html, /Fictional BAGDigital concept|Fictional Lowcountry businesses/i,page);
     assert.doesNotMatch(html, /<script\b|<iframe\b|<form\b|<style\b|style="/i,page);
     assert.doesNotMatch(html, /formspree\.io|formsubmit\.co|https?:\/\/api\./,page);
@@ -94,4 +95,28 @@ test("original first-party SVG fallbacks are local, static and referenced in all
     assert.match(css, /@media\(max-width:(?:480|500)px\)/);
     assert.match(css, /prefers-reduced-motion:reduce/);
   }
+});
+
+test("four actual original WebP images are stored in the repository and referenced", () => {
+  const files=[
+    "saltline-home.webp",
+    "saltline-porch.webp",
+    "marsh-terrace.webp",
+    "marsh-path.webp"
+  ];
+  const content=examplePages.map(read).join("\n");
+  for (const name of files) {
+    const path="examples/assets/"+name;
+    const bytes=readFileSync(join(root,path));
+    assert.ok(bytes.byteLength>2000, path+" is unexpectedly small");
+    assert.equal(bytes.subarray(0,4).toString("ascii"),"RIFF",path);
+    assert.equal(bytes.subarray(8,12).toString("ascii"),"WEBP",path);
+    assert.ok(content.includes(name),name+" not referenced by any page");
+  }
+  const sources=[
+    read("examples/one-page/styles.css"),
+    read("examples/business/styles.css"),
+    read("examples/examples.css")
+  ];
+  assert.ok(sources.every(s=>s.includes("lowcountry-cottage.svg")||s.includes("terrace-garden.svg")));
 });
