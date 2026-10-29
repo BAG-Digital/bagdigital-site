@@ -76,7 +76,7 @@ jobs:
           set -euo pipefail
           BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
           [[ -n "$BROWSER" ]] || { echo "::error::Chromium missing"; exit 1; }
-          for width in 320 1440; do
+          for width in 320 375 768 1440; do
             for example in "examples/index.html:examples-menu" "examples/one-page/index.html:one-page-1295" "examples/business/index.html:business-2795" "examples/business/contact.html:business-contact"; do
               page="${example%%:*}"
               label="${example##*:}"
@@ -88,6 +88,30 @@ jobs:
                   exit 1
                 }
               test -s "public-site-screenshots/${label}-${width}.png"
+            done
+          done
+      - name: Capture deep-scroll responsive demonstrations
+        shell: bash
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          [[ -n "$BROWSER" ]] || { echo "::error::Chromium missing"; exit 1; }
+          for example in "examples/one-page/index.html:one-page-1295" "examples/business/index.html:business-2795"; do
+            page="${example%%:*}"
+            label="${example##*:}"
+            for device in "375:6000:mobile" "1440:4400:desktop"; do
+              width="${device%%:*}"
+              rest="${device#*:}"
+              height="${rest%%:*}"
+              device_label="${rest##*:}"
+              "$BROWSER" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars \
+                --virtual-time-budget=6500 --window-size="${width},${height}" \
+                --screenshot="public-site-screenshots/${label}-deep-${device_label}.png" \
+                "file://${PWD}/${page}" >/tmp/bagdigital-examples-deep-chromium.log 2>&1 || {
+                  cat /tmp/bagdigital-examples-deep-chromium.log
+                  exit 1
+                }
+              test -s "public-site-screenshots/${label}-deep-${device_label}.png"
             done
           done
       - name: Store screenshots for Indigo, Prism and founder review
