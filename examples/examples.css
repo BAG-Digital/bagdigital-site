@@ -9,3 +9,46 @@
 .example-screen:before{content:"";position:absolute;left:8%;top:11%;width:50%;height:52%;border:2px solid #39604f55;border-radius:45% 45% 5px 5px;transform:rotate(-9deg)}
 .example-screen img{position:relative;z-index:1}
 .example-screen .screen-note{position:absolute;z-index:2;bottom:13px;left:13px;padding:8px 11px;background:#153d32;color:#fff;font:750 12px/1.3 ui-monospace,monospace}
+
+
+/* Branded miniature website previews rather than uninformative stock-photo cards. */
+.example-screen{display:block;position:relative;aspect-ratio:1.46;background:#d8e5db;overflow:hidden;padding:18px 16px 28px}
+.example-screen-business{background:#e8e1d5}
+.example-screen::before{display:none}
+.example-screen:focus-visible{outline:3px solid #136a58;outline-offset:3px}
+.preview-window{display:block;position:relative;width:100%;height:100%;margin:auto;box-shadow:0 15px 33px #162e2c33;border:1px solid #d4ddd5;background:white;overflow:hidden}
+.preview-chrome{height:22px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;background:#f4f5f0;color:#6e7a72;font:600 9px/1 ui-monospace,monospace;border-bottom:1px solid #d8dfd7}
+.browser-dots{color:#bd8668;letter-spacing:2px}
+.preview-site{display:flex;flex-direction:column;width:100%;height:calc(100% - 22px);overflow:hidden}
+.preview-site .preview-nav{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;flex:none}
+.preview-site .preview-nav strong{font-size:11px;letter-spacing:.075em}
+.preview-site .preview-nav small{font-size:9px}
+.preview-hero{position:relative;display:flex;align-items:center;flex:1;overflow:hidden}
+.preview-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:none!important}
+.preview-words{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;padding:12px 17px;max-width:85%}
+.preview-words small{font-size:9px;font-weight:800;letter-spacing:.095em;text-transform:uppercase;margin-bottom:11px}
+.preview-words strong{font-size:clamp(22px,3.7vw,47px);line-height:.96;letter-spacing:-.07em;font-weight:950}
+.preview-words em{font-family:Georgia,serif;font-weight:400}
+.preview-words b{font-size:9px;padding:7px 10px;margin-top:13px;text-transform:uppercase;letter-spacing:.03em}
+.preview-site .preview-bottom{font:800 8px ui-monospace,monospace;letter-spacing:.07em;padding:8px 13px}
+.preview-salt .preview-nav{background:#f4f2e9;color:#19373b}
+.preview-salt .preview-hero{background:#0b333a}
+.preview-salt .preview-hero img{left:43%;width:57%}
+.preview-salt .preview-words{color:white;background:linear-gradient(90deg,#0b333a 0%,#0b333af0 73%,transparent 100%);width:74%;max-width:none;height:100%;justify-content:center}
+.preview-salt .preview-words small{color:#d5eb75}
+.preview-salt .preview-words em{color:#d5eb75}
+.preview-salt .preview-words b{background:#d5eb75;color:#0b333a}
+.preview-salt .preview-bottom{background:#d5eb75;color:#133335}
+.preview-oak .preview-nav{background:#f4f0e7;color:#25372e}
+.preview-oak .preview-nav strong{font:400 17px Georgia,serif;letter-spacing:-.045em}
+.preview-oak .preview-hero{background:#eee8db}
+.preview-oak .preview-hero img{left:48%;width:52%}
+.preview-oak .preview-words{color:#25372e;max-width:none;width:64%;height:100%;justify-content:center;background:linear-gradient(90deg,#eee8db 0%,#eee8dbef 70%,transparent 100%)}
+.preview-oak .preview-words small{color:#9b654c}
+.preview-oak .preview-words strong{font-family:Georgia,serif;font-weight:400}
+.preview-oak .preview-words em{color:#9b654c}
+.preview-oak .preview-words b{background:#25372e;color:white}
+.preview-oak .preview-bottom{background:#eee8db;color:#626e5e}
+.example-screen .screen-note{z-index:3;left:27px;bottom:5px;font-size:11px;padding:5px 9px}
+@media(max-width:860px){.preview-words strong{font-size:clamp(20px,4.9vw,39px)}}
+@media(max-width:480px){.example-screen{padding:10px 10px 24px;aspect-ratio:1.31}.preview-chrome{height:18px}.preview-site{height:calc(100% - 18px)}.preview-site .preview-nav{padding:6px 8px}.preview-words{padding:10px}.preview-words strong{font-size:clamp(20px,6.3vw,30px)}.preview-words small{font-size:7px;margin-bottom:5px}.preview-words b{font-size:7px;padding:6px 7px;margin-top:9px}.preview-site .preview-bottom{padding:5px 8px;font-size:7px}.example-screen .screen-note{left:17px;bottom:2px;font-size:9px;padding:4px 6px}}
