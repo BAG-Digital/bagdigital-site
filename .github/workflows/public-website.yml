@@ -7,6 +7,8 @@ on:
       - "privacy.html"
       - "pricing.html"
       - "pricing.css"
+      - "examples/**"
+      - "tests/website-examples.test.mjs"
       - "styles.css"
       - "tests/production-homepage.test.mjs"
       - "tests/production-browser-smoke.mjs"
@@ -28,7 +30,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Run offline public-site content and security contracts
-        run: node --test tests/production-homepage.test.mjs
+        run: node --test tests/production-homepage.test.mjs tests/website-examples.test.mjs
       - name: Run non-submitting local-HTTP Chromium form smoke test
         shell: bash
         run: |
@@ -68,6 +70,26 @@ jobs:
               }
             test -s "public-site-screenshots/pricing-${width}.png"
           done
+      - name: Capture real fictional website example layouts without submission
+        shell: bash
+        run: |
+          set -euo pipefail
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          [[ -n "$BROWSER" ]] || { echo "::error::Chromium missing"; exit 1; }
+          for width in 320 1440; do
+            for example in "examples/index.html:examples-menu" "examples/one-page/index.html:one-page-1295" "examples/business/index.html:business-2795" "examples/business/contact.html:business-contact"; do
+              page="${example%%:*}"
+              label="${example##*:}"
+              "$BROWSER" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --hide-scrollbars \
+                --virtual-time-budget=5000 --window-size="${width},1000" \
+                --screenshot="public-site-screenshots/${label}-${width}.png" \
+                "file://${PWD}/${page}" >/tmp/bagdigital-examples-chromium.log 2>&1 || {
+                  cat /tmp/bagdigital-examples-chromium.log
+                  exit 1
+                }
+              test -s "public-site-screenshots/${label}-${width}.png"
+            done
+          done
       - name: Store screenshots for Indigo, Prism and founder review
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -80,5 +102,6 @@ jobs:
             pricing.html
             pricing.css
             styles.css
+            examples/**
           if-no-files-found: error
           retention-days: 14
