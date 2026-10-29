@@ -52,3 +52,6 @@
 .example-screen .screen-note{z-index:3;left:27px;bottom:5px;font-size:11px;padding:5px 9px}
 @media(max-width:860px){.preview-words strong{font-size:clamp(20px,4.9vw,39px)}}
 @media(max-width:480px){.example-screen{padding:10px 10px 24px;aspect-ratio:1.31}.preview-chrome{height:18px}.preview-site{height:calc(100% - 18px)}.preview-site .preview-nav{padding:6px 8px}.preview-words{padding:10px}.preview-words strong{font-size:clamp(20px,6.3vw,30px)}.preview-words small{font-size:7px;margin-bottom:5px}.preview-words b{font-size:7px;padding:6px 7px;margin-top:9px}.preview-site .preview-bottom{padding:5px 8px;font-size:7px}.example-screen .screen-note{left:17px;bottom:2px;font-size:9px;padding:4px 6px}}
+
+.preview-salt .preview-hero img{background:#b5c8ba url("./assets/lowcountry-cottage.svg") center/cover no-repeat}
+.preview-oak .preview-hero img{background:#cad4b8 url("./assets/terrace-garden.svg") center/cover no-repeat}
