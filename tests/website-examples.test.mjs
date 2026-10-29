@@ -82,7 +82,7 @@ test("original first-party SVG fallbacks are local, static and referenced in all
     assert.match(svg, /<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
     assert.match(svg, /<title/);
     assert.match(svg, /<desc/);
-    assert.doesNotMatch(svg, /<script|<foreignObject|<image|https?:\/\/|href=|xlink:href=/i);
+    assert.doesNotMatch(svg, /<script|<foreignObject|<image|(?:xlink:)?href\s*=|onload\s*=/i);
   }
   for (const [cssFile,files] of [
     ["examples/one-page/styles.css", ["lowcountry-cottage.svg"]],
