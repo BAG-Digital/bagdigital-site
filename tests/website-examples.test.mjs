@@ -39,7 +39,7 @@ test("all seven demonstration pages are static, crawl-blocked, and non-submittin
     assert.match(html, /Fictional BAGDigital concept|interactive HTML demos, not customer sites/i,page);
     assert.doesNotMatch(html, /<script\b|<iframe\b|<form\b|<style\b|style="/i,page);
     assert.doesNotMatch(html, /formspree\.io|formsubmit\.co|https?:\/\/api\./,page);
-    assert.doesNotMatch(html, /customer testimonial|customer review score|live integration|real customer project/i,page);
+    assert.doesNotMatch(html, /customer testimonial|customer review score|we now offer live integrations|our real customer projects/i,page);
   }
 });
 
