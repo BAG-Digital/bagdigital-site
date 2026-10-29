@@ -69,19 +69,18 @@ test("static page has self-hosted CSS and a restrictive source-level browser pol
   assert.doesNotMatch(css, /@import\b|url\(\s*['"]?https?:/i);
 });
 
-test("selected Field Notes Metro tile layout retains accessibility and 320px mobile support", () => {
+test("Working Edition uses accessible handoff context and service ledger", () => {
   assert.match(html, /class="skip" href="#main"/);
   assert.match(html, /<nav[^>]+aria-label="Main navigation"/);
-  assert.match(html, /role="img" aria-label="Illustrative tiles: human-first technology/);
-  assert.match(html, /href="#contact" aria-label="Discuss/g);
-  assert.match(css, /\.tile-grid\{display:grid;grid-template-columns:repeat\(12,minmax\(0,1fr\)\)/);
-  assert.match(css, /\.service-main\{grid-column:span 7/);
-  assert.match(css, /\.service-dark\{grid-column:span 5/);
-  assert.match(css, /\.service-peach\{grid-column:span 5/);
-  assert.match(css, /\.service-paper\{grid-column:span 7/);
+  assert.match(html, /<aside class="hero-tiles" aria-label="Illustrative customer inquiry handoff; not a live software integration">/);
+  assert.equal((html.match(/<li><span class="flow-index">/g) || []).length, 3);
+  assert.match(html, /An illustration of a common business handoff, not a live integration or BAGDigital dashboard/);
+  assert.match(html, /class="services-pricing" href="\.\/pricing\.html"/);
+  assert.equal((html.match(/class="service service-/g) || []).length, 4);
+  assert.match(css, /\.tile-grid \.service\{display:grid/);
+  assert.match(css, /\.hero \.hero-tiles\{min-height:465px;display:flex/);
   assert.match(css, /:focus-visible/);
   assert.match(css, /prefers-reduced-motion:reduce/);
-  assert.match(css, /scroll-behavior:auto/);
   for (const width of [1000, 760, 500, 360]) {
     assert.ok(css.includes("@media(max-width:" + width + "px)"), "Missing breakpoint " + width);
   }
@@ -100,15 +99,14 @@ test("public sitemap modification date and crawl destinations match the revised 
 });
 
 
-test("hero mosaic type preserves whole words at narrow and wide widths", () => {
-  // Headless screenshot review found mid-word breaks in the decorative
-  // illustration; preserve word wrapping and responsive font-size limits.
-  assert.ok(css.includes(".hero-tile strong{display:block;overflow-wrap:normal;font-size:clamp(20px,2vw,28px)"));
-  assert.ok(css.includes(".hero-tile:nth-child(1) strong{font-size:clamp(26px,2.4vw,35px)"));
-  assert.ok(css.includes(".hero-tile .mark{display:none}"), "Decorative arrows should not overlap text in narrow hero tiles");
-  assert.match(css, /@media\(max-width:1000px\)\{[\s\S]*?\.hero-tile strong\{font-size:20px\}/);
-  assert.match(css, /@media\(max-width:500px\)\{[\s\S]*?\.hero-tile strong\{font-size:19px\}/);
-  assert.match(css, /@media\(max-width:360px\)\{[\s\S]*?\.hero-tile strong\{font-size:17px\}/);
+test("Working Edition avoids fake live product visuals and respects narrow screens", () => {
+  assert.doesNotMatch(html, /class="hero-tile"|class="tile-dots"|class="tile-graphic"/);
+  assert.match(html, /The work is<br><span>hard enough\.<\/span><\/h1>/);
+  assert.match(html, /class="service-copy"/);
+  assert.match(css, /\.tile-grid \.service\{display:grid;grid-template-columns:/);
+  assert.match(css, /@media\(max-width:760px\)\{[\s\S]*?\.hero\{grid-template-columns:1fr\}/);
+  assert.match(css, /@media\(max-width:500px\)\{[\s\S]*?\.tile-grid \.service\{grid-template-columns:43px/);
+  assert.doesNotMatch(html, /<script\b|<iframe\b/);
 });
 
 test("visitor sees concise Formspree processing note and required acknowledgment", () => {
@@ -193,4 +191,21 @@ test("approved standalone services prices are discoverable and never imply produ
   assert.match(prices, /No account or online payment is needed to request a quote/);
   assert.match(priceStyles, /@media\(max-width:560px\)/);
   assert.doesNotMatch(prices, /<script\b|<form\b|stripe\.com|type="password"|unlimited integrations/i);
+});
+
+test("six pricing invitations identify real packages but keep the same consent-reviewed contact destination", () => {
+  const prices = readFileSync(new URL("../pricing.html", import.meta.url), "utf8");
+  const labels = [
+    "Ask about a one-page website",
+    "Discuss a business website",
+    "Request a workflow review",
+    "Discuss integration planning",
+    "Ask about website care",
+    "Ask about technical support"
+  ];
+  for (const label of labels) assert.ok(prices.includes(label), "Missing specific CTA: " + label);
+  assert.equal((prices.match(/class="price-link" href="\.\/index\.html#contact"/g) || []).length, 6);
+  assert.doesNotMatch(prices, /[?&](interest|service|email)=/);
+  assert.match(html, /href="\.\/pricing\.html" class="button button-secondary">See services and prices/);
+  assert.match(html, /<form class="contact-form" id="project-inquiry" method="post" action="https:\/\/formspree\.io\/f\/xjygzpzk"/);
 });
