@@ -13,7 +13,7 @@ test("public homepage has crawlable, accurate canonical and plain BAGDigital ide
   assert.match(html, /name="robots" content="index,follow/);
   assert.match(html, /rel="canonical" href="https:\/\/bagdigital\.tech\/"/);
   assert.match(html, /property="og:url" content="https:\/\/bagdigital\.tech\/"/);
-  assert.match(html, /<title>BAGDigital \| Websites, Workflows &amp; Technology Support<\/title>|<title>BAGDigital \| Websites, Workflows & Technology Support<\/title>/);
+  assert.match(html, /<title>BAGDigital \| Websites &amp; Workflow Help in Beaufort, SC<\/title>|<title>BAGDigital \| Websites & Workflow Help in Beaufort, SC<\/title>/);
   assert.match(html, /class="wordmark"[^>]*>BAGDigital<\/a>/);
   assert.doesNotMatch(html, /<svg[^>]*class="logo"|class="brand-mark"/);
 });
@@ -101,7 +101,7 @@ test("public sitemap modification date and crawl destinations match the revised 
 
 test("Working Edition avoids fake live product visuals and respects narrow screens", () => {
   assert.doesNotMatch(html, /class="hero-tile"|class="tile-dots"|class="tile-graphic"/);
-  assert.match(html, /The work is<br><span>hard enough\.<\/span><\/h1>/);
+  assert.match(html, /Websites, workflows,<br><span>and less busywork\.<\/span><\/h1>/);
   assert.match(html, /class="service-copy"/);
   assert.match(css, /\.tile-grid \.service\{display:grid;grid-template-columns:/);
   assert.match(css, /@media\(max-width:760px\)\{[\s\S]*?\.hero\{grid-template-columns:1fr\}/);
@@ -208,4 +208,27 @@ test("six pricing invitations identify real packages but keep the same consent-r
   assert.doesNotMatch(prices, /[?&](interest|service|email)=/);
   assert.match(html, /href="\.\/pricing\.html" class="button button-secondary">See services and prices/);
   assert.match(html, /<form class="contact-form" id="project-inquiry" method="post" action="https:\/\/formspree\.io\/f\/xjygzpzk"/);
+});
+
+test("Lowcountry-focused messaging explains current offerings and concrete example situations", () => {
+  const pricing = readFileSync(new URL("../pricing.html", import.meta.url), "utf8");
+  assert.match(html, /Based in Beaufort, South Carolina/);
+  assert.match(html, /Beaufort, Port Royal, Bluffton, Hilton Head Island/);
+  assert.match(html, /websites, review time-consuming office processes, plan software integrations, and provide practical support/i);
+  assert.match(html, /id="examples" aria-labelledby="examples-heading"/);
+  assert.equal((html.match(/class="example-card"/g) || []).length, 3);
+  for (const problem of [
+    "Customers can't tell what you offer",
+    "Follow-ups keep getting missed",
+    "copying details from one place to another"
+  ]) {
+    assert.ok(html.includes(problem), "Missing concrete business problem: " + problem);
+  }
+  assert.match(html, /example situations, not customer case studies/);
+  assert.match(html, /Planning only; no live connection included/);
+  assert.match(pricing, /Based in Beaufort and focused on the Lowcountry/);
+  assert.match(pricing, /what is included|What is included/i);
+  assert.match(css, /\.example-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+  assert.match(css, /@media\(max-width:760px\)\{[\s\S]*?\.example-grid\{grid-template-columns:1fr\}/);
+  assert.doesNotMatch(html, /customer testimonial|served 100|trusted by thousands|AI agent now available|live HCP connection/i);
 });
