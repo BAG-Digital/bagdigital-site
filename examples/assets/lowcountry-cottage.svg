@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" role="img" aria-labelledby="t d">
+<title id="t">Coastal cottage illustration</title><desc id="d">Original stylized architectural illustration of a Lowcountry cottage with gardens, trees and path</desc>
+<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#89b3bb"/><stop offset=".56" stop-color="#d9ddca"/><stop offset="1" stop-color="#f6dbb5"/></linearGradient>
+<radialGradient id="sun"><stop stop-color="#fff3ca" stop-opacity=".95"/><stop offset="1" stop-color="#fff3ca" stop-opacity="0"/></radialGradient>
+<linearGradient id="grass" x2="0" y2="1"><stop stop-color="#8aa482"/><stop offset="1" stop-color="#486e60"/></linearGradient>
+<linearGradient id="walls" x2="0" y2="1"><stop stop-color="#fffdf1"/><stop offset="1" stop-color="#dedbc7"/></linearGradient>
+<linearGradient id="path" x2="1" y2="0"><stop stop-color="#d0bb9d"/><stop offset="1" stop-color="#eddfc7"/></linearGradient>
+<pattern id="siding" width="20" height="22" patternUnits="userSpaceOnUse"><path d="M0 21H20" stroke="#97a99c" stroke-width="1" opacity=".35"/></pattern>
+</defs>
+<rect width="1600" height="1100" fill="url(#sky)"/><circle cx="1120" cy="220" r="330" fill="url(#sun)"/>
+<path d="M0 610Q200 555 380 605T810 570T1280 585T1600 560V1100H0Z" fill="#829a8b" opacity=".65"/>
+<path d="M0 770Q400 695 750 750T1600 720V1100H0Z" fill="url(#grass)"/>
+<path d="M710 1100Q920 868 1140 770L1600 771V1100Z" fill="url(#path)"/>
+<path d="M710 1100Q910 865 1140 769" fill="none" stroke="#f5e9d4" stroke-width="9" opacity=".7"/>
+<path d="M530 545L950 330L1390 540V555H530Z" fill="#384f4e"/><path d="M600 548L950 365L1320 548Z" fill="#54686b"/>
+<path d="M610 537V840H1324V537Z" fill="url(#walls)"/><path d="M610 537V840H1324V537Z" fill="url(#siding)"/>
+<path d="M670 600V810H1270V600Z" fill="#eae5d0" opacity=".55"/>
+<path d="M765 496V700H1134V496L951 396Z" fill="#f9f7e9"/><path d="M765 496L951 396L1134 496" fill="none" stroke="#3b5453" stroke-width="22"/>
+<rect x="873" y="514" width="155" height="147" fill="#46666a" stroke="#fffdf1" stroke-width="17"/><path d="M950 515V660M875 584H1027" stroke="#dbe2d0" stroke-width="11"/>
+<path d="M655 700H1279V844H655Z" fill="#faf6e8"/><rect x="682" y="675" width="60" height="164" fill="#f4f3e5" stroke="#9bab9b" stroke-width="4"/><rect x="1210" y="675" width="60" height="164" fill="#f4f3e5" stroke="#9bab9b" stroke-width="4"/>
+<rect x="775" y="696" width="115" height="115" fill="#48676b" stroke="#e7efe4" stroke-width="15"/><path d="M831 704V811M781 752H881" stroke="#e7efe4" stroke-width="8"/>
+<rect x="1124" y="697" width="103" height="113" fill="#48676b" stroke="#e7efe4" stroke-width="15"/><path d="M1176 705V809M1133 750H1217" stroke="#e7efe4" stroke-width="8"/>
+<rect x="929" y="698" width="131" height="145" fill="#b08058" stroke="#ede8d5" stroke-width="10"/><rect x="1025" y="758" width="12" height="12" rx="6" fill="#e8d6a9"/>
+<path d="M601 842H1320L1366 875H555Z" fill="#b9a88e"/><path d="M567 875H1350L1314 908H603Z" fill="#d8ccb8"/>
+<path d="M0 650Q55 465 82 240" stroke="#6e7560" stroke-width="35" fill="none"/><path d="M73 320Q145 180 320 160M73 320Q205 270 330 300M73 320Q10 130 50 50" fill="none" stroke="#697b62" stroke-width="18"/>
+<g fill="#48695e" opacity=".92"><circle cx="304" cy="151" r="115"/><circle cx="215" cy="210" r="125"/><circle cx="68" cy="116" r="130"/><circle cx="382" cy="280" r="96"/><circle cx="99" cy="391" r="111"/></g>
+<g fill="#688a6e" opacity=".85"><circle cx="160" cy="80" r="90"/><circle cx="350" cy="185" r="115"/><circle cx="25" cy="270" r="100"/><circle cx="255" cy="355" r="86"/></g>
+<path d="M1485 690q-15-185 18-320" stroke="#846e4a" stroke-width="24" fill="none"/>
+<g stroke="#52765c" stroke-width="22" stroke-linecap="round"><path d="M1506 382q-102-92-170-65M1506 382q105-100 183-80M1506 382q-15-135 10-190M1506 382q-115 0-190 54M1506 382q103 2 187 72"/></g>
+<g fill="#4b7160"><ellipse cx="507" cy="836" rx="123" ry="71"/><ellipse cx="1416" cy="840" rx="178" ry="82"/><ellipse cx="188" cy="845" rx="150" ry="81"/></g>
+<g fill="#71927a"><ellipse cx="412" cy="830" rx="93" ry="48"/><ellipse cx="1375" cy="828" rx="110" ry="46"/><ellipse cx="150" cy="823" rx="99" ry="45"/></g>
+<g fill="#d7c5a9" opacity=".6"><circle cx="361" cy="836" r="9"/><circle cx="427" cy="839" r="7"/><circle cx="1271" cy="851" r="8"/><circle cx="1519" cy="840" r="6"/></g>
+</svg>
