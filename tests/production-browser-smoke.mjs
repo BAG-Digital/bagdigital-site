@@ -38,7 +38,7 @@ const requests = [];
 let id = 0;
 try {
   const portFile = join(profile, "DevToolsActivePort");
-  for (let n = 0; n < 120 && !existsSync(portFile); n++) await wait(100);
+  // GitHub-hosted Chromium startup can be delayed on busy runners; retain the\n  // mandatory real-browser check rather than downgrading it to a source-only test.\n  for (let n = 0; n < 300 && !existsSync(portFile); n++) await wait(100);
   assert.ok(existsSync(portFile), "Chromium did not start its debug endpoint");
   const debugPort = +readFileSync(portFile, "utf8").split("\n")[0];
   const targets = await fetch("http://127.0.0.1:" + debugPort + "/json/list").then(r => r.json());
