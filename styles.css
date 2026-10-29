@@ -199,3 +199,87 @@
       *,*::before,*::after{transition-duration:0.01ms!important;animation-duration:0.01ms!important}
       .button:hover,.service:hover,.service:hover .arrow{transform:none}
     }
+
+
+/* Working Edition candidate / Site #41. Reversible visual layer over the
+   existing accessible Field Notes form and privacy styles. No remote assets. */
+:root{--paper:#f2f0e8;--white:#faf8f1;--ink:#1e2926;--green:#254b40;--deep:#254b40;--lime:#d8eb9d;--sand:#f2f0e8;--edge:#c7cbc0;--muted:#4c5952;--orange:#963d27}
+.nav-shell{background:#f2f0e8;border-bottom-color:var(--ink);backdrop-filter:none}
+.links a{border-radius:0}
+.links .nav-contact{background:var(--lime);border-color:var(--ink)}
+.hero{grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr);align-items:stretch;gap:0;border-bottom:1px solid var(--ink);padding:0}
+.hero>div:first-child{padding:85px 52px 74px 0}
+.hero h1{font-size:clamp(58px,7.1vw,106px);margin:34px 0 30px;letter-spacing:-.085em}
+.hero h1 span{background:none;font-family:Georgia,"Times New Roman",serif;font-weight:400;font-style:italic;letter-spacing:-.075em;color:var(--deep)}
+.lead{font-size:clamp(17px,1.5vw,20px);line-height:1.55;color:var(--ink)}
+.button{border-radius:0;transition:background-color .2s var(--ease)}
+.button:hover{transform:none;box-shadow:none}
+.button-secondary{border-color:var(--ink)}
+/* Illustrative manual handoff, explicitly not a connected dashboard. */
+.hero .hero-tiles{min-height:465px;display:flex;flex-direction:column;gap:0;grid-template-columns:none;grid-template-rows:none;width:auto;background:#f2f0e8;border-left:1px solid var(--ink);padding:28px 0 25px 33px}
+.handoff-kicker{font:750 11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:#873e2d;margin:0}
+.handoff-title{font:400 clamp(30px,3vw,43px)/1.08 Georgia,"Times New Roman",serif;letter-spacing:-.045em;margin:25px 0 23px}
+.handoff-flow{margin:0;padding:0;list-style:none;border:1px solid var(--edge);background:#faf8f1}
+.handoff-flow li{display:flex;align-items:center;gap:16px;min-height:79px;padding:14px 16px;border-bottom:1px solid var(--edge)}
+.handoff-flow li:last-child{border-bottom:0}
+.flow-index{flex:none;display:inline-grid;place-items:center;width:32px;height:32px;border:1px solid var(--green);border-radius:50%;font:800 11px/1 ui-monospace,monospace;color:var(--green)}
+.handoff-flow li:nth-child(2){background:#edf0e7}
+.handoff-flow li:nth-child(2) .flow-index{border-color:#a94d30;color:#873e2d}
+.handoff-flow strong{display:block;font-size:14px;font-weight:800;line-height:1.3}
+.handoff-flow small{display:block;margin-top:4px;font:650 10px/1.4 ui-monospace,monospace;color:var(--muted);letter-spacing:.03em}
+.handoff-caption{font:500 11px/1.65 ui-monospace,monospace;color:var(--muted);margin:18px 0 0}
+/* Four grounded service families become a ruled, editorial ledger. */
+.section-heading{margin-bottom:35px}
+.section h2{letter-spacing:-.07em}
+.eyebrow{color:#873e2d}
+.tile-grid{display:block;border-top:2px solid var(--ink)}
+.tile-grid .service{display:grid;grid-template-columns:125px minmax(0,1fr) minmax(150px,.33fr);gap:24px;align-items:center;grid-column:auto;min-height:156px;padding:23px 8px;border:0;border-bottom:1px solid var(--ink);border-radius:0;box-shadow:none;color:var(--ink);background:transparent;text-decoration:none;transition:background-color .2s var(--ease)}
+.tile-grid .service:hover{transform:none;box-shadow:none;background:#e8ede2}
+.tile-grid .service:focus-visible{outline:3px solid #12675b;outline-offset:-3px}
+.tile-grid .service .number{font:750 11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:#873e2d;letter-spacing:.045em;text-transform:uppercase}
+.service-copy{min-width:0}
+.tile-grid .service h3{font-size:clamp(26px,3vw,39px);line-height:1.1;letter-spacing:-.06em;margin:0 0 10px;font-weight:800}
+.tile-grid .service p{font-size:14px;line-height:1.6;max-width:620px;margin:0;color:var(--muted)}
+.tile-grid .service .bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;font:750 11px/1.5 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.025em}
+.tile-grid .service .bottom strong{font-weight:750}
+.tile-grid .service .arrow{flex:none;font-size:23px;font-weight:400;line-height:1}
+.services-pricing{display:block;width:fit-content;margin-top:12px;font-size:14px;font-weight:800;text-underline-offset:4px;color:var(--deep)}
+.process{background:#e6eae0;border-color:var(--ink)}
+.step{border-top-color:var(--ink)}
+.about{border-top:1px solid var(--edge)}
+.contact-panel{background:transparent;border-top:2px solid var(--ink);border-radius:0;padding:44px 0 12px;overflow:visible}
+.contact-panel::after{display:none}
+.contact-form{background:#faf8f1;border:1px solid var(--edge);border-radius:0;box-shadow:none}
+.footer{border-top-color:var(--ink)}
+@media(max-width:1000px){
+  .hero{grid-template-columns:1fr 335px;gap:0}
+  .hero>div:first-child{padding:65px 30px 60px 0}
+  .hero .hero-tiles{min-height:430px;padding:26px 0 24px 24px}
+  .tile-grid .service{grid-template-columns:105px minmax(0,1fr) 160px;gap:18px}
+}
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .hero>div:first-child{padding:55px 0 48px}
+  .hero .hero-tiles{width:100%;min-height:0;display:flex;grid-template-rows:none;border-left:0;border-top:1px solid var(--ink);padding:30px 0}
+  .handoff-title{margin:16px 0}
+  .tile-grid .service{grid-template-columns:80px minmax(0,1fr);gap:12px;padding:24px 6px;min-height:0}
+  .tile-grid .service .bottom{grid-column:2;margin-top:4px;justify-content:flex-start;gap:15px}
+  .tile-grid .service h3{font-size:clamp(27px,4.5vw,36px)}
+  .tile-grid{display:block}
+}
+@media(max-width:500px){
+  .hero>div:first-child{padding:45px 0 42px}
+  .hero h1{font-size:clamp(48px,11.4vw,65px);line-height:1.02}
+  .hero h1 span{white-space:normal}
+  .hero .hero-tiles{width:100%;padding:25px 0}
+  .tile-grid .service{grid-template-columns:43px minmax(0,1fr);padding:22px 2px}
+  .tile-grid .service h3{font-size:29px}
+  .tile-grid .service p{font-size:14px}
+  .contact-panel{padding:30px 0 0}
+  .contact-form{padding:20px}
+}
+@media(max-width:360px){
+  .hero h1{font-size:45px}
+  .tile-grid .service h3{font-size:27px}
+  .tile-grid .service{grid-template-columns:38px minmax(0,1fr)}
+}
