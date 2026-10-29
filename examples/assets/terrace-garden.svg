@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" role="img" aria-labelledby="t d">
+<title id="t">Lowcountry outdoor terrace illustration</title><desc id="d">Original editorial landscape illustration of an outdoor terrace, plantings, coastal grasses and a setting sun</desc>
+<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#8cafa9"/><stop offset=".5" stop-color="#f6ddb5"/><stop offset="1" stop-color="#fae8cc"/></linearGradient>
+<linearGradient id="marsh" x2="0" y2="1"><stop stop-color="#b5bd9b"/><stop offset="1" stop-color="#667f6b"/></linearGradient>
+<linearGradient id="stone" x2=".4" y2="1"><stop stop-color="#f3ead7"/><stop offset="1" stop-color="#c1b299"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#fff4ce"/><stop offset="1" stop-color="#fff4ce" stop-opacity="0"/></radialGradient>
+<pattern id="pavers" width="130" height="130" patternUnits="userSpaceOnUse"><path d="M0 0H130M0 65H130M65 0V65M0 65V130M130 65V130" stroke="#958e79" stroke-width="2" opacity=".35"/></pattern>
+</defs>
+<rect width="1600" height="1100" fill="url(#sky)"/><circle cx="1100" cy="305" r="360" fill="url(#glow)"/>
+<path d="M0 585Q300 518 575 576T1150 562T1600 535V1100H0Z" fill="#a5b8a1"/>
+<path d="M0 655Q355 603 615 660T1600 618V1100H0Z" fill="url(#marsh)"/>
+<path d="M0 742Q500 699 890 750T1600 705V1100H0Z" fill="#607e68"/>
+<path d="M240 1100L550 727L1395 727L1600 1100Z" fill="url(#stone)"/>
+<path d="M240 1100L550 727L1395 727L1600 1100Z" fill="url(#pavers)" opacity=".75"/>
+<path d="M540 736V650H1378V740" fill="none" stroke="#ab9e87" stroke-width="18"/>
+<rect x="680" y="625" width="398" height="32" rx="7" fill="#b7a88d"/><rect x="700" y="657" width="25" height="122" fill="#91866f"/><rect x="1025" y="657" width="25" height="122" fill="#91866f"/>
+<rect x="645" y="680" width="98" height="113" rx="11" fill="#7b9080"/><rect x="1010" y="680" width="125" height="113" rx="11" fill="#7b9080"/>
+<path d="M400 690Q620 490 700 650L740 680" fill="none" stroke="#8b977d" stroke-width="37" stroke-linecap="round"/>
+<path d="M0 730Q110 600 238 710T495 720" fill="none" stroke="#456951" stroke-width="85" stroke-linecap="round"/>
+<path d="M1300 720Q1420 540 1580 715" fill="none" stroke="#4b6c50" stroke-width="109" stroke-linecap="round"/>
+<path d="M163 685Q155 433 190 288" fill="none" stroke="#866f52" stroke-width="30"/>
+<g stroke="#506d53" stroke-width="29" stroke-linecap="round"><path d="M185 303Q95 195 10 195M185 303Q250 163 380 164M185 303Q60 316 10 388M185 303Q325 285 412 355M185 303Q180 143 207 88"/></g>
+<g fill="#5c8066"><ellipse cx="88" cy="707" rx="105" ry="69"/><ellipse cx="387" cy="737" rx="158" ry="83"/><ellipse cx="1372" cy="731" rx="173" ry="105"/><ellipse cx="1520" cy="671" rx="160" ry="82"/></g>
+<g fill="#93a881" opacity=".8"><ellipse cx="305" cy="738" rx="90" ry="46"/><ellipse cx="1470" cy="710" rx="100" ry="55"/><ellipse cx="1550" cy="760" rx="110" ry="45"/></g>
+<g stroke="#9d9e6d" stroke-width="8" stroke-linecap="round"><path d="M140 960l-16-126M140 960l-72-115M140 960l33-140M1476 1038l-29-150M1476 1038l-95-143M1476 1038l44-168"/></g>
+<g fill="#eed5ae" opacity=".72"><circle cx="370" cy="729" r="8"/><circle cx="325" cy="756" r="7"/><circle cx="1418" cy="770" r="8"/><circle cx="1532" cy="782" r="6"/></g>
+</svg>
