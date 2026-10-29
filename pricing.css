@@ -27,3 +27,7 @@
 .pricing-process li{padding:5px 14px 5px 2px;line-height:1.6}
 @media(max-width:890px){.pricing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.price-card{padding:23px}}
 @media(max-width:560px){.pricing-hero{padding:55px 0}.pricing-grid,.pricing-process ol{grid-template-columns:1fr}.pricing-notes{padding:21px}.pricing-hero .button,.pricing-process .button{width:100%}.price-card{padding:22px}.pricing-offers{padding-bottom:60px}}
+
+/* Website examples: additive links only; existing cards and form routes unchanged. */
+.example-preview-link{display:inline-flex;width:fit-content;margin:9px 0 5px;padding:9px 0;color:#214d40;font-size:14px;font-weight:800;text-decoration:underline;text-underline-offset:4px}
+.example-preview-link:focus-visible{outline:3px solid #12675b;outline-offset:4px}
