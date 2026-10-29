@@ -36,7 +36,7 @@ test("all seven demonstration pages are static, crawl-blocked, and non-submittin
     assert.match(html, /connect-src 'none'/,page);
     assert.match(html, /form-action 'none'/,page);
     assert.match(html, /img-src 'self'/,page);
-    assert.doesNotMatch(html, /images\\.pexels\\.com|https?:\\/\\/images\\./,page);
+    assert.ok(!html.includes("images.pexels.com"),page+" must self-host all demo imagery");
     assert.match(html, /Fictional BAGDigital concept|Fictional Lowcountry businesses/i,page);
     assert.doesNotMatch(html, /<script\b|<iframe\b|<form\b|<style\b|style="/i,page);
     assert.doesNotMatch(html, /formspree\.io|formsubmit\.co|https?:\/\/api\./,page);
