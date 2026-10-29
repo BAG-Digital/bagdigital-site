@@ -35,7 +35,7 @@ test("all seven demonstration pages are static, crawl-blocked, and non-submittin
     assert.match(html, /script-src 'none'/,page);
     assert.match(html, /connect-src 'none'/,page);
     assert.match(html, /form-action 'none'/,page);
-    assert.match(html, /img-src https:\/\/images\.pexels\.com/,page);
+    assert.match(html, /img-src 'self' https:\/\/images\.pexels\.com/,page);
     assert.match(html, /Fictional BAGDigital concept|Fictional Lowcountry businesses/i,page);
     assert.doesNotMatch(html, /<script\b|<iframe\b|<form\b|<style\b|style="/i,page);
     assert.doesNotMatch(html, /formspree\.io|formsubmit\.co|https?:\/\/api\./,page);
@@ -74,4 +74,24 @@ test("no existing homepage form or restrictive source policy was altered to add 
   assert.match(home, /name="processing_ack" type="checkbox" value="yes" required/);
   assert.match(home, /script-src 'none'/);
   assert.doesNotMatch(home, /href="\.\/examples\//);
+});
+
+test("original first-party SVG fallbacks are local, static and referenced in all image-led layouts", () => {
+  for (const path of ["examples/assets/lowcountry-cottage.svg","examples/assets/terrace-garden.svg"]) {
+    const svg=read(path);
+    assert.match(svg, /<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
+    assert.match(svg, /<title/);
+    assert.match(svg, /<desc/);
+    assert.doesNotMatch(svg, /<script|<foreignObject|<image|https?:\/\/|href=|xlink:href=/i);
+  }
+  for (const [cssFile,files] of [
+    ["examples/one-page/styles.css", ["lowcountry-cottage.svg"]],
+    ["examples/business/styles.css", ["lowcountry-cottage.svg","terrace-garden.svg"]],
+    ["examples/examples.css", ["lowcountry-cottage.svg","terrace-garden.svg"]]
+  ]) {
+    const css=read(cssFile);
+    for(const f of files) assert.ok(css.includes(f), cssFile+" missing first-party fallback "+f);
+    assert.match(css, /@media\(max-width:(?:480|500)px\)/);
+    assert.match(css, /prefers-reduced-motion:reduce/);
+  }
 });
