@@ -1,26 +1,31 @@
-# Website package examples — Site #11
+# BAGDigital — fictional website package examples
 
-This folder contains **fictional, static demonstrations**, not real BAGDigital client websites, released software, operational integrations, or customer portfolio claims.
+Two responsive, original, static website demonstrations for **published** BAGDigital website offerings. These are not portfolio claims, active customers, or production-connected software.
 
-The published prices have not changed:
-- `/examples/one-page/`: **One-Page Business Website**, starting at **$1,295** one time. One informational page, basic search optimization, one agreed revision round.
-- `/examples/business/`: **Business Website**, starting at **$2,795** one time. Up to five informational pages, basic search optimization, two agreed revision rounds.
+## Published scopes (unchanged)
 
-## Demo structure
-- `index.html`: comparison and scope summary in the current Field Notes visual system.
-- `one-page/index.html`: Saltline Exterior Care, fictional exterior cleaning provider, single scrolling page.
-- `business/{index,services,projects,about,contact}.html`: Marsh & Oak Outdoor Living, fictional five-page informational example.
-- Demo-only contact fields are disabled and not inside a `form`; there is no submission/collection endpoint.
-- Demos include `noindex,nofollow`, a CSP that blocks scripts/forms/connections and permits only first-party fallback art and `images.pexels.com` photos, and visible fictional/stock disclosure.
+- **One-Page Business Website — starting $1,295 one time:** a responsive informational page, basic SEO, one agreed revision round.
+- **Business Website — starting $2,795 one time:** up to five responsive informational pages, basic SEO, two agreed revision rounds.
 
-## Images and risk notes
-- Examples use public Pexels stock photos **served from `images.pexels.com`**, not from BAGDigital clients. License: https://www.pexels.com/license/ (free commercial website use; no implied endorsements or client authorship).
-- Both design systems now use original first-party SVG architectural illustrations as lightweight fallbacks underneath photos. These load when the photo service is slow, disconnected, or blocked. This is an illustration, **not** an actual client property.
-- The site visibly discloses that the image provider may receive the browser's IP address. Verify actual photos and SVG fallback behavior in a real browser and review privacy notice obligations before any public release.
-- In the earlier private ZIP, different locally generated original imagery was available. This GitHub candidate **does not include those files** because it is a separate, inspectable repository-source candidate. Do not claim the imagery matches the private ZIP; replace external images with reviewed first-party assets in a future exact-SHA revision if desired.
+Hosting, domains, professional photo shoots, advanced content writing, additional scope, paid tools, booking, and integrated systems are separate unless explicitly quoted. Final price is based on written scope. Example imagery/design do not create an unconditional entitlement to bespoke illustrations or photography.
 
-## Scope and safety
-- These are **examples**, not fixed-price quotes or a promise of free photography, bespoke artwork, custom forms, booking, hosting, login, CRM, automations, AI agents or integrated systems.
-- The original `/index.html` and live inquiry form remain untouched. Pricing cards only gain view-example links. All other cards, pricing, exclusions, consent and privacy notices are unchanged.
-- After founder visual acceptance, Indigo reviews mobile/desktop/focus/zoom and copy, Prism checks public truthfulness, Vesper independently reviews security and third-party image disclosure. Requires explicit exact-SHA founder permission before merge and Keel verifies public GitHub Pages receipt.
-- Run: `node --test tests/production-homepage.test.mjs tests/website-examples.test.mjs`; a GitHub Actions PR run also renders preview screenshots with Chromium without submitting any form.
+## Demonstration pages
+
+- `/examples/index.html`: in-site comparison with branded miniature website mockups.
+- `/examples/one-page/index.html`: Saltline Exterior Care, fictional Lowcountry exterior care company; services, process, story, contact details on one responsive page.
+- `/examples/business/index.html`, `services.html`, `projects.html`, `about.html`, `contact.html`: Marsh & Oak Outdoor Living, five separate, working internal pages. Contact fields are disabled; no `form` is present and no information is collected.
+
+## Original image assets
+
+- `assets/saltline-home.webp`, `saltline-porch.webp`, `marsh-terrace.webp`, `marsh-path.webp`: original generated illustrative scenes, from the founder's fictional Lowcountry design study, cropped, optimized and self-hosted (no outside image provider request).
+- `assets/lowcountry-cottage.svg`, `terrace-garden.svg`: original, self-hosted vector fallback art for reliable image-backed layouts. This artwork is **illustration**, not a photograph of a client property.
+- The former Pexels image URLs were removed. Example pages set `img-src 'self'`, `script-src 'none'`, `connect-src 'none'` and `form-action 'none'`, as well as `noindex,nofollow`.
+- Demo banners/captions call out fictional businesses and illustrative imagery. No testimonials, actual project claims, customer data, provider connections, scripts, signup or checkout.
+
+## Review and release
+
+The original BAGDigital homepage, production Formspree contact markup and six approved price/term cards remain unchanged, except two additive preview links on the website package cards. The site remains original Field Notes—not the previously rejected Working Edition redesign.
+
+Source tests: `node --test tests/production-homepage.test.mjs tests/website-examples.test.mjs`. GitHub Actions runs mandatory no-submission Chromium smoke and screenshots at 320/375/768/1440, plus deep-scroll desktop/mobile captures. Automated tests do not establish actual manual screen-reader, text-zoom or all-device accessibility acceptance.
+
+**Hold release** until founder design acceptance, Indigo manual usability/accessibility review, Mara scope economics, Prism claims/asset review and independent Vesper security/privacy assessment. Founder separately approves the exact final reviewed commit for merge and GitHub Pages publication; Keel then verifies public readback.
