@@ -13,7 +13,7 @@ test("public homepage has crawlable, accurate canonical and plain BAGDigital ide
   assert.match(html, /name="robots" content="index,follow/);
   assert.match(html, /rel="canonical" href="https:\/\/bagdigital\.tech\/"/);
   assert.match(html, /property="og:url" content="https:\/\/bagdigital\.tech\/"/);
-  assert.match(html, /<title>BAGDigital \\| Service Business Operations &amp; Practical AI<\\/title>/);
+  assert.ok(html.includes("<title>BAGDigital | Service Business Operations &amp; Practical AI</title>"));
   assert.match(html, /class="wordmark"[^>]*>BAGDigital<\/a>/);
   assert.doesNotMatch(html, /<svg[^>]*class="logo"|class="brand-mark"/);
 });
@@ -204,5 +204,5 @@ test("revenue-first site uses truthful, scriptless service-industry cases and pr
   assert.match(html, /not claims of customer deployments or live third-party integrations/);
   assert.match(html, /value="Operations setup"/);
   assert.match(html, /name="processing_ack" type="checkbox" value="yes" required/);
-  assert.doesNotMatch(html, /<script\\b|<iframe\\b/);
+  assert.ok(!html.includes("<script") && !html.includes("<iframe"));
 });
