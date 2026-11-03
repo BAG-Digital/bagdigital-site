@@ -199,3 +199,16 @@
       *,*::before,*::after{transition-duration:0.01ms!important;animation-duration:0.01ms!important}
       .button:hover,.service:hover,.service:hover .arrow{transform:none}
     }
+
+/* Revenue-first service-business use cases; no scripts or external imagery. */
+.use-case-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:28px}
+.use-case{background:var(--white);border:1px solid var(--edge);border-radius:13px;padding:30px;display:flex;flex-direction:column;min-width:0}
+.use-case-type{font-size:11px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
+.use-case h3{font-size:clamp(23px,2.2vw,30px);letter-spacing:-.045em;line-height:1.2;margin:15px 0 12px}
+.use-case p{font-size:15px;color:var(--muted);line-height:1.68;margin:0 0 19px}
+.use-case strong{font-size:13px;color:var(--deep);margin-top:auto}
+.use-case-next{display:flex;align-items:center;justify-content:space-between;gap:25px;background:var(--mint);padding:26px 30px;border:1px solid #a7c3af;border-radius:12px;margin-top:18px}
+.use-case-next p{margin:0;max-width:665px;color:var(--ink)}
+.use-case-next .button{flex-shrink:0}
+@media(max-width:760px){.use-case-next{flex-direction:column;align-items:flex-start}}
+@media(max-width:560px){.use-case-grid{grid-template-columns:1fr}.use-case{padding:23px}.use-case-next{padding:22px}.use-case-next .button{width:100%}}

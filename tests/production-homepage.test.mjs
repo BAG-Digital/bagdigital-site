@@ -13,7 +13,7 @@ test("public homepage has crawlable, accurate canonical and plain BAGDigital ide
   assert.match(html, /name="robots" content="index,follow/);
   assert.match(html, /rel="canonical" href="https:\/\/bagdigital\.tech\/"/);
   assert.match(html, /property="og:url" content="https:\/\/bagdigital\.tech\/"/);
-  assert.match(html, /<title>BAGDigital \| Websites, Workflows &amp; Technology Support<\/title>|<title>BAGDigital \| Websites, Workflows & Technology Support<\/title>/);
+  assert.ok(html.includes("<title>BAGDigital | Service Business Operations &amp; Practical AI</title>"));
   assert.match(html, /class="wordmark"[^>]*>BAGDigital<\/a>/);
   assert.doesNotMatch(html, /<svg[^>]*class="logo"|class="brand-mark"/);
 });
@@ -30,7 +30,7 @@ test("sales-first navigation and service cards link to real on-page sections", (
   assert.match(html, />About<\/a>/);
   assert.match(html, /Let's talk/);
   assert.equal((html.match(/class="service service-/g) || []).length, 4);
-  for (const label of ["Websites", "Workflows", "Integrations", "Support"]) {
+  for (const label of ["Operations", "Websites", "Workflows", "Support"]) {
     assert.ok(html.includes(label), "Missing service " + label);
   }
 });
@@ -175,8 +175,9 @@ test("approved standalone services prices are discoverable and never imply produ
   assert.match(prices, /aria-current="page"/);
   assert.match(prices, /href="\.\/index\.html#contact"/);
   assert.match(sitemap, /https:\/\/bagdigital\.tech\/pricing\.html/);
-  assert.equal((prices.match(/class="price-card(?: price-feature)?"/g) || []).length, 6);
+  assert.equal((prices.match(/class="price-card(?: price-feature)?"/g) || []).length, 7);
   for (const [service, cost] of [
+    ["Service Operations Setup", "$995"],
     ["One-Page Business Website", "$1,295"],
     ["Business Website", "$2,795"],
     ["Workflow Improvement Review", "$595"],
@@ -193,4 +194,15 @@ test("approved standalone services prices are discoverable and never imply produ
   assert.match(prices, /No account or online payment is needed to request a quote/);
   assert.match(priceStyles, /@media\(max-width:560px\)/);
   assert.doesNotMatch(prices, /<script\b|<form\b|stripe\.com|type="password"|unlimited integrations/i);
+});
+
+test("revenue-first site uses truthful, scriptless service-industry cases and preserves contact consent", () => {
+  assert.match(html, /id="use-cases"/);
+  assert.match(html, /Service-business operations/);
+  assert.match(html, /Illustrative use cases/);
+  for (const term of ["Roofing &amp; trades", "Exterior cleaning", "Landscaping &amp; field teams", "Creative services"]) assert.ok(html.includes(term));
+  assert.match(html, /not claims of customer deployments or live third-party integrations/);
+  assert.match(html, /value="Operations setup"/);
+  assert.match(html, /name="processing_ack" type="checkbox" value="yes" required/);
+  assert.ok(!html.includes("<script") && !html.includes("<iframe"));
 });
