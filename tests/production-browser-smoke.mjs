@@ -178,7 +178,7 @@ try {
     await wait(120);
     const state = await inspect("return {width:document.documentElement.clientWidth,content:document.documentElement.scrollWidth,cards:document.querySelectorAll('.price-card').length,forms:document.forms.length};");
     assert.ok(state.content <= state.width + 1, "Pricing horizontal overflow at " + width + ": " + JSON.stringify(state));
-    assert.equal(state.cards, 6);
+    assert.equal(state.cards, 7);
     assert.equal(state.forms, 0, "Pricing must not mimic real checkout");
   }
   await send("Emulation.clearDeviceMetricsOverride");
