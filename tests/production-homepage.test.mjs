@@ -30,7 +30,7 @@ test("sales-first navigation and service cards link to real on-page sections", (
   assert.match(html, />About<\/a>/);
   assert.match(html, /Let's talk/);
   assert.equal((html.match(/class="service service-/g) || []).length, 4);
-  for (const label of ["Websites", "Workflows", "Integrations", "Support"]) {
+  for (const label of ["Operations", "Websites", "Workflows", "Support"]) {
     assert.ok(html.includes(label), "Missing service " + label);
   }
 });
