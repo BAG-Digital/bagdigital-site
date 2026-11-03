@@ -13,7 +13,7 @@ test("public homepage has crawlable, accurate canonical and plain BAGDigital ide
   assert.match(html, /name="robots" content="index,follow/);
   assert.match(html, /rel="canonical" href="https:\/\/bagdigital\.tech\/"/);
   assert.match(html, /property="og:url" content="https:\/\/bagdigital\.tech\/"/);
-  assert.match(html, /<title>BAGDigital \| Websites, Workflows &amp; Technology Support<\/title>|<title>BAGDigital \| Websites, Workflows & Technology Support<\/title>/);
+  assert.match(html, /<title>BAGDigital \\| Service Business Operations &amp; Practical AI<\\/title>/);
   assert.match(html, /class="wordmark"[^>]*>BAGDigital<\/a>/);
   assert.doesNotMatch(html, /<svg[^>]*class="logo"|class="brand-mark"/);
 });
