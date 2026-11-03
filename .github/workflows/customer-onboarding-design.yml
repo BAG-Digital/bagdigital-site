@@ -1,0 +1,45 @@
+name: Customer onboarding UX source and browser contract
+
+on:
+  pull_request:
+    paths:
+      - ".github/design-concepts/customer-onboarding*"
+      - ".github/design-concepts/CUSTOMER-ONBOARDING-README.md"
+      - "tests/customer-onboarding-*.mjs"
+      - ".github/workflows/customer-onboarding-design.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".github/design-concepts/customer-onboarding*"
+      - "tests/customer-onboarding-*.mjs"
+      - ".github/workflows/customer-onboarding-design.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  onboarding-prototype:
+    name: Verify non-live onboarding flow and browser design
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use pinned Node
+        uses: actions/setup-node@e51e5fe84fc33b4c73ebe40526b2694712b5b858
+        with:
+          node-version: 24.21.0
+      - name: Test safety, claims, and structure
+        run: node --test tests/customer-onboarding-design.test.mjs
+      - name: Test actual Chromium onboarding preview
+        run: node tests/customer-onboarding-browser.mjs
+      - name: Attach fictional design-only screenshots
+        if: ${{ github.event_name == 'pull_request' && success() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: onboarding-design-screenshots
+          path: onboarding-qa-screenshots/*.png
+          if-no-files-found: error
+          retention-days: 7
