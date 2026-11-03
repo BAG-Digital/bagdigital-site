@@ -1,0 +1,39 @@
+name: HCP connection design source contract
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/design-concepts/hcp-connection-journey.html"
+      - ".github/design-concepts/hcp-connection-journey.css"
+      - ".github/design-concepts/HCP-CONNECTION-README.md"
+      - "tests/hcp-connection-journey-contract.test.mjs"
+      - ".github/workflows/hcp-connection-design-contract.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".github/design-concepts/hcp-connection-journey.html"
+      - ".github/design-concepts/hcp-connection-journey.css"
+      - ".github/design-concepts/HCP-CONNECTION-README.md"
+      - "tests/hcp-connection-journey-contract.test.mjs"
+      - ".github/workflows/hcp-connection-design-contract.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  safe-design-preview:
+    name: Verify synthetic design has no provider interactions
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout with no stored credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Use supported Node runtime
+        uses: actions/setup-node@e51e5fe84fc33b4c73ebe40526b2694712b5b858 # pinned patched v7
+        with:
+          node-version: 24.21.0
+      - name: Check no-code HCP connection UX contract
+        run: node --test tests/hcp-connection-journey-contract.test.mjs
